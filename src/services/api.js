@@ -1,8 +1,8 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-export const MEDIA_URL = import.meta.env.VITE_MEDIA_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.club-unplugged.com/api';
+export const MEDIA_URL = import.meta.env.VITE_MEDIA_URL || 'https://media.club-unplugged.com';
 
 export const getImageUrl = (path, size = 'original') => {
-  if (!path) return null;
+  if (!path) return '/placeholder-image.jpg';
   return `${MEDIA_URL}/${size}/${path}`;
 };
 
@@ -12,9 +12,12 @@ const getAuthToken = () => {
 
 const handleResponse = async (response) => {
   if (response.status === 403) {
-    // Handle forbidden error
     const error = await response.json().catch(() => ({}));
     throw new Error(error.message || 'Access denied. Please check your authentication.');
+  }
+
+  if (response.status === 404) {
+    return { data: [] }; // Return empty array for 404 responses
   }
 
   if (!response.ok) {
@@ -22,7 +25,8 @@ const handleResponse = async (response) => {
     throw new Error(error.message || 'An error occurred');
   }
 
-  return response.json();
+  const data = await response.json();
+  return { data: Array.isArray(data) ? data : data.data || [] };
 };
 
 const createHeaders = () => {
@@ -51,7 +55,7 @@ const apiRequest = async (endpoint, options = {}) => {
     return handleResponse(response);
   } catch (error) {
     console.error(`API Error (${endpoint}):`, error);
-    throw error;
+    return { data: [] }; // Return empty array for failed requests
   }
 };
 
@@ -98,11 +102,4 @@ export const refreshToken = async () => {
   return apiRequest('/auth/refresh', {
     method: 'POST',
   });
-};
-
-// Error logging
-export const logError = async (error) => {
-  console.error('API Error:', error);
-  // You can implement additional error logging here
-  // For example, sending to a logging service
 };
