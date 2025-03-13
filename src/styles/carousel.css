@@ -1,0 +1,70 @@
+/* Custom styling for the carousel */
+.slick-slider {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+/* Dots styling */
+.custom-dots {
+  position: absolute;
+  bottom: -25px;
+  display: flex !important;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  gap: 8px;
+}
+
+.custom-dots li {
+  margin: 0;
+}
+
+.custom-dots li button {
+  padding: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.custom-dots li.slick-active button {
+  background-color: white;
+  transform: scale(1.2);
+}
+
+/* Arrow buttons */
+.slick-prev,
+.slick-next {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.slick-slider:hover .slick-prev,
+.slick-slider:hover .slick-next {
+  opacity: 1;
+}
+
+/* Slide animations */
+.slick-slide {
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.slick-slide.slick-active {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .slick-prev,
+  .slick-next {
+    display: none !important;
+  }
+  
+  .custom-dots {
+    bottom: -20px;
+  }
+} 
