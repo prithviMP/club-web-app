@@ -4,22 +4,41 @@ import { MEDIA_URL } from '../utils/api/config';
 
 const BrandMainCard = ({ brand }) => {
   const getBrandImage = (image, format = 'thumbnail') => {
-    if (!image) return '/placeholder-image.jpg';
-    if (image.url?.startsWith('http')) return image.url;
+    console.log('Brand Image input:', image);
+    
+    if (!image) {
+      console.log('No image provided, using placeholder');
+      return '/placeholder-image.jpg';
+    }
+    
+    if (image.url?.startsWith('http')) {
+      console.log('Using direct URL:', image.url);
+      return image.url;
+    }
     
     // Get format URL if available
     const formatUrl = image.formats?.[format]?.url || image.url;
-    return formatUrl ? `${MEDIA_URL}${formatUrl}` : '/placeholder-image.jpg';
+    const finalUrl = formatUrl ? `${MEDIA_URL}${formatUrl}` : '/placeholder-image.jpg';
+    console.log('Constructed image URL:', finalUrl, 'from format:', formatUrl);
+    return finalUrl;
   };
 
   const getBrandPoster = () => {
+    console.log('Brand poster data:', brand.brand_poster);
+    
     if (!brand.brand_poster || !Array.isArray(brand.brand_poster) || brand.brand_poster.length === 0) {
+      console.log('No poster found, using placeholder');
       return '/placeholder-banner.jpg';
     }
+    
     const poster = brand.brand_poster[0];
+    console.log('Selected poster:', poster);
+    
     // Try to get medium format, fall back to largest available format
     const posterUrl = poster.formats?.medium?.url || poster.formats?.large?.url || poster.formats?.small?.url || poster.url;
-    return posterUrl ? `${MEDIA_URL}${posterUrl}` : '/placeholder-banner.jpg';
+    const finalUrl = posterUrl ? `${MEDIA_URL}${posterUrl}` : '/placeholder-banner.jpg';
+    console.log('Constructed poster URL:', finalUrl, 'using MEDIA_URL:', MEDIA_URL);
+    return finalUrl;
   };
   return (
     <Link 
