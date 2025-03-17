@@ -23,6 +23,8 @@ import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { ProductProvider } from './context/ProductContext';
 import { AuthProvider } from './context/AuthContext';
+import Store from './pages/Store'; // Import the new Store component
+
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -74,6 +76,7 @@ function App() {
                 <main className="flex-grow">
                   <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/store" element={<Store />} /> {/* Added Store route */}
                     <Route path="/product/:id" element={<ProductDetails />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/wishlist" element={<Wishlist />} />
@@ -84,7 +87,7 @@ function App() {
                     <Route path="/brand/:brandId" element={<Brand />} />
                     <Route path="/brand/:brandId/new-arrivals" element={<BrandProducts />} />
                     <Route path="/brand/:brandId/most-selling" element={<BrandProducts />} />
-                    
+
                     {/* Protected Routes */}
                     <Route 
                       path="/profile" 
@@ -122,7 +125,7 @@ function App() {
                       path="/order-tracking/:orderId" 
                       element={<OrderTracking />} 
                     />
-                    
+
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>
