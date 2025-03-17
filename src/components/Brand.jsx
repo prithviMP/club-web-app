@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import { getImageUrl } from '../services/api';
 
@@ -9,7 +10,7 @@ const Brand = ({ brand }) => {
     >
       <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-800 flex items-center justify-center p-3 group-hover:bg-gray-700 transition-colors">
         <img 
-          src={brand?.brand_logo?.url ? `${MEDIA_URL}${brand.brand_logo.url}` : '/placeholder-image.jpg'} 
+          src={getImageUrl(brand.brand_logo, 'thumbnail')}
           alt={brand.brand_name}
           className="w-full h-full object-contain"
         />
