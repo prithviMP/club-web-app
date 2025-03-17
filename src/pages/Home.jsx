@@ -191,7 +191,7 @@ const Home = () => {
               <p className="text-sm sm:text-base mb-2">Brand Exclusive</p>
               <p className="text-sm sm:text-base mb-4">Offer for Influencers</p>
               <a 
-                href="https://wa.me/919902669555" 
+                href="https://wa.me/919611717711" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="mt-2 inline-flex items-center gap-2 bg-white text-black px-6 py-2 rounded-full text-sm sm:text-base hover:bg-opacity-90 transition-colors"

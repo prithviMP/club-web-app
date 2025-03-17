@@ -100,7 +100,7 @@ const Contact = () => {
               <FontAwesomeIcon icon={faPhone} className="text-primary text-xl mt-1" />
               <div>
                 <h3 className="font-medium mb-2">Call Us</h3>
-                <p className="text-gray-400">+91 99026 69555</p>
+                <p className="text-gray-400">+91 96117 17711</p>
               </div>
             </div>
           </div>
