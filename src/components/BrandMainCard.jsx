@@ -33,7 +33,7 @@ const BrandMainCard = ({ brand }) => {
             <img 
               src={getBrandImage(brand.brand_logo, 'thumbnail')}
               alt={brand.brand_name}
-              className="w-full h-full object-contain"
+              className="w-12 h-12 object-contain"
             />
           </div>
           <h2 className="text-2xl font-semibold text-white line-clamp-1">{brand.brand_name}</h2>
@@ -62,11 +62,11 @@ const BrandMainCard = ({ brand }) => {
         )}
       </div>
 
-      <div className="relative w-full aspect-[16/9] mt-6 bg-gray-900">
+      <div className="relative w-full h-48 mt-6 bg-gray-900 overflow-hidden">
         <img 
           src={getBrandPoster()}
           alt={`${brand.brand_name} products`}
-          className="w-full h-full object-cover"
+          className="w-full h-48 object-cover"
         />
         <div className="absolute bottom-4 right-4 bg-primary text-black px-4 py-2 rounded-full text-sm font-medium">
           {brand.products?.length || 0} Products
