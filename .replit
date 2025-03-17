@@ -1,0 +1,48 @@
+modules = ["nodejs-20"]
+
+[workflows]
+runButton = "run app"
+
+[[workflows.workflow]]
+name = "Run Dev"
+author = 2636792
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run start -- --host 0.0.0.0"
+
+[[workflows.workflow]]
+name = "Sh"
+mode = "sequential"
+author = 2636792
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cat package.json"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "ls"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Run Dev"
+
+[[workflows.workflow]]
+name = "run app"
+mode = "sequential"
+author = 2636792
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
+exposeLocalhost = true
