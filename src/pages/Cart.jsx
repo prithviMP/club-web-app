@@ -66,14 +66,29 @@ const Cart = () => {
     initRazorpay();
   }, []);
 
-  const handleQuantityChange = (id, size, newQuantity, stockAvailable) => {
-    // Parse inputs to ensure numbers
-    const currentQty = parseInt(newQuantity, 10) || 1;
+  const handleQuantityChange = (id, size, increment, stockAvailable) => {
+    // Find current item
+    const currentItem = items.find(item => 
+      item.id === id && 
+      (typeof item.size === 'object' && typeof size === 'object' 
+        ? item.size.id === size.id 
+        : item.size === size)
+    );
+    
+    if (!currentItem) return;
+
+    // Calculate new quantity
+    const currentQty = currentItem.quantity;
     const maxStock = parseInt(stockAvailable, 10) || 1;
+    const newQuantity = currentQty + increment;
     
     // Ensure quantity is within valid range
-    const validQuantity = Math.max(1, Math.min(currentQty, maxStock));
-    updateQuantity(id, size, validQuantity);
+    const validQuantity = Math.max(1, Math.min(newQuantity, maxStock));
+    
+    // Only update if quantity actually changed
+    if (validQuantity !== currentQty) {
+      updateQuantity(id, size, validQuantity);
+    }
   };
 
   const handleShippingSubmit = (formData) => {
