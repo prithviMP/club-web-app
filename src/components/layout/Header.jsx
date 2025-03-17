@@ -70,8 +70,8 @@ const Header = () => {
             <Link to="/" className="text-light hover:text-primary transition-colors">
               Home
             </Link>
-            <Link to="/products" className="text-light hover:text-primary transition-colors">
-              Products
+            <Link to="/store" className="text-light hover:text-primary transition-colors">
+              Store
             </Link>
             <Link to="/about" className="text-light hover:text-primary transition-colors">
               About
