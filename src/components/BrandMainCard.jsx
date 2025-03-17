@@ -1,74 +1,68 @@
 
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MEDIA_URL } from '../utils/api/config';
 
 const BrandMainCard = ({ brand }) => {
-  console.log(brand);
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const getBrandImage = (image, format = 'thumbnail') => {
-    console.log('Brand Image input:', image);
-    
-    if (!image) {
-      console.log('No image provided, using placeholder');
-      return '/placeholder-image.jpg';
-    }
-    
-    if (image.url?.startsWith('http')) {
-      console.log('Using direct URL:', image.url);
-      return image.url;
-    }
-    
-    // Get format URL if available
+    if (!image) return '/placeholder-image.jpg';
+    if (image.url?.startsWith('http')) return image.url;
     const formatUrl = image.formats?.[format]?.url || image.url;
-    const finalUrl = formatUrl ? `${MEDIA_URL}${formatUrl}` : '/placeholder-image.jpg';
-    console.log('Constructed image URL:', finalUrl, 'from format:', formatUrl);
-    return finalUrl;
+    return formatUrl ? `${MEDIA_URL}${formatUrl}` : '/placeholder-image.jpg';
   };
 
   const getBrandPoster = () => {
-    console.log('Brand poster data:', brand.brand_poster);
-    
     if (!brand.brand_poster || !Array.isArray(brand.brand_poster) || brand.brand_poster.length === 0) {
-      console.log('No poster found, using placeholder');
       return '/placeholder-banner.jpg';
     }
-    
     const poster = brand.brand_poster[0];
-    console.log('Selected poster:', poster);
-    
-    // Try to get medium format, fall back to largest available format
     const posterUrl = poster.formats?.medium?.url || poster.formats?.large?.url || poster.formats?.small?.url || poster.url;
-    const finalUrl = posterUrl ? `${MEDIA_URL}${posterUrl}` : '/placeholder-banner.jpg';
-    console.log('Constructed poster URL:', finalUrl, 'using MEDIA_URL:', MEDIA_URL);
-    return finalUrl;
+    return posterUrl ? `${MEDIA_URL}${posterUrl}` : '/placeholder-banner.jpg';
   };
+
   return (
     <Link 
       to={`/brand/${brand.documentId}`}
-      className="flex flex-col bg-black rounded-xl overflow-hidden transition-transform hover:scale-[1.02]"
+      className="flex flex-col bg-black rounded-xl overflow-hidden transition-transform hover:scale-[1.02] h-full"
     >
       <div className="p-6 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center p-3">
+          <div className="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center p-3 flex-shrink-0">
             <img 
               src={getBrandImage(brand.brand_logo, 'thumbnail')}
               alt={brand.brand_name}
               className="w-full h-full object-contain"
             />
           </div>
-          <h2 className="text-2xl font-semibold text-white">{brand.brand_name}</h2>
+          <h2 className="text-2xl font-semibold text-white line-clamp-1">{brand.brand_name}</h2>
         </div>
-        <div className="text-primary">
+        <div className="text-primary flex-shrink-0">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </div>
       </div>
       
-      <p className="px-6 text-gray-400 mb-6">
-        {brand.description}
-      </p>
+      <div className="px-6 flex-grow">
+        <div className={`text-gray-400 ${isExpanded ? '' : 'line-clamp-2'}`}>
+          {brand.description}
+        </div>
+        {brand.description && brand.description.length > 100 && (
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              setIsExpanded(!isExpanded);
+            }}
+            className="text-primary text-sm mt-2 hover:underline"
+          >
+            {isExpanded ? 'Show Less' : 'Show More'}
+          </button>
+        )}
+      </div>
 
-      <div className="relative w-full aspect-[16/9] bg-gray-900">
+      <div className="relative w-full aspect-[16/9] mt-6 bg-gray-900">
         <img 
           src={getBrandPoster()}
           alt={`${brand.brand_name} products`}
