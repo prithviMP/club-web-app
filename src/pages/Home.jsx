@@ -11,6 +11,8 @@ import ProductCard from '../components/product/ProductCard';
 import { brandService, productService } from '../services';
 import Spinner from '../components/ui/Spinner';
 import { MEDIA_URL } from '../utils/api/config';
+import BrandsList from '../components/BrandsList'; // Import the BrandsList component
+
 
 // Custom arrow components for the slider
 const NextArrow = ({ onClick }) => (
@@ -33,15 +35,15 @@ const PrevArrow = ({ onClick }) => (
 
 const getImageUrl = (image, format = 'thumbnail') => {
   if (!image) return '/placeholder-image.jpg';
-  
+
   // If the image is already a full URL, return it
   if (image.url?.startsWith('http')) return image.url;
-  
+
   // If we have formats and the requested format exists, use it
   if (image.formats && image.formats[format]) {
     return `${MEDIA_URL}${image.formats[format].url}`;
   }
-  
+
   // Fallback to the original image URL
   return `${MEDIA_URL}${image.url}`;
 };
@@ -327,9 +329,15 @@ const Home = () => {
             </div>
           ))}
         </section>
+
+        {/* All Brands */}
+        <section className="mb-8 sm:mb-12">
+          <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6">All Brands</h3>
+          <BrandsList />
+        </section>
       </div>
     </div>
   );
 };
 
-export default Home; 
+export default Home;
