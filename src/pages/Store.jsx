@@ -9,8 +9,6 @@ import { MEDIA_URL } from '../utils/api/config';
 const Store = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [brandSearch, setBrandSearch] = useState('');
-  const [showBrandDropdown, setShowBrandDropdown] = useState(false);
-  const [ratingSearch, setRatingSearch] = useState('');
   const [filters, setFilters] = useState({
     brands: [],
     ratings: []
@@ -20,17 +18,6 @@ const Store = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.target.closest('.brand-dropdown')) {
-        setShowBrandDropdown(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   useEffect(() => {
     const loadData = async () => {
@@ -54,11 +41,11 @@ const Store = () => {
     loadData();
   }, []);
 
-  // Filter products based on search term and filters
   useEffect(() => {
+    // Apply filters whenever filters or search term changes
     let filtered = [...products];
 
-    // Apply search term filter
+    // Apply search filter
     if (searchTerm) {
       filtered = filtered.filter(product =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -80,7 +67,7 @@ const Store = () => {
     }
 
     setFilteredProducts(filtered);
-  }, [searchTerm, filters, products]);
+  }, [products, filters, searchTerm]);
 
   const toggleBrandFilter = (brandId) => {
     setFilters(prev => ({
@@ -104,7 +91,6 @@ const Store = () => {
     setFilters({ brands: [], ratings: [] });
     setSearchTerm('');
     setBrandSearch('');
-    setRatingSearch('');
   };
 
   const FilterSidebar = ({ isMobile = false }) => (
@@ -209,50 +195,38 @@ const Store = () => {
         {showMobileFilters && (
           <div className="fixed inset-0 z-50 lg:hidden">
             <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setShowMobileFilters(false)} />
-            <div className="absolute inset-y-0 left-0 w-full max-w-xs bg-gray-900 p-6 overflow-y-auto">
+            <div className="absolute inset-y-0 left-0 w-full max-w-xs bg-gray-900 p-6">
               <FilterSidebar isMobile={true} />
             </div>
           </div>
         )}
 
         <div className="flex gap-6">
-          {/* Desktop Filters Sidebar */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
+          {/* Desktop Filters Sidebar - Fixed */}
+          <div className="hidden lg:block w-64 flex-shrink-0 sticky top-24">
             <FilterSidebar />
           </div>
 
+          {/* Products Grid */}
           <div className="flex-1">
-            {/* Brands List */}
-            <div className="mb-8">
-              <h2 className="text-lg font-semibold mb-4">Popular Brands</h2>
-              <div className="grid grid-cols-6 sm:flex sm:justify-between items-center gap-2 sm:gap-4">
-                {brands.slice(0, 6).map((brand) => (
-                  <Link 
-                    key={brand.id} 
-                    to={`/brand/${brand.documentId}`} 
-                    className="group transition-transform hover:scale-105 flex flex-col items-center"
-                  >
-                    <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-full bg-gray-800 flex items-center justify-center group-hover:bg-gray-700 transition-colors p-2 sm:p-3">
-                      <img 
-                        src={brand?.brand_logo?.url ? `${MEDIA_URL}${brand.brand_logo.url}` : '/placeholder-image.jpg'} 
-                        alt={brand.brand_name} 
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                    <p className="text-center text-[10px] sm:text-sm mt-1 sm:mt-2 group-hover:text-primary transition-colors">
-                      {brand.brand_name}
-                    </p>
-                  </Link>
+            <div className="mb-4">
+              <h1 className="text-2xl font-bold">All Products</h1>
+              <p className="text-gray-400">{filteredProducts.length} products found</p>
+            </div>
+            
+            {loading ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="animate-pulse bg-gray-800 rounded-lg h-64"></div>
                 ))}
               </div>
-            </div>
-
-            {/* Products grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
-              {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
