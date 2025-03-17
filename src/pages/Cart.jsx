@@ -67,6 +67,8 @@ const Cart = () => {
   }, []);
 
   const handleQuantityChange = (id, size, increment, stockAvailable) => {
+    console.log('Quantity change triggered:', { id, size, increment, stockAvailable });
+    
     // Find current item
     const currentItem = items.find(item => 
       item.id === id && 
@@ -75,12 +77,15 @@ const Cart = () => {
         : item.size === size)
     );
     
+    console.log('Current item found:', currentItem);
     if (!currentItem) return;
 
     // Calculate new quantity
     const currentQty = currentItem.quantity;
     const maxStock = parseInt(stockAvailable, 10) || 1;
     const newQuantity = currentQty + increment;
+    
+    console.log('Quantity calculation:', { currentQty, maxStock, newQuantity });
     
     // Ensure quantity is within valid range
     const validQuantity = Math.max(1, Math.min(newQuantity, maxStock));
