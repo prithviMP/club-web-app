@@ -86,7 +86,11 @@ const ViewAll = () => {
             No products found.
           </div>
         )}
-        <BrandMainList />
+        
+        <section className="mt-12">
+          <h2 className="text-2xl font-semibold mb-6">All Brands</h2>
+          <BrandMainList />
+        </section>
       </div>
     </div>
   );
