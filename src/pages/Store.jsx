@@ -255,8 +255,8 @@ const Store = () => {
             <FilterSidebar />
           </div>
 
-          {/* Products Grid */}
-          <div className="flex-1">
+          {/* Product Grid */}
+          <div className="flex-1 h-[calc(100vh-6rem)] overflow-y-auto">
             <div className="mb-4">
               <h1 className="text-2xl font-bold">All Products</h1>
               <p className="text-gray-400">{filteredProducts.length} products found</p>
