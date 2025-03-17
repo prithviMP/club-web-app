@@ -1,8 +1,9 @@
-
 import { useState, useEffect } from 'react';
 import { brandService, productService } from '../services';
 import ProductCard from '../components/product/ProductCard';
 import { XMarkIcon, StarIcon, FunnelIcon as FilterIcon } from '@heroicons/react/24/outline';
+import BrandsList from '../components/BrandsList'; // Assuming this component exists
+
 
 const Store = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -249,7 +250,26 @@ const Store = () => {
           </div>
 
           {/* Main content */}
-          <div className="flex-1">
+          <div className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+            {/* Brands List */}
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold mb-4">Popular Brands</h2>
+              <BrandsList limit={6} className="mb-6" />
+            </div>
+
+            {/* Products grid */}
+            {loading ? (
+              <div className="flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {filteredProducts.map(product => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            )}
+
             {/* Selected filters */}
             {(filters.brands.length > 0 || filters.ratings.length > 0) && (
               <div className="flex flex-wrap gap-2 items-center mb-4">
@@ -288,19 +308,6 @@ const Store = () => {
                 >
                   Clear all
                 </button>
-              </div>
-            )}
-
-            {/* Products grid */}
-            {loading ? (
-              <div className="flex justify-center items-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredProducts.map(product => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
               </div>
             )}
           </div>
