@@ -236,12 +236,15 @@ const Store = () => {
           </button>
         </div>
 
-        {/* Mobile Filters Sidebar */}
+        {/* Mobile Filters Bottom Sheet */}
         {showMobileFilters && (
           <div className="fixed inset-0 z-50 lg:hidden">
             <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setShowMobileFilters(false)} />
-            <div className="absolute inset-y-0 left-0 w-full max-w-xs bg-gray-900 p-6">
-              <FilterSidebar isMobile={true} />
+            <div className="absolute bottom-0 left-0 right-0 h-[35vh] bg-gray-900 rounded-t-xl p-4 transform transition-transform duration-300 ease-in-out">
+              <div className="w-12 h-1 bg-gray-700 rounded-full mx-auto mb-4" />
+              <div className="h-full overflow-y-auto">
+                <FilterSidebar isMobile={true} />
+              </div>
             </div>
           </div>
         )}
