@@ -1,0 +1,23 @@
+[plugin:vite:react-babel] /home/runner/workspace/src/pages/Store.jsx: Identifier 'useState' has already been declared. (286:9)
+  289 | import ProductCard from '../components/product/ProductCard';
+/home/runner/workspace/src/pages/Store.jsx:286:9
+284|  
+285|  export default Store;
+286|  import { useState, useEffect } from 'react';
+   |           ^
+287|  import { useLocation } from 'react-router-dom';
+288|  import { productService } from '../services';
+    at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:360:19)
+    at JSXParserMixin.raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:3327:19)
+    at ScopeHandler.checkRedeclarationInScope (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:1555:19)
+    at ScopeHandler.declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:1521:12)
+    at JSXParserMixin.declareNameFromIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7480:16)
+    at JSXParserMixin.checkIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7476:12)
+    at JSXParserMixin.checkLVal (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7417:12)
+    at JSXParserMixin.finishImportSpecifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13901:10)
+    at JSXParserMixin.parseImportSpecifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:14057:17)
+    at JSXParserMixin.parseNamedImportSpecifiers (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:14036:36)
+    at JSXParserMixin.parseImportSpecifiersAndAfter (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13877:37)
+    at JSXParserMixin.parseImport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13870:17)
+    at JSXParserMixin.parseStatementContent (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12515:27)
+    at JSXParserMixin.parseStatementLike (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12407:17)
