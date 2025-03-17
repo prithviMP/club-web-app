@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { brandService, productService } from '../services';
 import ProductCard from '../components/product/ProductCard';
 import { XMarkIcon, StarIcon, FunnelIcon as FilterIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom'; // Assuming you're using react-router-dom
+import { Link } from 'react-router-dom';
+import { MEDIA_URL } from '../utils/api/config';
 
 
 const Store = () => {
