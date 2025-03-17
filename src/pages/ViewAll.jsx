@@ -43,7 +43,6 @@ const ViewAll = () => {
     fetchProducts();
   }, [category]);
 
-  // Get page title based on category
   const getPageTitle = () => {
     switch (category) {
       case 'new':

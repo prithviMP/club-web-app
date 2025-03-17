@@ -26,6 +26,7 @@ import { AuthProvider } from './context/AuthContext';
 import Store from './pages/Store';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import ViewAll from './pages/ViewAll';
 
 
 function App() {
