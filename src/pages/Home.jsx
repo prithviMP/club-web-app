@@ -231,7 +231,7 @@ const Home = () => {
           ))}
         </section>
 
-        <style jsx>{`
+        <style>{`
           .no-scrollbar {
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;  /* Firefox */

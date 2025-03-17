@@ -10,15 +10,10 @@ export default defineConfig({
     allowedHosts:true,
     proxy: {
       '/api': {
-        target: 'https://app.club-unplugged.com',
+        target: 'https://api.club-unplugged.com',
         changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        },
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api'),
       },
     },
     cors: true,
