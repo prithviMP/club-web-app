@@ -53,11 +53,7 @@ const Header = () => {
   };
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-secondary shadow-lg py-2' : 'bg-transparent py-4'
-      }`}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900 shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
@@ -103,7 +99,7 @@ const Header = () => {
                 </span>
               )}
             </Link>
-            
+
             {/* Auth Buttons or Profile */}
             {isAuthenticated ? (
               <div className="relative profile-menu-container">
@@ -125,7 +121,7 @@ const Header = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                
+
                 {/* Profile Dropdown */}
                 {isProfileMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-900 rounded-md shadow-lg py-1 z-10 border border-gray-700">
@@ -194,7 +190,7 @@ const Header = () => {
                 </Link>
               </div>
             )}
-            
+
             {/* Mobile Menu Button */}
             <button 
               className="md:hidden text-light hover:text-primary transition-colors"
@@ -220,8 +216,8 @@ const Header = () => {
               <Link to="/" className="text-light hover:text-primary transition-colors">
                 Home
               </Link>
-              <Link to="/products" className="text-light hover:text-primary transition-colors">
-                Products
+              <Link to="/store" className="text-light hover:text-primary transition-colors">
+                Store
               </Link>
               <Link to="/about" className="text-light hover:text-primary transition-colors">
                 About
@@ -229,7 +225,7 @@ const Header = () => {
               <Link to="/contact" className="text-light hover:text-primary transition-colors">
                 Contact
               </Link>
-              
+
               {/* Mobile Auth Links */}
               {!isAuthenticated ? (
                 <>
@@ -269,4 +265,4 @@ const Header = () => {
   );
 };
 
-export default Header; 
+export default Header;
