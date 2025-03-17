@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { brandService, productService } from '../services';
 import ProductCard from '../components/product/ProductCard';
 import { XMarkIcon, StarIcon, FunnelIcon as FilterIcon } from '@heroicons/react/24/outline';
-import BrandsList from '../components/BrandsList'; 
-import BrandMainList from '../components/BrandMainList';
+import { Link } from 'react-router-dom'; // Assuming you're using react-router-dom
 
 
 const Store = () => {
@@ -255,7 +254,26 @@ const Store = () => {
             {/* Brands List */}
             <div className="mb-8">
               <h2 className="text-lg font-semibold mb-4">Popular Brands</h2>
-              <BrandsList limit={6} className="mb-6" />
+              <div className="grid grid-cols-6 sm:flex sm:justify-between items-center gap-2 sm:gap-4">
+                {brands.slice(0, 6).map((brand) => (
+                  <Link 
+                    key={brand.id} 
+                    to={`/brand/${brand.documentId}`} 
+                    className="group transition-transform hover:scale-105 flex flex-col items-center"
+                  >
+                    <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-full bg-gray-800 flex items-center justify-center group-hover:bg-gray-700 transition-colors p-2 sm:p-3">
+                      <img 
+                        src={brand?.brand_logo?.url ? `${MEDIA_URL}${brand.brand_logo.url}` : '/placeholder-image.jpg'} 
+                        alt={brand.brand_name} 
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <p className="text-center text-[10px] sm:text-sm mt-1 sm:mt-2 group-hover:text-primary transition-colors">
+                      {brand.brand_name}
+                    </p>
+                  </Link>
+                ))}
+              </div>
             </div>
 
             {/* Products grid */}
