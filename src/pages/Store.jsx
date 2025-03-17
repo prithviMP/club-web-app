@@ -257,6 +257,32 @@ const Store = () => {
               <BrandsList limit={6} className="mb-6" />
             </div>
 
+            {/* Selected filters */}
+            {(filters.brands.length > 0 || filters.ratings.length > 0) && (
+              <div className="flex flex-wrap gap-2 items-center mb-6">
+                {filters.brands.map((brand) => (
+                  <button
+                    key={brand.id}
+                    onClick={() => handleBrandChange(brand)}
+                    className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-800 text-sm"
+                  >
+                    <span>{brand.brand_name}</span>
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                ))}
+                {filters.ratings.map((rating) => (
+                  <button
+                    key={rating}
+                    onClick={() => handleRatingChange(rating)}
+                    className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-800 text-sm"
+                  >
+                    <span>{rating} <StarIcon className="w-4 h-4 inline" /></span>
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                ))}
+              </div>
+            )}
+
             {/* Products grid */}
             {loading ? (
               <div className="flex justify-center items-center py-8">
