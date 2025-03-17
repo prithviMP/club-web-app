@@ -46,3 +46,6 @@ args = "npm run dev"
 localPort = 3000
 externalPort = 3000
 exposeLocalhost = true
+
+[nix]
+channel = "stable-24_05"
