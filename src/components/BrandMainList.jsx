@@ -13,7 +13,15 @@ const BrandMainList = ({ className = '' }) => {
       try {
         setLoading(true);
         const response = await fetchBrands();
-        setBrands(response.data);
+        if (response?.data) {
+          const formattedBrands = response.data.map(brand => ({
+            ...brand,
+            brand_logo: brand.brand_logo || brand.attributes?.brand_logo,
+            brand_poster: brand.brand_poster || brand.attributes?.brand_poster,
+            poster_image: brand.poster_image || brand.attributes?.poster_image
+          }));
+          setBrands(formattedBrands);
+        }
       } catch (err) {
         console.error('Error loading brands:', err);
         setError('Failed to load brands');

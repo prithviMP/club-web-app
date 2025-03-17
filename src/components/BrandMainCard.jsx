@@ -1,8 +1,15 @@
 
 import { Link } from 'react-router-dom';
 import { getImageUrl } from '../services/api';
+import { MEDIA_URL } from '../utils/api/config';
 
 const BrandMainCard = ({ brand }) => {
+  const getBrandImage = (image, format = 'thumbnail') => {
+    if (!image) return '/placeholder-image.jpg';
+    if (image.url?.startsWith('http')) return image.url;
+    const formatUrl = image.formats?.[format]?.url || image.url;
+    return formatUrl ? `${MEDIA_URL}${formatUrl}` : '/placeholder-image.jpg';
+  };
   return (
     <Link 
       to={`/brand/${brand.documentId}`}
@@ -12,7 +19,7 @@ const BrandMainCard = ({ brand }) => {
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center p-3">
             <img 
-              src={getImageUrl(brand.brand_logo, 'thumbnail')}
+              src={getBrandImage(brand.brand_logo, 'thumbnail')}
               alt={brand.brand_name}
               className="w-full h-full object-contain"
             />
@@ -32,7 +39,7 @@ const BrandMainCard = ({ brand }) => {
 
       <div className="relative w-full aspect-[16/9] bg-gray-900">
         <img 
-          src={getImageUrl(brand.poster_image, 'medium')} 
+          src={getBrandImage(brand.poster_image?.[0] || brand.brand_poster?.[0], 'medium')} 
           alt={`${brand.brand_name} products`}
           className="w-full h-full object-cover"
         />
