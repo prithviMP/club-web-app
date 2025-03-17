@@ -1,14 +1,25 @@
 
 import { Link } from 'react-router-dom';
-import { getImageUrl } from '../services/api';
 import { MEDIA_URL } from '../utils/api/config';
 
 const BrandMainCard = ({ brand }) => {
   const getBrandImage = (image, format = 'thumbnail') => {
     if (!image) return '/placeholder-image.jpg';
     if (image.url?.startsWith('http')) return image.url;
+    
+    // Get format URL if available
     const formatUrl = image.formats?.[format]?.url || image.url;
     return formatUrl ? `${MEDIA_URL}${formatUrl}` : '/placeholder-image.jpg';
+  };
+
+  const getBrandPoster = () => {
+    if (!brand.brand_poster || !Array.isArray(brand.brand_poster) || brand.brand_poster.length === 0) {
+      return '/placeholder-banner.jpg';
+    }
+    const poster = brand.brand_poster[0];
+    // Try to get medium format, fall back to largest available format
+    const posterUrl = poster.formats?.medium?.url || poster.formats?.large?.url || poster.formats?.small?.url || poster.url;
+    return posterUrl ? `${MEDIA_URL}${posterUrl}` : '/placeholder-banner.jpg';
   };
   return (
     <Link 
@@ -39,7 +50,7 @@ const BrandMainCard = ({ brand }) => {
 
       <div className="relative w-full aspect-[16/9] bg-gray-900">
         <img 
-          src={getBrandImage(brand.poster_image?.[0] || brand.brand_poster?.[0], 'medium')} 
+          src={getBrandPoster()}
           alt={`${brand.brand_name} products`}
           className="w-full h-full object-cover"
         />
