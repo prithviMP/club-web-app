@@ -38,10 +38,12 @@ const Store = () => {
 
         if (response?.data) {
           setProducts(response.data);
+        } else {
+          setError('No products found');
         }
       } catch (err) {
-        setError('Failed to load products');
         console.error('Error loading products:', err);
+        setError('Failed to load products');
       } finally {
         setLoading(false);
       }
@@ -61,6 +63,8 @@ const Store = () => {
           </div>
         ) : error ? (
           <div className="text-red-500 text-center py-8">{error}</div>
+        ) : products.length === 0 ? (
+          <div className="text-gray-400 text-center py-8">No products found</div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {products.map((product) => (
