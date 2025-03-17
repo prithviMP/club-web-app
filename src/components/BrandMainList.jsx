@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { fetchBrands } from '../services/api';
 import BrandMainCard from './BrandMainCard';
 
-const BrandMainList = ({ limit, className = '' }) => {
+const BrandMainList = ({ className = '' }) => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,18 +13,17 @@ const BrandMainList = ({ limit, className = '' }) => {
       try {
         setLoading(true);
         const response = await fetchBrands();
-        const brandsData = limit ? response.data.slice(0, limit) : response.data;
-        setBrands(brandsData);
+        setBrands(response.data);
       } catch (err) {
-        setError('Failed to load brands');
         console.error('Error loading brands:', err);
+        setError('Failed to load brands');
       } finally {
         setLoading(false);
       }
     };
 
     loadBrands();
-  }, [limit]);
+  }, []);
 
   if (loading) {
     return (
@@ -38,6 +37,14 @@ const BrandMainList = ({ limit, className = '' }) => {
     return (
       <div className="text-center py-8 text-red-500">
         {error}
+      </div>
+    );
+  }
+
+  if (!brands.length) {
+    return (
+      <div className="text-center py-8 text-gray-400">
+        No brands available.
       </div>
     );
   }
