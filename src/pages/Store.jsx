@@ -6,6 +6,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 const Store = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [brandSearch, setBrandSearch] = useState('');
+  const [showBrandDropdown, setShowBrandDropdown] = useState(false);
   const [ratingSearch, setRatingSearch] = useState('');
   const [filters, setFilters] = useState({
     brands: [],
@@ -14,6 +15,17 @@ const Store = () => {
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.brand-dropdown')) {
+        setShowBrandDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const loadData = async () => {
@@ -95,18 +107,42 @@ const Store = () => {
                   placeholder="Search brands..."
                   className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:border-primary"
                   value={brandSearch}
+                  onClick={() => setShowBrandDropdown(true)}
                   onChange={(e) => setBrandSearch(e.target.value)}
                 />
-                <select
-                  multiple
-                  className="hidden"
-                  value={filters.brands.map(b => b.id)}
-                  onChange={handleBrandChange}
-                >
-                  {brands.map(brand => (
-                    <option key={brand.id} value={brand.id}>{brand.brand_name}</option>
-                  ))}
-                </select>
+                {showBrandDropdown && (
+                  <div className="absolute z-50 w-full mt-1 bg-gray-900 border border-gray-700 rounded-lg max-h-60 overflow-y-auto">
+                    {brands
+                      .filter(brand => brand.brand_name.toLowerCase().includes(brandSearch.toLowerCase()))
+                      .map(brand => (
+                        <label 
+                          key={brand.id} 
+                          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-800 cursor-pointer"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={filters.brands.some(b => b.id === brand.id)}
+                            onChange={() => {
+                              const isSelected = filters.brands.some(b => b.id === brand.id);
+                              if (isSelected) {
+                                setFilters(prev => ({
+                                  ...prev,
+                                  brands: prev.brands.filter(b => b.id !== brand.id)
+                                }));
+                              } else {
+                                setFilters(prev => ({
+                                  ...prev,
+                                  brands: [...prev.brands, brand]
+                                }));
+                              }
+                            }}
+                            className="form-checkbox h-4 w-4 text-primary rounded border-gray-600 bg-gray-700"
+                          />
+                          <span className="text-white">{brand.brand_name}</span>
+                        </label>
+                      ))}
+                  </div>
+                )}
               </div>
               <div className="relative">
                 <input
