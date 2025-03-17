@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { brandService, productService } from '../services';
 import ProductCard from '../components/product/ProductCard';
@@ -93,6 +92,12 @@ const Store = () => {
     setBrandSearch('');
   };
 
+  const clearAllFilters = () => {
+    setFilters({ brands: [], ratings: [] });
+    setSearchTerm('');
+    setBrandSearch('');
+  };
+
   const FilterSidebar = ({ isMobile = false }) => (
     <div className={`${isMobile ? 'lg:hidden' : 'hidden lg:block'} bg-gray-900 p-4 rounded-lg`}>
       <div className="flex items-center justify-between mb-4">
@@ -180,6 +185,46 @@ const Store = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+        {/* Active Filters */}
+        {(filters.brands.length > 0 || filters.ratings.length > 0 || searchTerm) && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {searchTerm && (
+              <span className="bg-gray-800 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                Search: {searchTerm}
+                <button onClick={() => setSearchTerm('')} className="hover:text-primary">
+                  <XMarkIcon className="h-4 w-4" />
+                </button>
+              </span>
+            )}
+            {filters.brands.map(brandId => {
+              const brand = brands.find(b => b.id === brandId);
+              return brand ? (
+                <span key={brandId} className="bg-gray-800 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                  {brand.brand_name}
+                  <button onClick={() => toggleBrandFilter(brandId)} className="hover:text-primary">
+                    <XMarkIcon className="h-4 w-4" />
+                  </button>
+                </span>
+              ) : null;
+            })}
+            {filters.ratings.map(rating => (
+              <span key={rating} className="bg-gray-800 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                {rating} Stars
+                <button onClick={() => toggleRatingFilter(rating)} className="hover:text-primary">
+                  <XMarkIcon className="h-4 w-4" />
+                </button>
+              </span>
+            ))}
+            <button
+              onClick={clearAllFilters}
+              className="bg-red-600 text-white px-3 py-1 rounded-full text-sm hover:bg-red-700 transition-colors flex items-center gap-2"
+            >
+              Clear All Filters
+              <XMarkIcon className="h-4 w-4" />
+            </button>
+          </div>
+        )}
+
         {/* Mobile Filter Button */}
         <div className="lg:hidden mb-4">
           <button
@@ -213,7 +258,7 @@ const Store = () => {
               <h1 className="text-2xl font-bold">All Products</h1>
               <p className="text-gray-400">{filteredProducts.length} products found</p>
             </div>
-            
+
             {loading ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
                 {[...Array(6)].map((_, i) => (
