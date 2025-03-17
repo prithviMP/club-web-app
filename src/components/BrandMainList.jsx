@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { fetchBrands } from '../services/api';
+import { brandService } from '../services/brandService';
 import BrandMainCard from './BrandMainCard';
 
 const BrandMainList = ({ className = '' }) => {
@@ -12,15 +12,19 @@ const BrandMainList = ({ className = '' }) => {
     const loadBrands = async () => {
       try {
         setLoading(true);
-        const response = await fetchBrands();
+        const response = await brandService.getBrands({
+          populate: {
+            brand_logo: {
+              fields: ['url', 'formats']
+            },
+            brand_poster: {
+              fields: ['url', 'formats']
+            }
+          }
+        });
+        
         if (response?.data) {
-          const formattedBrands = response.data.map(brand => ({
-            ...brand,
-            brand_logo: brand.brand_logo || brand.attributes?.brand_logo,
-            brand_poster: brand.brand_poster || brand.attributes?.brand_poster,
-            poster_image: brand.poster_image || brand.attributes?.poster_image
-          }));
-          setBrands(formattedBrands);
+          setBrands(response.data);
         }
       } catch (err) {
         console.error('Error loading brands:', err);
