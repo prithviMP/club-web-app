@@ -14,6 +14,7 @@ const Store = () => {
     ratings: []
   });
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
@@ -37,7 +38,9 @@ const Store = () => {
           productService.getProducts(),
           brandService.getBrands()
         ]);
-        setProducts(productsResponse.data);
+        const productsData = productsResponse.data;
+        setProducts(productsData);
+        setFilteredProducts(productsData);
         setBrands(brandsResponse.data);
       } catch (error) {
         console.error('Error loading data:', error);
@@ -286,7 +289,7 @@ const Store = () => {
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {products.map(product => (
+                {filteredProducts.map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
