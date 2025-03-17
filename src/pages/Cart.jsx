@@ -66,7 +66,7 @@ const Cart = () => {
     initRazorpay();
   }, []);
 
-  const handleQuantityChange = (id, size, increment, stockAvailable) => {
+  const handleQuantityChange = (id, size, newValue, stockAvailable) => {
     // Find current item
     const currentItem = items.find(item => 
       item.id === id && 
@@ -80,9 +80,9 @@ const Cart = () => {
     // Get the available stock from the item or size
     const maxStock = size?.number_of_items || currentItem.stockAvailable || stockAvailable || 1;
     
-    // Calculate new quantity
+    // Calculate new quantity based on increment or decrement
     const currentQty = currentItem.quantity;
-    const newQuantity = currentQty + increment;
+    const newQuantity = newValue === -1 ? currentQty - 1 : currentQty + 1;
     
     // Show toast if trying to exceed stock
     if (newQuantity > maxStock) {
@@ -547,7 +547,7 @@ const Cart = () => {
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-4">
                       <div className="flex items-center mb-4 sm:mb-0">
                         <button 
-                          onClick={() => handleQuantityChange(item.id, item.size, item.quantity - 1, item.stock)}
+                          onClick={() => handleQuantityChange(item.id, item.size, -1, item.stock)}
                           className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
                         >
                           <FontAwesomeIcon icon={faMinus} className="text-sm sm:text-base" />
