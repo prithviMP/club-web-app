@@ -177,13 +177,29 @@ const Store = () => {
 
       {/* Mobile search bar */}
       <div className="lg:hidden fixed top-16 left-0 right-0 z-40 bg-black px-4 py-3 border-b border-gray-800">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:border-primary"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:border-primary"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              // Close mobile filters if open when searching
+              if (showMobileFilters) {
+                setShowMobileFilters(false);
+              }
+            }}
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+            >
+              <XMarkIcon className="h-5 w-5" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Mobile filter drawer */}
