@@ -123,11 +123,13 @@ const Store = () => {
           value={searchTerm}
           onChange={(e) => {
             const value = e.target.value;
-            setSearchTerm(value);
-            const filtered = products.filter(product => 
-              product.name.toLowerCase().includes(value.toLowerCase())
-            );
-            setFilteredProducts(filtered);
+            requestAnimationFrame(() => {
+              setSearchTerm(value);
+              const filtered = products.filter(product => 
+                product.name.toLowerCase().includes(value.toLowerCase())
+              );
+              setFilteredProducts(filtered);
+            });
           }}
         />
       </FilterSection>
