@@ -1,0 +1,81 @@
+[vite] connecting...
+Warning: Received &#x60;true&#x60; for a non-boolean attribute &#x60;jsx&#x60;.
+
+If you want to write it to the DOM, pass a string instead: jsx=&quot;true&quot; or jsx={value.toString()}.
+    at style
+    at div
+    at div
+    at Home (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/pages/Home.jsx:84:31)
+    at RenderedRoute (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4089:5)
+    at Routes (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4559:5)
+    at main
+    at div
+    at WishlistProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/WishlistContext.jsx:20:36)
+    at CartProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/CartContext.jsx:20:32)
+    at ProductProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/ProductContext.jsx:21:35)
+    at AuthProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/AuthContext.jsx:23:32)
+    at Router (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4502:15)
+    at BrowserRouter (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:5248:5)
+    at App (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/App.jsx:46:37)
+Making API request to: http://localhost:1337/api/brands?populate%5Bbrand_logo%5D%5Bfields%5D%5B0%5D=url&populate%5Bbrand_logo%5D%5Bfields%5D%5B1%5D=formats&populate%5Bbrand_poster%5D%5Bfields%5D%5B0%5D=url&populate%5Bbrand_poster%5D%5Bfields%5D%5B1%5D=formats
+Decoded URL: http://localhost:1337/api/brands?populate[brand_logo][fields][0]=url&populate[brand_logo][fields][1]=formats&populate[brand_poster][fields][0]=url&populate[brand_poster][fields][1]=formats
+Making API request to: http://localhost:1337/api/brands?populate=*
+Decoded URL: http://localhost:1337/api/brands?populate=*
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+Making API request to: http://localhost:1337/api/brands?populate%5Bbrand_logo%5D%5Bfields%5D%5B0%5D=url&populate%5Bbrand_logo%5D%5Bfields%5D%5B1%5D=formats&populate%5Bbrand_poster%5D%5Bfields%5D%5B0%5D=url&populate%5Bbrand_poster%5D%5Bfields%5D%5B1%5D=formats
+Decoded URL: http://localhost:1337/api/brands?populate[brand_logo][fields][0]=url&populate[brand_logo][fields][1]=formats&populate[brand_poster][fields][0]=url&populate[brand_poster][fields][1]=formats
+Making API request to: http://localhost:1337/api/brands?populate=*
+Decoded URL: http://localhost:1337/api/brands?populate=*
+
+ GET http://localhost:1337/api/brands?populate%5Bbrand_logo%5D%5Bfields%5D%5B0%5D=url&populate%5Bbrand_logo%5D%5Bfields%5D%5B1%5D=formats&populate%5Bbrand_poster%5D%5Bfields%5D%5B0%5D=url&populate%5Bbrand_poster%5D%5Bfields%5D%5B1%5D=formats 200 OK
+
+ GET http://localhost:1337/api/brands?populate=* 200 OK
+Brands response: 
+Object {data: Array(5), meta: {…}}
+Making API request to: http://localhost:1337/api/brand-collabs?populate=*
+Decoded URL: http://localhost:1337/api/brand-collabs?populate=*
+
+ GET http://localhost:1337/api/brands?populate%5Bbrand_logo%5D%5Bfields%5D%5B0%5D=url&populate%5Bbrand_logo%5D%5Bfields%5D%5B1%5D=formats&populate%5Bbrand_poster%5D%5Bfields%5D%5B0%5D=url&populate%5Bbrand_poster%5D%5Bfields%5D%5B1%5D=formats 200 OK
+
+ GET http://localhost:1337/api/brands?populate=* 200 OK
+Brands response: 
+Object {data: Array(5), meta: {…}}
+Making API request to: http://localhost:1337/api/brand-collabs?populate=*
+Decoded URL: http://localhost:1337/api/brand-collabs?populate=*
+
+ GET http://localhost:1337/api/brand-collabs?populate=* 200 OK
+Collabs response: 
+Object {data: Array(6), meta: {…}}
+Making API request to: http://localhost:1337/api/products/new-arrivals?populate=*&sort%5B0%5D=createdAt%3Adesc
+Decoded URL: http://localhost:1337/api/products/new-arrivals?populate=*&sort[0]=createdAt:desc
+
+ GET http://localhost:1337/api/brand-collabs?populate=* 200 OK
+Collabs response: 
+Object {data: Array(6), meta: {…}}
+Making API request to: http://localhost:1337/api/products/new-arrivals?populate=*&sort%5B0%5D=createdAt%3Adesc
+Decoded URL: http://localhost:1337/api/products/new-arrivals?populate=*&sort[0]=createdAt:desc
+
+ GET http://localhost:1337/api/products/new-arrivals?populate=*&sort%5B0%5D=createdAt%3Adesc 200 OK
+Making API request to: http://localhost:1337/api/products/popular?populate=*&sort%5B0%5D=rating%3Adesc
+Decoded URL: http://localhost:1337/api/products/popular?populate=*&sort[0]=rating:desc
+
+ GET http://localhost:1337/api/products/new-arrivals?populate=*&sort%5B0%5D=createdAt%3Adesc 200 OK
+Making API request to: http://localhost:1337/api/products/popular?populate=*&sort%5B0%5D=rating%3Adesc
+Decoded URL: http://localhost:1337/api/products/popular?populate=*&sort[0]=rating:desc
+
+ GET http://localhost:1337/api/products/popular?populate=*&sort%5B0%5D=rating%3Adesc 200 OK
+Making API request to: http://localhost:1337/api/products?populate=*
+Decoded URL: http://localhost:1337/api/products?populate=*
+Making API request to: http://localhost:1337/api/brands?populate=*
+Decoded URL: http://localhost:1337/api/brands?populate=*
+Making API request to: http://localhost:1337/api/products?populate=*
+Decoded URL: http://localhost:1337/api/products?populate=*
+Making API request to: http://localhost:1337/api/brands?populate=*
+Decoded URL: http://localhost:1337/api/brands?populate=*
+
+ GET http://localhost:1337/api/brands?populate=* 200 OK
+
+ GET http://localhost:1337/api/products?populate=* 200 OK
+
+ GET http://localhost:1337/api/brands?populate=* 200 OK
