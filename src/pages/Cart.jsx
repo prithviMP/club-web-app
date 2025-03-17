@@ -18,15 +18,15 @@ import { MEDIA_URL } from '../utils/api/config';
 // Helper function to get the image URL
 const getImageUrl = (image) => {
   if (!image) return '/assets/placeholder.png';
-  
+
   // If the image is already a full URL, return it
   if (image.url?.startsWith('http')) return image.url;
-  
+
   // If we have formats and the thumbnail format exists, use it
   if (image.formats && image.formats.thumbnail) {
     return `${MEDIA_URL}${image.formats.thumbnail.url}`;
   }
-  
+
   // Fallback to the original image URL
   return `${MEDIA_URL}${image.url}`;
 };
@@ -49,6 +49,7 @@ const Cart = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [discount, setDiscount] = useState(0);
+  const navigate = useNavigate();
 
   // Initialize Razorpay script
   useEffect(() => {
@@ -74,25 +75,25 @@ const Cart = () => {
         ? item.size.id === size.id 
         : item.size === size)
     );
-    
+
     if (!currentItem) return;
 
     // Get the available stock from the item or size
     const maxStock = size?.number_of_items || currentItem.stockAvailable || stockAvailable || 1;
-    
+
     // Calculate new quantity based on increment or decrement
     const currentQty = currentItem.quantity;
     const newQuantity = newValue === -1 ? currentQty - 1 : currentQty + 1;
-    
+
     // Show toast if trying to exceed stock
     if (newQuantity > maxStock) {
       toast?.error(`Cannot add more than ${maxStock} items`);
       return;
     }
-    
+
     // Ensure quantity is within valid range
     const validQuantity = Math.max(1, Math.min(newQuantity, maxStock));
-    
+
     // Only update if quantity actually changed
     if (validQuantity !== currentQty) {
       updateQuantity(id, size, validQuantity);
@@ -116,14 +117,14 @@ const Cart = () => {
   const processCheckout = async (shippingData, finalAmount) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       // Set the current step to shipping
       setCurrentStep(CHECKOUT_STEPS.SHIPPING);
-      
+
       // Step 1: Create order items for each product in cart
       const orderItemIds = [];
-      
+
       for (const item of items) {
         const orderItemPayload = {
           product: item.id,
@@ -131,21 +132,21 @@ const Cart = () => {
           price: item.price,
           locale: "en"
         };
-        
+
         console.log('Creating order item with payload:', orderItemPayload);
         const orderItemResponse = await checkoutService.createOrderItem(orderItemPayload);
         console.log('Order item created:', orderItemResponse);
-        
+
         // Check if the response has a data property
         const orderItemId = orderItemResponse.data ? orderItemResponse.data.id : orderItemResponse.id;
         if (!orderItemId) {
           console.error('Failed to get order item ID from response:', orderItemResponse);
           throw new Error('Failed to get order item ID');
         }
-        
+
         orderItemIds.push(orderItemId);
       }
-      
+
       // Step 2: Create shipping info
       const shippingInfoPayload = {
         fullName: shippingData.fullName,
@@ -159,18 +160,18 @@ const Cart = () => {
         user: user?.id,
         locale: "en"
       };
-      
+
       console.log('Creating shipping info with payload:', shippingInfoPayload);
       const shippingInfoResponse = await checkoutService.createShippingInfo(shippingInfoPayload);
       console.log('Shipping info created:', shippingInfoResponse);
-      
+
       // Check if the response has a data property
       const shippingInfoId = shippingInfoResponse.data ? shippingInfoResponse.data.id : shippingInfoResponse.id;
       if (!shippingInfoId) {
         console.error('Failed to get shipping info ID from response:', shippingInfoResponse);
         throw new Error('Failed to get shipping info ID');
       }
-      
+
       // Step 3: Create order details
       const orderDetailPayload = {
         orderItems: orderItemIds,
@@ -184,72 +185,72 @@ const Cart = () => {
         razorpaySignature: "",
         coupon: null // Add coupon ID if applied
       };
-      
+
       console.log('Creating order details with payload:', orderDetailPayload);
       const orderDetailResponse = await checkoutService.createOrderDetail(orderDetailPayload);
       console.log('Order details created:', orderDetailResponse);
-      
+
       // Check if the response has a data property
       const orderDetail = orderDetailResponse.data ? orderDetailResponse.data : orderDetailResponse;
       if (!orderDetail || !orderDetail.id) {
         console.error('Failed to get order detail from response:', orderDetailResponse);
         throw new Error('Failed to get order detail');
       }
-      
+
       // Store the order data
       setOrderData(orderDetail);
-      
+
       // Step 4: Directly display Razorpay checkout
       await displayRazorpayCheckout(orderDetail, finalAmount, shippingData);
-      
+
     } catch (error) {
       console.error('Error processing checkout:', error);
       setError(`Failed to process checkout: ${error.message || 'Unknown error'}`);
       setIsLoading(false);
     }
   };
-  
+
   // Display Razorpay checkout directly
   const displayRazorpayCheckout = async (orderDetail, amount, shippingData) => {
     try {
       console.log('Displaying Razorpay checkout for order:', orderDetail);
-      
+
       // Ensure orderDetail has an id
       if (!orderDetail || !orderDetail.id) {
         console.error('Invalid order detail:', orderDetail);
         throw new Error('Invalid order detail');
       }
-      
+
       // Load Razorpay script
       const isScriptLoaded = await loadRazorpayScript();
       if (!isScriptLoaded) {
         throw new Error('Failed to load Razorpay script');
       }
-      
+
       // Get Razorpay key from environment variables with fallback
       const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_X9YfY2bGPwua8A";
       console.log('Using Razorpay key:', razorpayKey);
-      
+
       // In a real implementation, you would get the Razorpay order ID from your backend
       // For now, we'll use a placeholder that will be replaced by the actual order ID from Razorpay
       // after payment is complete
       const razorpayOrderId = `order_${Date.now()}_${orderDetail.id}`;
-      
+
       // IMPORTANT: In a production environment, you would need to create a Razorpay order
       // through their API before displaying the checkout. This would typically be done
       // through a backend API call. The code below is for demonstration purposes only.
-      
+
       // Check if we're using a test environment without a valid Razorpay order ID
       const isTestMode = razorpayKey.includes('test') && !razorpayOrderId.startsWith('order_rzp');
       console.log('Is test mode:', isTestMode);
-      
+
       // Update the order with the temporary Razorpay order ID (skip in test mode)
       if (!isTestMode) {
         try {
           // Check if we have a documentId to use for the update
           const updateId = orderDetail.documentId || orderDetail.id;
           console.log(`Updating order detail with ID: ${updateId} and Razorpay order ID: ${razorpayOrderId}`);
-          
+
           const updateResponse = await apiClient.put(`/order-details/${updateId}`, {
             data: { razorpayOrderId }
           });
@@ -262,7 +263,7 @@ const Cart = () => {
       } else {
         console.log('Skipping order update in test mode');
       }
-      
+
       // Display Razorpay checkout
       const options = {
         key: razorpayKey,
@@ -310,11 +311,11 @@ const Cart = () => {
           }
         }
       };
-      
+
       try {
         const paymentObject = new window.Razorpay(options);
         console.log('Razorpay object created successfully:', paymentObject);
-        
+
         paymentObject.on('payment.failed', function (response) {
           console.log('Razorpay payment failed:', response);
           handlePaymentError({
@@ -327,14 +328,14 @@ const Cart = () => {
             metadata: response.error.metadata,
           });
         });
-        
+
         paymentObject.open();
         setIsLoading(false);
       } catch (error) {
         console.error('Error opening Razorpay:', error);
         throw new Error(`Failed to open Razorpay: ${error.message}`);
       }
-      
+
     } catch (error) {
       console.error('Error displaying Razorpay checkout:', error);
       setError(`Failed to display payment: ${error.message || 'Unknown error'}`);
@@ -346,7 +347,7 @@ const Cart = () => {
     try {
       setIsLoading(true);
       console.log('Payment successful:', response);
-      
+
       // Update order with Razorpay payment details
       const updatePayload = {
         razorpayOrderId: response.razorpayOrderId,
@@ -354,12 +355,12 @@ const Cart = () => {
         razorpaySignature: response.razorpaySignature,
         level: "paid"
       };
-      
+
       try {
         // Get the order detail to find the documentId
         const orderDetail = orderData || await checkoutService.getOrderById(response.orderId);
         const updateId = orderDetail.documentId || response.orderId;
-        
+
         console.log(`Updating order detail with ID: ${updateId} and payment info:`, updatePayload);
         const updateResponse = await apiClient.put(`/order-details/${updateId}`, {
           data: updatePayload
@@ -369,7 +370,7 @@ const Cart = () => {
         console.error('Error updating order with payment details:', updateError);
         // Continue with payment processing even if update fails
       }
-      
+
       // Create payment detail record
       const paymentDetailData = {
         orderId: response.orderId,
@@ -378,30 +379,30 @@ const Cart = () => {
         razorpayPaymentId: response.razorpayPaymentId,
         razorpaySignature: response.razorpaySignature
       };
-      
+
       const paymentDetailResponse = await checkoutService.createPaymentDetail(paymentDetailData);
       console.log('Payment detail created:', paymentDetailResponse);
-      
+
       // Fetch the complete order details
       try {
         const updatedOrderResponse = await checkoutService.getOrderById(response.orderId);
         console.log('Updated order details:', updatedOrderResponse);
-        
+
         const updatedOrder = updatedOrderResponse.data ? updatedOrderResponse.data : updatedOrderResponse;
         setOrderData(updatedOrder);
       } catch (fetchError) {
         console.error('Error fetching updated order details:', fetchError);
         // Use the existing order data if fetch fails
       }
-      
+
       // Update state
       setPaymentDetails(response);
       setIsLoading(false);
       setCurrentStep(CHECKOUT_STEPS.CONFIRMATION);
-      
+
       // Clear the cart
       clearCart();
-      
+
     } catch (error) {
       console.error('Error processing payment:', error);
       setError(`Payment verification failed: ${error.message || 'Unknown error'}. Please contact support with your payment ID.`);
@@ -411,36 +412,8 @@ const Cart = () => {
 
   const handlePaymentError = async (errorData) => {
     console.error('Payment failed:', errorData);
-    
-    try {
-      // Update order with error details
-      const updatePayload = {
-        level: "failed",
-        errorDetails: JSON.stringify(errorData)
-      };
-      
-      try {
-        // Get the order detail to find the documentId
-        const orderDetail = orderData || await checkoutService.getOrderById(errorData.orderId);
-        const updateId = orderDetail.documentId || errorData.orderId;
-        
-        console.log(`Updating order detail with ID: ${updateId} for payment failure:`, updatePayload);
-        const updateResponse = await apiClient.put(`/order-details/${updateId}`, {
-          data: updatePayload
-        });
-        console.log('Order update response for failed payment:', updateResponse);
-      } catch (updateError) {
-        console.error('Error updating order with failure details:', updateError);
-        // Continue even if update fails
-      }
-      
-    } catch (error) {
-      console.error('Error handling payment failure:', error);
-    }
-    
-    setError(`Payment failed: ${errorData.description || errorData.reason || 'Unknown error'}. Please try again or contact support.`);
-    setIsLoading(false);
-    setCurrentStep(CHECKOUT_STEPS.CART);
+    setError(errorData.description || 'Payment failed');
+    navigate('/payment-failed', { state: { errorData } });
   };
 
   const handleCheckout = () => {
@@ -450,7 +423,7 @@ const Cart = () => {
       window.location.href = '/login?redirect=cart';
       return;
     }
-    
+
     setCurrentStep(CHECKOUT_STEPS.SHIPPING);
   };
 
@@ -459,7 +432,7 @@ const Cart = () => {
     switch (currentStep) {
       case CHECKOUT_STEPS.CART:
         return renderCartItems();
-      
+
       case CHECKOUT_STEPS.SHIPPING:
         return (
           <div className="max-w-3xl mx-auto px-4 sm:px-6">
@@ -469,7 +442,7 @@ const Cart = () => {
             </div>
           </div>
         );
-      
+
       case CHECKOUT_STEPS.PAYMENT:
         return (
           <div className="max-w-3xl mx-auto px-4 sm:px-6">
@@ -483,7 +456,7 @@ const Cart = () => {
             />
           </div>
         );
-      
+
       case CHECKOUT_STEPS.CONFIRMATION:
         return (
           <div className="max-w-3xl mx-auto px-4 sm:px-6">
@@ -493,7 +466,7 @@ const Cart = () => {
             />
           </div>
         );
-      
+
       default:
         return renderCartItems();
     }
@@ -521,7 +494,7 @@ const Cart = () => {
           {/* Cart Items */}
           <div className="lg:col-span-2">
             <h2 className="text-xl sm:text-2xl font-semibold mb-6">Your Cart ({items.length} items)</h2>
-            
+
             <div className="space-y-4 sm:space-y-6">
               {items.map((item) => (
                 <div key={`${item.id}-${item.size}`} className="bg-gray-900 rounded-lg p-4 sm:p-6 flex">
@@ -532,7 +505,7 @@ const Cart = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  
+
                   <div className="ml-4 sm:ml-6 flex-grow">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
                       <div>
@@ -543,7 +516,7 @@ const Cart = () => {
                       </div>
                       <span className="font-medium text-base sm:text-lg">{formatPrice(item.price * item.quantity)}</span>
                     </div>
-                    
+
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-4">
                       <div className="flex items-center mb-4 sm:mb-0">
                         <button 
@@ -552,9 +525,9 @@ const Cart = () => {
                         >
                           <FontAwesomeIcon icon={faMinus} className="text-sm sm:text-base" />
                         </button>
-                        
+
                         <span className="mx-4 sm:mx-6 text-base sm:text-lg">{item.quantity}</span>
-                        
+
                         <button 
                           onClick={() => handleQuantityChange(item.id, item.size, item.quantity + 1, item.stock)}
                           className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
@@ -562,7 +535,7 @@ const Cart = () => {
                           <FontAwesomeIcon icon={faPlus} className="text-sm sm:text-base" />
                         </button>
                       </div>
-                      
+
                       <button 
                         onClick={() => removeItem(item.id, item.size)}
                         className="text-red-500 text-sm sm:text-base hover:text-red-400 transition-colors flex items-center"
@@ -581,26 +554,26 @@ const Cart = () => {
           <div className="mt-8 lg:mt-0">
             <div className="bg-gray-900 rounded-lg p-6">
               <h3 className="text-lg sm:text-xl font-semibold mb-6">Order Summary</h3>
-              
+
               <div className="space-y-4">
                 <div className="flex justify-between text-base sm:text-lg">
                   <span className="text-gray-400">Subtotal</span>
                   <span>{formatPrice(getTotalPrice())}</span>
                 </div>
-                
+
                 <div className="flex justify-between text-base sm:text-lg">
                   <span className="text-gray-400">Shipping</span>
                   <span>{formatPrice(50)}</span>
                 </div>
-                
+
                 <div className="border-t border-gray-800 my-4"></div>
-                
+
                 <div className="flex justify-between text-lg sm:text-xl font-semibold">
                   <span>Total</span>
                   <span>{formatPrice(getTotalPrice() + 50)}</span>
                 </div>
               </div>
-              
+
               <button 
                 onClick={handleCheckout}
                 className="w-full bg-primary text-black py-4 rounded-lg font-medium text-base sm:text-lg mt-6 hover:bg-opacity-90 transition-colors"
@@ -638,7 +611,7 @@ const Cart = () => {
           </div>
         </div>
       )}
-      
+
       {error && (
         <div className="max-w-3xl mx-auto px-4 sm:px-6 mb-6">
           <div className="bg-red-900 text-white p-4 sm:p-6 rounded-lg">
@@ -652,10 +625,10 @@ const Cart = () => {
           </div>
         </div>
       )}
-      
+
       {renderCheckoutStep()}
     </div>
   );
 };
 
-export default Cart; 
+export default Cart;

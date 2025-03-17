@@ -5,7 +5,9 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
-import Cart from './pages/Cart';
+import Cart from './pages/Cart'
+import OrderSuccess from './pages/OrderSuccess'
+import PaymentFailed from './pages/PaymentFailed';
 import Wishlist from './pages/Wishlist';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -85,6 +87,8 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/product/:id" element={<ProductDetails />} />
                     <Route path="/cart" element={<Cart />} />
+<Route path="/order-success" element={<OrderSuccess />} />
+<Route path="/payment-failed" element={<PaymentFailed />} />
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
