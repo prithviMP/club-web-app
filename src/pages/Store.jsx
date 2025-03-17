@@ -225,11 +225,11 @@ const Store = () => {
           </div>
         )}
 
-        {/* Mobile Filter Button */}
-        <div className="lg:hidden mb-4">
+        {/* Mobile Filter Floating Button */}
+        <div className="lg:hidden fixed bottom-6 right-6 z-40">
           <button
             onClick={() => setShowMobileFilters(true)}
-            className="flex items-center space-x-2 bg-gray-900 px-4 py-2 rounded-lg"
+            className="flex items-center space-x-2 bg-primary text-black px-4 py-2 rounded-full shadow-lg hover:bg-primary/90 transition-colors"
           >
             <FilterIcon className="h-5 w-5" />
             <span>Filters</span>
