@@ -67,9 +67,13 @@ const Cart = () => {
   }, []);
 
   const handleQuantityChange = (id, size, newQuantity, stockAvailable) => {
+    // Parse inputs to ensure numbers
+    const currentQty = parseInt(newQuantity, 10) || 1;
+    const maxStock = parseInt(stockAvailable, 10) || 1;
+    
     // Ensure quantity is within valid range
-    newQuantity = Math.max(1, Math.min(newQuantity, stockAvailable));
-    updateQuantity(id, size, newQuantity);
+    const validQuantity = Math.max(1, Math.min(currentQty, maxStock));
+    updateQuantity(id, size, validQuantity);
   };
 
   const handleShippingSubmit = (formData) => {
