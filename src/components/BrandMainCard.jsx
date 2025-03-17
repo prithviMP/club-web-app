@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MEDIA_URL } from '../utils/api/config';
 
 const BrandMainCard = ({ brand }) => {
+  console.log(brand);
   const getBrandImage = (image, format = 'thumbnail') => {
     console.log('Brand Image input:', image);
     

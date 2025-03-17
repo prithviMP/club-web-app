@@ -60,7 +60,7 @@ const apiRequest = async (endpoint, options = {}) => {
 };
 
 export const fetchBrands = async () => {
-  return apiRequest('/brands');
+  return apiRequest('/brands?pupulate=*');
 };
 
 export const fetchCollaborations = async () => {
