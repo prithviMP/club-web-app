@@ -5,10 +5,15 @@ import { getImageSource, formatPrice } from '../../utils/imageUtils';
 import useCartStore from '../../store/cartStore';
 
 const ProductCard = ({ product }) => {
-  const { addItem } = useCartStore();
+  const { addItem, items } = useCartStore();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useContext(WishlistContext);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
+  const [cartQuantity, setCartQuantity] = useState(0);
+
+  // Get current quantity in cart for this product
+  const currentCartQuantity = items.find(item => item.id === product.id)?.quantity || 0;
+  const maxStock = product.stock || 10;
   
   // Check if product is in wishlist
   const productInWishlist = isInWishlist(product.id);
@@ -24,6 +29,14 @@ const ProductCard = ({ product }) => {
       return;
     }
 
+    // Check if adding would exceed stock
+    if (currentCartQuantity + 1 > maxStock) {
+      setPopupMessage('Maximum stock reached');
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 2000);
+      return;
+    }
+
     // Get the first available size
     const availableSize = product.sizes?.find(size => size.number_of_items > 0);
     
@@ -33,6 +46,8 @@ const ProductCard = ({ product }) => {
       setTimeout(() => setShowPopup(false), 2000);
       return;
     }
+
+    setCartQuantity(prev => prev + 1);
 
     const item = {
       id: product.id,
@@ -140,7 +155,12 @@ const ProductCard = ({ product }) => {
                 : 'bg-gray-600 text-gray-300 cursor-not-allowed'
             }`}
           >
-            {product.in_stock ? 'Add to Cart' : 'Out of Stock'}
+            {product.in_stock ? (
+              <div className="flex items-center justify-center gap-1">
+                Add to Cart 
+                {cartQuantity > 0 && <span className="ml-1">+{cartQuantity}</span>}
+              </div>
+            ) : 'Out of Stock'}
           </button>
         </div>
       </div>
