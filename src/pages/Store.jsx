@@ -126,7 +126,7 @@ const Store = () => {
         <input
           type="text"
           placeholder="Search brands..."
-          className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:border-primary mb-2"
+          className="w-full px-3 py-1.5 text-sm rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:border-primary mb-2"
           value={brandSearch}
           onChange={(e) => setBrandSearch(e.target.value)}
         />
@@ -190,9 +190,9 @@ const Store = () => {
       {showMobileFilters && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setShowMobileFilters(false)} />
-          <div className="absolute bottom-0 left-0 right-0 max-h-[80vh] bg-gray-900 rounded-t-2xl p-4 overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold">Filters</h2>
+          <div className="absolute bottom-0 left-0 right-0 max-h-[40vh] bg-gray-900 rounded-t-2xl p-3 overflow-y-auto">
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-lg font-semibold">Filters</h2>
               <button onClick={() => setShowMobileFilters(false)}>
                 <XMarkIcon className="h-6 w-6" />
               </button>
