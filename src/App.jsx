@@ -23,7 +23,9 @@ import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { ProductProvider } from './context/ProductContext';
 import { AuthProvider } from './context/AuthContext';
-import Store from './pages/Store'; // Import the new Store component
+import Store from './pages/Store';
+import About from './pages/About';
+import Contact from './pages/Contact';
 
 
 function App() {
@@ -76,7 +78,9 @@ function App() {
                 <main className="flex-grow">
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/store" element={<Store />} /> {/* Added Store route */}
+                    <Route path="/store" element={<Store />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
                     <Route path="/product/:id" element={<ProductDetails />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/wishlist" element={<Wishlist />} />
