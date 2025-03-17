@@ -224,33 +224,70 @@ const Store = () => {
         </div>
       </div>
 
-      {/* Mobile filter drawer */}
-      {showMobileFilters && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setShowMobileFilters(false)} />
-          <div className="absolute bottom-0 left-0 right-0 max-h-[40vh] bg-gray-900 rounded-t-2xl p-3 overflow-y-auto">
-            <div className="flex justify-between items-center mb-3">
-              <h2 className="text-lg font-semibold">Filters</h2>
-              <button onClick={() => setShowMobileFilters(false)}>
-                <XMarkIcon className="h-6 w-6" />
-              </button>
+      
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+        {/* Filters Row */}
+        <div className="bg-gray-900 p-4 rounded-lg mb-6">
+          <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex-1 min-w-[200px]">
+              <input
+                type="text"
+                placeholder="Search products..."
+                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-primary"
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  const filtered = products.filter(product => 
+                    product.name.toLowerCase().includes(e.target.value.toLowerCase())
+                  );
+                  setFilteredProducts(filtered);
+                }}
+              />
             </div>
-            <FiltersContent />
+            <div className="flex gap-2 flex-wrap">
+              {brands.slice(0, 5).map(brand => (
+                <button
+                  key={brand.id}
+                  onClick={() => handleBrandChange(brand)}
+                  className={`px-3 py-1 rounded-full text-sm ${
+                    filters.brands.some(b => b.id === brand.id)
+                      ? 'bg-primary text-black'
+                      : 'bg-gray-800 text-white'
+                  }`}
+                >
+                  {brand.brand_name}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              {ratings.slice(0, 3).map(rating => (
+                <button
+                  key={rating.value}
+                  onClick={() => handleRatingChange(rating)}
+                  className={`px-3 py-1 rounded-full text-sm ${
+                    filters.ratings.some(r => r.value === rating.value)
+                      ? 'bg-primary text-black'
+                      : 'bg-gray-800 text-white'
+                  }`}
+                >
+                  {rating.label}
+                </button>
+              ))}
+            </div>
+            {(filters.brands.length > 0 || filters.ratings.length > 0) && (
+              <button
+                onClick={clearAllFilters}
+                className="px-3 py-1 rounded-full text-sm bg-red-600 text-white hover:bg-red-700"
+              >
+                Clear All
+              </button>
+            )}
           </div>
         </div>
-      )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-20 mt-16 lg:mt-0">
-        <div className="flex gap-8">
-          {/* Desktop sidebar */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-24">
-              <FiltersContent />
-            </div>
-          </div>
-
-          {/* Main content */}
-          <div className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+        {/* Main content */}
+        <div className="flex-1">
             {/* Brands List */}
             <div className="mb-8">
               <h2 className="text-lg font-semibold mb-4">Popular Brands</h2>
