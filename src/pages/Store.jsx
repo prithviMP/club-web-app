@@ -121,7 +121,14 @@ const Store = () => {
           placeholder="Search products..."
           className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white border border-gray-700 focus:outline-none focus:border-primary"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSearchTerm(value);
+            const filtered = products.filter(product => 
+              product.name.toLowerCase().includes(value.toLowerCase())
+            );
+            setFilteredProducts(filtered);
+          }}
         />
       </FilterSection>
 
