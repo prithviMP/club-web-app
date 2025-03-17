@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { brandService, productService } from '../services';
 import ProductCard from '../components/product/ProductCard';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, StarIcon, FunnelIcon as FilterIcon } from '@heroicons/react/24/outline';
 
 const Store = () => {
   const [searchTerm, setSearchTerm] = useState('');
