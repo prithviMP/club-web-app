@@ -323,7 +323,7 @@ const Home = () => {
         <section className="mb-8 sm:mb-12">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold">New Arrivals</h3>
-            <Link to="/view-all?category=new" className="text-primary text-sm sm:text-base hover:underline">
+            <Link to="/store?category=new" className="text-primary text-sm sm:text-base hover:underline">
               View All
             </Link>
           </div>
@@ -344,7 +344,7 @@ const Home = () => {
         <section className="mb-8 sm:mb-12">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold">Popular Products</h3>
-            <Link to="/view-all?category=popular" className="text-primary text-sm sm:text-base hover:underline">
+            <Link to="/store?category=popular" className="text-primary text-sm sm:text-base hover:underline">
               View All
             </Link>
           </div>

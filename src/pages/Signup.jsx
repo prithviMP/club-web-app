@@ -28,8 +28,15 @@ const Signup = () => {
       return;
     }
 
-    if (!email.trim()) {
+    if (!email) {
       setFormError('Email is required');
+      return;
+    }
+
+    // Convert email to lowercase before validation
+    const normalizedEmail = email.toLowerCase();
+    if (normalizedEmail !== email) {
+      setFormError('Email must be in lowercase');
       return;
     }
 

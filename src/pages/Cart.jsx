@@ -46,10 +46,41 @@ const Cart = () => {
   const [shippingInfo, setShippingInfo] = useState(null);
   const [paymentDetails, setPaymentDetails] = useState(null);
   const [orderData, setOrderData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadCartData = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        // Add any necessary cart data loading logic here
+        setIsLoading(false);
+      } catch (err) {
+        setError('Failed to load cart items');
+        setIsLoading(false);
+      }
+    };
+    loadCartData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading cart...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
 
   // Initialize Razorpay script
   useEffect(() => {
