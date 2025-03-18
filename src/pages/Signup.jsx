@@ -10,64 +10,60 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [formError, setFormError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({}); // Added errors state
 
   const { signup, error } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({}); // Clear errors on submit
 
-    // Form validation
+    // Username validation
     if (!username.trim()) {
-      setFormError('Username is required');
+      setErrors({...errors, username: 'Username is required'});
+      return;
+    }
+    if (!/^[a-zA-Z][a-zA-Z0-9]{2,29}$/.test(username)) { // Enhanced username regex
+      setErrors({...errors, username: 'Username must start with a letter and contain only letters and numbers (3-30 characters)'});
       return;
     }
 
-    if (!/^[a-z0-9_-]+$/.test(username)) {
-      setFormError('Username can only contain lowercase letters, numbers, underscores and hyphens');
-      return;
-    }
 
     if (!email) {
-      setFormError('Email is required');
+      setErrors({...errors, email: 'Email is required'});
       return;
     }
 
-    // Convert email to lowercase before validation
     const normalizedEmail = email.toLowerCase();
     if (normalizedEmail !== email) {
-      setFormError('Email must be in lowercase');
+      setErrors({...errors, email: 'Email must be in lowercase'});
       return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setFormError('Please enter a valid email address');
+      setErrors({...errors, email: 'Please enter a valid email address'});
       return;
     }
 
     if (!password) {
-      setFormError('Password is required');
+      setErrors({...errors, password: 'Password is required'});
       return;
     }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
-      setFormError('Password must be at least 8 characters long and include uppercase, lowercase, number and special character');
+      setErrors({...errors, password: 'Password must be at least 8 characters long and include uppercase, lowercase, number and special character'});
       return;
     }
 
     if (!confirmPassword) {
-      setFormError('Please confirm your password');
+      setErrors({...errors, confirmPassword: 'Please confirm your password'});
       return;
     }
 
     if (password !== confirmPassword) {
-      setFormError('Passwords do not match');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setFormError('Passwords do not match');
+      setErrors({...errors, confirmPassword: 'Passwords do not match'});
       return;
     }
 
@@ -75,10 +71,7 @@ const Signup = () => {
       setIsSubmitting(true);
       setFormError('');
 
-      // Call signup function from context
       await signup(username, email, password);
-
-      // Redirect after successful signup
       navigate('/');
     } catch (err) {
       console.error('Signup error:', err);
@@ -105,7 +98,7 @@ const Signup = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
+            <div className="relative"> {/* Added relative div for error message */}
               <label htmlFor="username" className="block text-sm font-medium text-gray-300 mb-1">
                 Username
               </label>
@@ -113,12 +106,18 @@ const Signup = () => {
                 id="username"
                 type="text"
                 value={username}
-                onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ''))}
-                className="bg-gray-800 text-white rounded-md w-full p-2.5 border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary"
+                onChange={(e) => {
+                  setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ''));
+                  if (!/^[a-zA-Z][a-zA-Z0-9]{2,29}$/.test(e.target.value)) { //Enhanced username validation
+                    setErrors({...errors, username: 'Username must start with a letter and contain only letters and numbers (3-30 characters)'});
+                  } else {
+                    setErrors({...errors, username: undefined});
+                  }
+                }}
+                className={`bg-gray-800 text-white rounded-md w-full p-2.5 border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary ${errors.username ? 'border-red-500' : ''}`}
                 placeholder="johndoe"
-                pattern="[a-z0-9_-]+"
-                title="Username can only contain lowercase letters, numbers, underscores and hyphens"
               />
+              {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username}</p>}
             </div>
 
             <div>
@@ -129,8 +128,15 @@ const Signup = () => {
                 id="email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value.toLowerCase())}
-                className="bg-gray-800 text-white rounded-md w-full p-2.5 border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary"
+                onChange={(e) => {
+                  setEmail(e.target.value.toLowerCase());
+                  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value)) {
+                    setErrors({...errors, email: 'Please enter a valid email address'});
+                  } else {
+                    setErrors({...errors, email: undefined});
+                  }
+                }}
+                className={`bg-gray-800 text-white rounded-md w-full p-2.5 border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary ${errors.email ? 'border-red-500' : ''}`}
                 placeholder="your@email.com"
               />
             </div>
@@ -144,8 +150,15 @@ const Signup = () => {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-gray-800 text-white rounded-md w-full p-2.5 border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary pr-10"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (!passwordRegex.test(e.target.value)) {
+                      setErrors({...errors, password: 'Password must be at least 8 characters long and include uppercase, lowercase, number and special character'});
+                    } else {
+                      setErrors({...errors, password: undefined});
+                    }
+                  }}
+                  className={`bg-gray-800 text-white rounded-md w-full p-2.5 border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary pr-10 ${errors.password ? 'border-red-500' : ''}`}
                   placeholder="••••••••"
                 />
                 <button
@@ -164,10 +177,11 @@ const Signup = () => {
                     </svg>
                   )}
                 </button>
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
               </div>
             </div>
 
-            <div className="relative">
+            <div className="relative"> {/* Added relative div for error message */}
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-1">
                 Confirm Password
               </label>
@@ -175,10 +189,18 @@ const Signup = () => {
                 id="confirmPassword"
                 type={showPassword ? "text" : "password"}
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="bg-gray-800 text-white rounded-md w-full p-2.5 border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary"
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  if (password !== e.target.value) {
+                    setErrors({...errors, confirmPassword: 'Passwords do not match'});
+                  } else {
+                    setErrors({...errors, confirmPassword: undefined});
+                  }
+                }}
+                className={`bg-gray-800 text-white rounded-md w-full p-2.5 border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary ${errors.confirmPassword ? 'border-red-500' : ''}`}
                 placeholder="••••••••"
               />
+              {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
             </div>
 
             <button
