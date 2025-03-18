@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone, faLocationDot } from '@fortawesome/free-solid-svg-icons';
@@ -9,10 +8,32 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const [error, setError] = useState('');
+
+  const validateName = (name) => {
+    return /^[a-zA-Z\s]{2,30}$/.test(name);
+  };
+
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
+
+    if (!validateName(formData.name)) {
+      setError('Name should only contain letters and spaces (2-30 characters)');
+      return;
+    }
+
+    if (!validateEmail(formData.email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    // Submit form
+    setError('');
+    // Add your form submission logic here
     console.log('Form submitted:', formData);
   };
 
@@ -72,6 +93,7 @@ const Contact = () => {
                   required
                 ></textarea>
               </div>
+              {error && <p className="text-red-500 text-sm">{error}</p>}
               <button
                 type="submit"
                 className="w-full bg-primary text-black py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
@@ -82,27 +104,27 @@ const Contact = () => {
           </div>
 
           <div className="space-y-8">
-            <div className="flex items-start gap-4">
-              <FontAwesomeIcon icon={faLocationDot} className="text-primary text-xl mt-1" />
-              <div>
-                <h3 className="font-medium mb-2">Our Location</h3>
-                <p className="text-gray-400">123 Fashion Street, Design District, Bangalore, 560001</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
+            <a href="mailto:support@clubunplugged.com" className="flex items-start gap-4 hover:text-primary">
               <FontAwesomeIcon icon={faEnvelope} className="text-primary text-xl mt-1" />
               <div>
                 <h3 className="font-medium mb-2">Email Us</h3>
                 <p className="text-gray-400">support@clubunplugged.com</p>
               </div>
-            </div>
-            <div className="flex items-start gap-4">
+            </a>
+            <a href="tel:+919611717711" className="flex items-start gap-4 hover:text-primary">
               <FontAwesomeIcon icon={faPhone} className="text-primary text-xl mt-1" />
               <div>
                 <h3 className="font-medium mb-2">Call Us</h3>
                 <p className="text-gray-400">+91 96117 17711</p>
               </div>
-            </div>
+            </a>
+            <a href="https://maps.google.com/?q=123+Fashion+Street,+Design+District,+Bangalore,+560001" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 hover:text-primary">
+              <FontAwesomeIcon icon={faLocationDot} className="text-primary text-xl mt-1" />
+              <div>
+                <h3 className="font-medium mb-2">Our Location</h3>
+                <p className="text-gray-400">123 Fashion Street, Design District, Bangalore, 560001</p>
+              </div>
+            </a>
           </div>
         </div>
       </div>

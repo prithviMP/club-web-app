@@ -204,6 +204,8 @@ const Store = () => {
     </div>
   );
 
+  const currentItems = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
@@ -283,7 +285,9 @@ const Store = () => {
               <h1 className="text-2xl font-bold">All Products</h1>
               <p className="text-gray-400">{filteredProducts.length} products found</p>
             </div>
-
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white">Products</h2>
+            </div>
             {loading ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
                 {[...Array(6)].map((_, i) => (
@@ -292,7 +296,7 @@ const Store = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((product) => (
+                {currentItems.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
