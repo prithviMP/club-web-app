@@ -7,12 +7,12 @@ const BrandCard = ({ brand }) => {
         <div className="aspect-square w-full flex items-center justify-center mb-4">
           {logoUrl ? (
             <img 
-              src={logoUrl} 
+              src={logoUrl || '/images/brand-placeholder.jpg'} 
               alt={brand.brand_name} 
               className="w-full h-full object-contain"
               onError={(e) => {
+                e.target.src = '/images/brand-placeholder.jpg';
                 e.target.onerror = null;
-                e.target.src = `https://via.placeholder.com/200x200/6C63FF/FFFFFF?text=${encodeURIComponent(brand.brand_name)}`;
               }}
             />
           ) : (

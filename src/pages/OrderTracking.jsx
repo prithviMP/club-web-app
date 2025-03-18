@@ -188,13 +188,13 @@ const OrderTracking = () => {
             </div>
           </div>
 
-          {/* Status Steps */}
-          <div className="flex justify-between items-center mt-8"> {/* Improved spacing */}
+          {/* Status Steps -  Improved Alignment */}
+          <div className="flex justify-between items-center w-full max-w-3xl mx-auto mt-8">
             {Object.entries(ORDER_STATUSES)
               .filter(([key]) => !['cancelled', 'failed'].includes(key))
               .sort((a, b) => a[1].step - b[1].step)
-              .map(([key, { step, label }]) => (
-                <div key={key} className="flex flex-col items-center">
+              .map(([key, { step, label }], index) => (
+                <div key={key} className="flex flex-col items-center text-center">
                   <div 
                     className={`w-8 h-8 rounded-full flex items-center justify-center ${
                       currentStep >= step 
@@ -209,9 +209,16 @@ const OrderTracking = () => {
                   }`}>
                     {label}
                   </span>
+                  {index < Object.keys(ORDER_STATUSES).length - 2 && (
+                    <div className={`h-0.5 w-24 mt-4 ${
+                      currentStep > step ? 'bg-primary' : 'bg-gray-600'
+                    }`} />
+                  )}
                 </div>
               ))}
           </div>
+
+
           {/* Order Details */}
           <div className="border-t border-gray-800 pt-6 mt-6">
             <h3 className="text-xl font-semibold mb-4">Order Details</h3>
