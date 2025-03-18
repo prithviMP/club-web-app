@@ -9,13 +9,25 @@ const useCartStore = create(
       
       // Add item to cart
       addItem: (item) => {
+        if (!item || !item.id) {
+          console.error('Invalid item being added to cart:', item);
+          return;
+        }
+
+        console.log('Adding item to cart:', {
+          itemId: item.id,
+          itemName: item.name,
+          itemSize: item.size,
+          itemPrice: item.price
+        });
+
         set((state) => {
           // Check if item already exists in cart
           const existingItemIndex = state.items.findIndex(
-            (cartItem) => cartItem.id === item.id && 
-            (typeof cartItem.size === 'object' && typeof item.size === 'object' 
-              ? cartItem.size.id === item.size.id 
-              : cartItem.size === item.size)
+            (cartItem) => cartItem?.id === item.id && 
+            (typeof cartItem?.size === 'object' && typeof item?.size === 'object' 
+              ? cartItem?.size?.id === item?.size?.id 
+              : cartItem?.size === item?.size)
           );
 
           if (existingItemIndex !== -1) {

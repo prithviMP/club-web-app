@@ -22,7 +22,15 @@ const ProductCard = ({ product }) => {
   const imageUrl = getImageSource(product.product_image[0], 'list');
 
   const handleAddToCart = () => {
-    if (!product.in_stock) {
+    console.log('Product being added to cart:', {
+      product,
+      inStock: product?.in_stock,
+      currentQuantity: currentCartQuantity,
+      maxStock,
+      sizes: product?.sizes
+    });
+
+    if (!product?.in_stock) {
       setPopupMessage('Product is out of stock');
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 2000);
