@@ -34,15 +34,15 @@ const PrevArrow = ({ onClick }) => (
 
 const getImageUrl = (image, format = 'thumbnail') => {
   if (!image) return '/placeholder-image.jpg';
-  
+
   // If the image is already a full URL, return it
   if (image.url?.startsWith('http')) return image.url;
-  
+
   // If we have formats and the requested format exists, use it
   if (image.formats && image.formats[format]) {
     return `${MEDIA_URL}${image.formats[format].url}`;
   }
-  
+
   // Fallback to the original image URL
   return `${MEDIA_URL}${image.url}`;
 };
@@ -52,6 +52,7 @@ const Home = () => {
   const [brandCollabs, setBrandCollabs] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
+  const [retryCount, setRetryCount] = useState(0);
   const [loading, setLoading] = useState({
     brands: true,
     collabs: true,
@@ -92,8 +93,13 @@ const Home = () => {
         setLoading(prev => ({ ...prev, brands: false }));
       } catch (err) {
         console.error('Error fetching brands:', err); // Debug log
-        setError(prev => ({ ...prev, brands: err.message }));
-        setLoading(prev => ({ ...prev, brands: false }));
+        if (retryCount < 3) {
+          setRetryCount(retryCount + 1);
+          setTimeout(fetchData, 2000); // Retry after 2 seconds
+        } else {
+          setError(prev => ({ ...prev, brands: err.message }));
+          setLoading(prev => ({ ...prev, brands: false }));
+        }
       }
 
       try {
@@ -104,8 +110,13 @@ const Home = () => {
         setLoading(prev => ({ ...prev, collabs: false }));
       } catch (err) {
         console.error('Error fetching collabs:', err); // Debug log
-        setError(prev => ({ ...prev, collabs: err.message }));
-        setLoading(prev => ({ ...prev, collabs: false }));
+        if (retryCount < 3) {
+          setRetryCount(retryCount + 1);
+          setTimeout(fetchData, 2000); // Retry after 2 seconds
+        } else {
+          setError(prev => ({ ...prev, collabs: err.message }));
+          setLoading(prev => ({ ...prev, collabs: false }));
+        }
       }
 
       try {
@@ -127,11 +138,16 @@ const Home = () => {
 
       } catch (err) {
         console.error('Error fetching products:', err);
-        setError(prev => ({
-          ...prev,
-          newArrivals: 'Failed to load new arrivals',
-          popular: 'Failed to load popular products'
-        }));
+        if (retryCount < 3) {
+          setRetryCount(retryCount + 1);
+          setTimeout(fetchData, 2000); // Retry after 2 seconds
+        } else {
+          setError(prev => ({
+            ...prev,
+            newArrivals: 'Failed to load new arrivals',
+            popular: 'Failed to load popular products'
+          }));
+        }
       }
     };
 
@@ -207,7 +223,11 @@ const Home = () => {
         {/* Explore Brands */}
         <section className="mb-8 sm:mb-12">
           <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6">Explore Brands</h3>
-          {renderLoadingOrError('brands', (
+          {error.brands ? (
+            <div className="bg-red-900/50 text-red-200 p-4 rounded-md mb-6">
+              Unable to connect to server. Please check your connection and try again.
+            </div>
+          ) : renderLoadingOrError('brands', (
             <div className="grid grid-cols-6 sm:flex sm:justify-between items-center gap-2 sm:gap-4">
               {brands.slice(0, 6).map((brand) => (
                 <Link 
@@ -244,7 +264,11 @@ const Home = () => {
         {/* Brand Collaborations */}
         <section className="mb-8 sm:mb-12">
           <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6">Brand Collaborations</h3>
-          {renderLoadingOrError('collabs', (
+          {error.collabs ? (
+            <div className="bg-red-900/50 text-red-200 p-4 rounded-md mb-6">
+              Unable to connect to server. Please check your connection and try again.
+            </div>
+          ) : renderLoadingOrError('collabs', (
             <div className="relative">
               <Slider {...{
                 ...sliderSettings,
@@ -303,7 +327,11 @@ const Home = () => {
               View All
             </Link>
           </div>
-          {renderLoadingOrError('newArrivals', (
+          {error.newArrivals ? (
+            <div className="bg-red-900/50 text-red-200 p-4 rounded-md mb-6">
+              Unable to connect to server. Please check your connection and try again.
+            </div>
+          ) : renderLoadingOrError('newArrivals', (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {newArrivals.map((product) => (
                 <ProductCard key={product.id} product={product} />
@@ -320,7 +348,11 @@ const Home = () => {
               View All
             </Link>
           </div>
-          {renderLoadingOrError('popular', (
+          {error.popular ? (
+            <div className="bg-red-900/50 text-red-200 p-4 rounded-md mb-6">
+              Unable to connect to server. Please check your connection and try again.
+            </div>
+          ) : renderLoadingOrError('popular', (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {popularProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
@@ -339,4 +371,4 @@ const Home = () => {
   );
 };
 
-export default Home; 
+export default Home;
