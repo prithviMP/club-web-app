@@ -1,0 +1,39 @@
+error is not defined
+error is not defined
+The above error occurred in the <Contact> component:
+
+    at Contact (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/pages/Contact.jsx:23:35)
+    at RenderedRoute (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4089:5)
+    at Routes (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4559:5)
+    at main
+    at div
+    at WishlistProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/WishlistContext.jsx:20:36)
+    at CartProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/CartContext.jsx:20:32)
+    at ProductProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/ProductContext.jsx:21:35)
+    at AuthProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/AuthContext.jsx:23:32)
+    at Router (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4502:15)
+    at BrowserRouter (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:5248:5)
+    at App (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/App.jsx:51:37)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+at Contact (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/pages/Contact.jsx:23:35)
+at RenderedRoute (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4089:5)
+at Routes (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4559:5)
+at main
+at div
+at WishlistProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/WishlistContext.jsx:20:36)
+at CartProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/CartContext.jsx:20:32)
+at ProductProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/ProductContext.jsx:21:35)
+at AuthProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/AuthContext.jsx:23:32)
+at Router (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4502:15)
+at BrowserRouter (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:5248:5)
+at App (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/App.jsx:51:37)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+at t.value (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
