@@ -37,8 +37,9 @@ const Store = () => {
   const [loading, setLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedRatings, setSelectedRatings] = useState([]); // Added state for selected ratings
-  const itemsPerPage = 12; // Adjust this number as needed
+  const [selectedRatings, setSelectedRatings] = useState([]);
+  const [sortType, setSortType] = useState(''); // Added sort type state
+  const itemsPerPage = 12;
 
   useEffect(() => {
     const loadData = async () => {
@@ -63,32 +64,26 @@ const Store = () => {
   }, []);
 
   useEffect(() => {
-    // Apply filters whenever filters or search term changes
     let filtered = [...products];
 
-    // Apply search filter
     if (searchTerm) {
-      filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      const query = searchTerm.toLowerCase();
+      filtered = filtered.filter(product => {
+        const searchStr = `${product.name} ${product.description} ${product.brand?.brand_name || ''}`.toLowerCase();
+        return searchStr.includes(query);
+      });
     }
 
-    // Apply brand filters
     if (filters.brands.length > 0) {
-      filtered = filtered.filter(product =>
-        filters.brands.includes(product.brand?.id)
-      );
+      filtered = filtered.filter(product => filters.brands.includes(product.brand?.id));
     }
 
-    // Apply rating filters
-    if (selectedRatings.length > 0) { // Use selectedRatings instead of filters.ratings
-      filtered = filtered.filter(product =>
-        selectedRatings.includes(Math.floor(product.rating || 0))
-      );
+    if (selectedRatings.length > 0) {
+      filtered = filtered.filter(product => selectedRatings.includes(Math.floor(product.rating || 0)));
     }
 
     setFilteredProducts(filtered);
-  }, [products, filters, searchTerm, selectedRatings]); // Add selectedRatings to dependencies
+  }, [products, filters, searchTerm, selectedRatings]);
 
 
   const toggleBrandFilter = (brandId) => {
@@ -100,7 +95,7 @@ const Store = () => {
     }));
   };
 
-  const handleRatingChange = (rating) => { // Added function to handle rating changes
+  const handleRatingChange = (rating) => {
     setSelectedRatings([rating]);
   };
 
@@ -108,14 +103,36 @@ const Store = () => {
     setFilters({ brands: [], ratings: [] });
     setSearchTerm('');
     setBrandSearch('');
-    setSelectedRatings([]); // Clear selected ratings
+    setSelectedRatings([]);
+    setSortType(''); // Clear sort type
   };
 
   const clearAllFilters = () => {
-    setFilters({ brands: [], ratings: [] });
-    setSearchTerm('');
-    setBrandSearch('');
-    setSelectedRatings([]); // Clear selected ratings
+    clearFilters();
+  };
+
+  const handleSort = (type) => {
+    setSortType(type);
+    let sorted = [...filteredProducts];
+
+    switch (type) {
+      case 'price-low-high':
+        sorted.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+        break;
+      case 'price-high-low':
+        sorted.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+        break;
+      case 'newest':
+        sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        break;
+      case 'rating':
+        sorted.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+        break;
+      default:
+        break;
+    }
+
+    setFilteredProducts(sorted);
   };
 
   const FilterSidebar = ({ isMobile = false }) => (
@@ -132,7 +149,6 @@ const Store = () => {
         )}
       </div>
 
-      {/* Search */}
       <div className="mb-6">
         <input
           type="text"
@@ -143,7 +159,6 @@ const Store = () => {
         />
       </div>
 
-      {/* Brands Filter */}
       <div className="mb-6">
         <h4 className="text-sm font-medium mb-2">Brands</h4>
         <input
@@ -170,7 +185,6 @@ const Store = () => {
         </div>
       </div>
 
-      {/* Ratings Filter */}
       <div className="mb-6">
         <h4 className="text-sm font-medium mb-2">Rating</h4>
         <div className="space-y-2">
@@ -194,7 +208,6 @@ const Store = () => {
         </div>
       </div>
 
-      {/* Clear Filters */}
       <button
         onClick={clearFilters}
         className="w-full bg-primary text-black rounded-lg px-4 py-2 hover:bg-primary/90 transition-colors"
@@ -209,8 +222,7 @@ const Store = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
-        {/* Active Filters */}
-        {(filters.brands.length > 0 || selectedRatings.length > 0 || searchTerm) && ( // Use selectedRatings here
+        {(filters.brands.length > 0 || selectedRatings.length > 0 || searchTerm) && (
           <div className="flex flex-wrap gap-2 mb-4">
             {searchTerm && (
               <span className="bg-gray-800 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
@@ -231,10 +243,10 @@ const Store = () => {
                 </span>
               ) : null;
             })}
-            {selectedRatings.map(rating => ( // Use selectedRatings here
+            {selectedRatings.map(rating => (
               <span key={rating} className="bg-gray-800 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
                 {rating} Stars
-                <button onClick={() => setSelectedRatings([])} className="hover:text-primary"> {/* Clear single rating */}
+                <button onClick={() => setSelectedRatings([])} className="hover:text-primary">
                   <XMarkIcon className="h-4 w-4" />
                 </button>
               </span>
@@ -249,7 +261,6 @@ const Store = () => {
           </div>
         )}
 
-        {/* Mobile Filter Floating Button */}
         <div className="lg:hidden fixed bottom-6 right-6 z-40">
           <button
             onClick={() => setShowMobileFilters(true)}
@@ -260,7 +271,6 @@ const Store = () => {
           </button>
         </div>
 
-        {/* Mobile Filters Bottom Sheet */}
         {showMobileFilters && (
           <div className="fixed inset-0 z-50 lg:hidden">
             <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setShowMobileFilters(false)} />
@@ -274,12 +284,10 @@ const Store = () => {
         )}
 
         <div className="flex gap-6">
-          {/* Desktop Filters Sidebar - Fixed */}
           <div className="hidden lg:block w-64 flex-shrink-0 sticky top-24">
             <FilterSidebar />
           </div>
 
-          {/* Product Grid */}
           <div className="flex-1 h-[calc(100vh-6rem)] overflow-y-auto">
             <div className="mb-4">
               <h1 className="text-2xl font-bold">All Products</h1>
@@ -301,10 +309,10 @@ const Store = () => {
                 ))}
               </div>
             )}
-            <Pagination 
-              currentPage={currentPage} 
-              totalPages={Math.ceil(filteredProducts.length / itemsPerPage)} 
-              onPageChange={setCurrentPage} 
+            <Pagination
+              currentPage={currentPage}
+              totalPages={Math.ceil(filteredProducts.length / itemsPerPage)}
+              onPageChange={setCurrentPage}
             />
           </div>
         </div>

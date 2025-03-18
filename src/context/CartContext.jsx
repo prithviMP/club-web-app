@@ -3,32 +3,27 @@ import { createContext, useState, useEffect, useCallback } from 'react';
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [items, setItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load cart from localStorage on mount
+  // Load cart from localStorage on mount - This is redundant now, but kept for clarity and potential future use.
   useEffect(() => {
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-      try {
-        setItems(JSON.parse(storedCart));
-      } catch (error) {
-        console.error('Error parsing cart from localStorage:', error);
-        setItems([]);
-      }
-    }
     setIsLoaded(true);
   }, []);
+
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
     if (isLoaded) {
-      localStorage.setItem('cart', JSON.stringify(items));
+      localStorage.setItem('cart', JSON.stringify(cartItems));
     }
-  }, [items, isLoaded]);
+  }, [cartItems, isLoaded]);
 
   const addItem = useCallback((item) => {
-    setItems((prevItems) => {
+    setCartItems((prevItems) => {
       // Check if item already exists in cart
       const existingItemIndex = prevItems.findIndex(
         (cartItem) => cartItem.id === item.id && 
@@ -53,7 +48,7 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   const removeItem = useCallback((id, size) => {
-    setItems((prevItems) => 
+    setCartItems((prevItems) => 
       prevItems.filter((item) => !(
         item.id === id && 
         (typeof item.size === 'object' && typeof size === 'object' 
@@ -64,7 +59,7 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   const updateQuantity = useCallback((id, size, quantity) => {
-    setItems((prevItems) => 
+    setCartItems((prevItems) => 
       prevItems.map((item) => 
         item.id === id && 
         (typeof item.size === 'object' && typeof size === 'object' 
@@ -77,24 +72,24 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   const clearCart = useCallback(() => {
-    setItems([]);
+    setCartItems([]);
   }, []);
 
   const getTotalItems = useCallback(() => {
-    return items.reduce((total, item) => total + item.quantity, 0);
-  }, [items]);
+    return cartItems.reduce((total, item) => total + item.quantity, 0);
+  }, [cartItems]);
 
   const getTotalPrice = useCallback(() => {
-    return items.reduce(
+    return cartItems.reduce(
       (total, item) => total + item.price * item.quantity, 
       0
     );
-  }, [items]);
+  }, [cartItems]);
 
   return (
     <CartContext.Provider
       value={{
-        items,
+        items: cartItems,
         addItem,
         removeItem,
         updateQuantity,
@@ -106,4 +101,4 @@ export const CartProvider = ({ children }) => {
       {children}
     </CartContext.Provider>
   );
-}; 
+};
