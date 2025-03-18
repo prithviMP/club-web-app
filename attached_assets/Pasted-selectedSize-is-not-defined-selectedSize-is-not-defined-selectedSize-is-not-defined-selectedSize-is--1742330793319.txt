@@ -1,0 +1,30 @@
+selectedSize is not defined
+selectedSize is not defined
+selectedSize is not defined
+selectedSize is not defined
+selectedSize is not defined
+selectedSize is not defined
+at handleAddToCart (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/components/product/ProductCard.jsx:40:13)
+at HTMLUnknownElement.callCallback2 (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:3680:22)
+at Object.invokeGuardedCallbackDev (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:3705:24)
+at invokeGuardedCallback (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:3739:39)
+at invokeGuardedCallbackAndCatchFirstError (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:3742:33)
+at executeDispatch (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:7046:11)
+at processDispatchQueueItemsInOrder (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:7066:15)
+at processDispatchQueue (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:7075:13)
+at dispatchEventsForPlugins (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:7083:11)
+at https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:7206:20
+selectedSize is not defined
+selectedSize is not defined
+at handleAddToCart (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/components/product/ProductCard.jsx:40:13)
+at HTMLUnknownElement.callCallback2 (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:3680:22)
+at Object.invokeGuardedCallbackDev (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:3705:24)
+at invokeGuardedCallback (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:3739:39)
+at invokeGuardedCallbackAndCatchFirstError (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:3742:33)
+at executeDispatch (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:7046:11)
+at processDispatchQueueItemsInOrder (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:7066:15)
+at processDispatchQueue (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:7075:13)
+at dispatchEventsForPlugins (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:7083:11)
+at https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:7206:20
+selectedSize is not defined
+selectedSize is not defined
