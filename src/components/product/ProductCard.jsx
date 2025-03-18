@@ -24,22 +24,22 @@ const ProductCard = ({ product }) => {
   const imageUrl = getImageSource(product.product_image[0], "list");
 
   const handleAddToCart = () => {
-    if (!product) return;
+    console.log("Product being added to cart:", {
+      product,
+      inStock: product?.in_stock,
+      currentQuantity: currentCartQuantity,
+      maxStock,
+      sizes: product?.sizes,
+    });
 
-    const productData = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      size: selectedSize || null,
-      image: product.product_image?.[0] || null
-    };
-
+    // If product is out of stock
     if (!product?.in_stock) {
       setPopupMessage("Product is out of stock");
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 2000);
       return;
     }
+
+    // Handle size selection if product has sizes
+    const size = product?.sizes?.length > 0 ? product.sizes[0] : null;
 
     // Check if adding would exceed stock
     if (currentCartQuantity + 1 > maxStock) {
@@ -49,12 +49,8 @@ const ProductCard = ({ product }) => {
       return;
     }
 
-    // Get the first available size
-    const availableSize = product.sizes?.find(
-      (size) => size.number_of_items > 0,
-    );
 
-    if (!availableSize && product.sizes?.length > 0) {
+    if (!size && product.sizes?.length > 0) {
       setPopupMessage("No sizes available");
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 2000);
@@ -69,8 +65,8 @@ const ProductCard = ({ product }) => {
       product_name: product.name,
       price: product.price,
       quantity: 1,
-      size: availableSize || null,
-      stockAvailable: availableSize?.number_of_items || product.stock || 10,
+      size: size || null,
+      stockAvailable: size?.number_of_items || product.stock || 10,
       product_image: product.product_image || [],
     };
 
