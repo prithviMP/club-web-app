@@ -60,14 +60,9 @@ const ProductCard = ({ product }) => {
     setCartQuantity((prev) => prev + 1);
 
     const item = {
-      id: product.id,
-      documentId: product.documentId,
-      product_name: product.name,
-      price: product.price,
-      quantity: 1,
+      ...product, // Add the entire product object
       size: size || null,
-      stockAvailable: size?.number_of_items || product.stock || 10,
-      product_image: product.product_image || [],
+      quantity: 1,
     };
 
     addItem(item);
@@ -187,7 +182,7 @@ const ProductCard = ({ product }) => {
           >
             {product.in_stock ? (
               <div className="flex items-center justify-center gap-1">
-                LAdd to Cart
+                Add to Cart
                 {cartQuantity > 0 && (
                   <span className="ml-1">++{cartQuantity}</span>
                 )}

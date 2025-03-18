@@ -411,8 +411,15 @@ const Cart = () => {
               {items.map((item) => (
                 <div
                   key={`${item.id}-${item.size}`}
-                  className="bg-gray-900 rounded-lg p-4 sm:p-6 flex"
+                  className="bg-gray-900 rounded-lg p-4 sm:p-6 flex items-center gap-4"
                 >
+                  <div className="w-24 h-24 flex-shrink-0">
+                    <img
+                      src={getImageSource(item.product_image?.[0], 'thumbnail')}
+                      alt={item.name}
+                      className="w-full h-full object-cover rounded-md"
+                    />
+                  </div>
                   <div className="w-20 h-20 sm:w-32 sm:h-32 bg-gray-800 rounded-lg overflow-hidden flex-shrink-0">
                     <img
                       src={getImageUrl(item.product_image?.[0])}
