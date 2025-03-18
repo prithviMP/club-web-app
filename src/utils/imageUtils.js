@@ -1,7 +1,7 @@
-import { getOptimizedImageUrl } from '../api/productApi';
+import { getOptimizedImageUrl } from "../api/productApi";
 
 // Default fallback image
-export const FALLBACK_IMAGE = '/assets/placeholder.png';
+export const FALLBACK_IMAGE = "/assets/placeholder.png";
 
 /**
  * Gets an image source with fallback for use in img tags
@@ -9,16 +9,16 @@ export const FALLBACK_IMAGE = '/assets/placeholder.png';
  * @param {string} context - The context ('list', 'thumbnail', 'detail')
  * @returns {string} - The image URL
  */
-export const getImageSource = (image, context = 'detail') => {
+export const getImageSource = (image, context = "detail") => {
   try {
     if (!image) {
       return FALLBACK_IMAGE;
     }
-    
+
     const imageUrl = getOptimizedImageUrl(image, context);
     return imageUrl || FALLBACK_IMAGE;
   } catch (error) {
-    console.error('Error getting image source:', error);
+    console.error("Error getting image source:", error);
     return FALLBACK_IMAGE;
   }
 };
@@ -28,16 +28,18 @@ export const getImageSource = (image, context = 'detail') => {
  * @param {Array<Object|string>} images - Array of image objects or URLs
  * @param {string} context - The context ('list', 'thumbnail', 'detail')
  */
-export const preloadImages = (images, context = 'detail') => {
+export const preloadImages = (images, context = "detail") => {
   if (!images || !Array.isArray(images) || images.length === 0) {
     return;
   }
 
   // Create an array of image URLs
-  const imageUrls = images.map(image => getOptimizedImageUrl(image, context)).filter(Boolean);
+  const imageUrls = images
+    .map((image) => getOptimizedImageUrl(image, context))
+    .filter(Boolean);
 
   // Preload each image
-  imageUrls.forEach(url => {
+  imageUrls.forEach((url) => {
     const img = new Image();
     img.src = url;
   });
@@ -49,15 +51,15 @@ export const preloadImages = (images, context = 'detail') => {
  * @returns {string} - The formatted price
  */
 export const formatPrice = (price) => {
-  if (typeof price !== 'number') {
-    return '₹0.00';
+  if (typeof price !== "number") {
+    return "₹0.00";
   }
-  
+
   // Convert cents to rupees
-  const rupees = price / 100;
-  
+  const rupees = price;
+
   // Format with Indian numbering system
-  return `₹${rupees.toLocaleString('en-IN')}`;
+  return `₹${rupees.toLocaleString("en-IN")}`;
 };
 
 /**
@@ -66,11 +68,11 @@ export const formatPrice = (price) => {
  * @param {string} context - The context ('list', 'thumbnail', 'detail')
  * @returns {string} - The image URL
  */
-export const getFirstProductImage = (images, context = 'list') => {
+export const getFirstProductImage = (images, context = "list") => {
   if (!images || !Array.isArray(images) || images.length === 0) {
     return FALLBACK_IMAGE;
   }
-  
+
   return getImageSource(images[0], context);
 };
 
@@ -81,11 +83,11 @@ export const getFirstProductImage = (images, context = 'list') => {
  */
 export const isImageValid = (url) => {
   return new Promise((resolve) => {
-    if (!url || typeof url !== 'string') {
+    if (!url || typeof url !== "string") {
       resolve(false);
       return;
     }
-    
+
     const img = new Image();
     img.onload = () => resolve(true);
     img.onerror = () => resolve(false);
@@ -100,4 +102,4 @@ export default {
   getFirstProductImage,
   isImageValid,
   FALLBACK_IMAGE,
-}; 
+};
