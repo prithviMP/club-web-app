@@ -5,6 +5,25 @@ import { XMarkIcon, StarIcon, FunnelIcon as FilterIcon } from '@heroicons/react/
 import { Link } from 'react-router-dom';
 import { MEDIA_URL } from '../utils/api/config';
 
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  return (
+    <div className="mt-4 flex justify-center">
+      {currentPage > 1 && (
+        <button onClick={() => onPageChange(currentPage - 1)} className="px-4 py-2 bg-gray-800 text-white rounded-md mr-2">Previous</button>
+      )}
+      {[...Array(totalPages)].map((_, i) => (
+        <button key={i + 1} onClick={() => onPageChange(i + 1)} className={`px-4 py-2 bg-gray-800 text-white rounded-md mx-1 ${currentPage === i + 1 ? 'bg-primary text-black' : ''}`}>
+          {i + 1}
+        </button>
+      ))}
+      {currentPage < totalPages && (
+        <button onClick={() => onPageChange(currentPage + 1)} className="px-4 py-2 bg-gray-800 text-white rounded-md ml-2">Next</button>
+      )}
+    </div>
+  );
+};
+
+
 const Store = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [brandSearch, setBrandSearch] = useState('');
@@ -17,6 +36,8 @@ const Store = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12; // Adjust this number as needed
 
   useEffect(() => {
     const loadData = async () => {
@@ -269,12 +290,17 @@ const Store = () => {
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
-                {filteredProducts.map((product) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             )}
+            <Pagination 
+              currentPage={currentPage} 
+              totalPages={Math.ceil(filteredProducts.length / itemsPerPage)} 
+              onPageChange={setCurrentPage} 
+            />
           </div>
         </div>
       </div>
