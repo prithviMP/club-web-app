@@ -1,0 +1,368 @@
+Below is a comprehensive list of all bugs identified from the provided document. The bugs are categorized by their respective sections (Web and Mobile) and listed with their details as per the columns: Sl No, Bug Summary, Priority, Severity, Status, and Link (where available).
+Web Bugs
+Sl No
+Bug Summary
+Priority
+Severity
+Status
+Link
+1
+Error creating account with valid details
+High
+Critical
+Open
+Video Evidence
+2
+Username field accepting numbers and special characters; Password field missing validations and eye icon
+High
+Major
+Open
+Video Evidence
+3
+Unnecessary menu items displayed on Create Account page
+Medium
+Moderate
+Open
+Video Evidence
+4
+Footer and social media links not functional on Create Account page (Everywhere)
+Medium
+Major
+Open
+Video Evidence
+5
+Sign Up not working; Login & Forgot Password cannot be tested
+High
+Critical
+Open
+Screenshot Attached
+6
+Email textfield accepting uppercase letters in Sign Up page
+Medium
+Major
+Open
+N/A (Let me know if you want to add a video/screenshot link)
+7
+“View All” button in Home Page redirects to 404 error page
+High
+Major
+Open
+https://somup.com/cTeIDL7gvV
+8
+Cart showing blank page after adding product from Home Page
+High
+Major
+Open
+https://somup.com/cTeID97gvA
+9
+“Add to Cart” button is not clickable in Cart Page
+High
+Major
+Open
+https://somup.com/cTeIbn7gwf
+10
+Pagination dots/progress indicator not visible on specific page
+Medium
+Moderate
+Open
+Video Evidence
+11
+Delete button size issue and Add to Cart button not clickable on Wishlist page
+High
+Major
+Open
+https://somup.com/cTeIbi7gwK
+12
+Currency mismatch on Product page (Dollar & Rupees displayed together) and not able to select the size
+High
+Major
+Open
+https://somup.com/cTeIbX7gxh
+13
+Product details text is displaying incorrectly on Product Page
+High
+Major
+Open
+https://somup.com/cTeIbo7gxk
+14
+Reviews inside text is not clear and “See All Reviews” button is not clickable
+High
+Major
+Open
+https://somup.com/cTeIbF7gyf
+15
+Clicking on “Brand Collaboration” (View Collection) in Home shows a 404 Error
+High
+Major
+Open
+(No link provided)
+15
+“More from Fluid Line” section - Add to Cart not working and “See All” gives 404 error
+High
+Major
+Open
+https://somup.com/cTeIb07gyk
+16
+Follow button and navigation arrows not clickable on Product Page (Everywhere)
+High
+Major
+Open
+https://somup.com/cTeIbt7g4f
+17
+Home link not highlighting active page and navigation links (Products, About, Contact) not working
+High
+Major
+Open
+https://somup.com/cTeIbv7g4T
+18
+Wishlist page “Continue Shopping” button redirects to Home Page instead of Products/Shop Page. Image also not displaying
+Medium
+Moderate
+Open
+https://somup.com/cTeIbB7gar
+19
+Home page, Store page & Cart page displays money in rupees (₹) instead of dollars ($)
+Medium
+Major
+Open
+(No link provided)
+20
+Change Password functionality is not working and Eye icon for password visibility is missing
+High
+Major
+Open
+https://somup.com/cTeIbH7gzl
+21
+Delete Account button in Profile > Settings is not clickable
+High
+Major
+Open
+https://somup.com/cTeIbN7gzS
+22
+In Profile Page, Home, Products, About, Contact links are not fixed on scroll
+Medium
+Moderate
+Open
+https://somup.com/cTeIbK7gz4
+23
+Clicking on Ted Dot in Explore Brands navigates to the page, but the name is not displayed, and the tagline “Comfort with Confidence” is shown instead of products
+Medium
+Major
+Open
+https://somup.com/cTeIFf7gBj
+24
+Jelante product page image is not displaying and no description
+High
+Major
+Open
+https://somup.com/cTeIbR7gA4
+25
+Clicking on Fluid Line in Explore Brands navigates to a page where the name is displayed lightly & the logo is missing
+Medium
+Minor
+Open
+https://somup.com/cTeIFl7ggc
+26
+In Home Page, selecting any Brand Collaborations link redirects to 404 error page
+High
+Major
+Open
+https://somup.com/cTeIFQ7gBE
+27
+Alignment issue in New Arrival section on Home Page
+Medium
+Moderate
+Open
+https://somup.com/cTe2hx7ktW
+28
+Full Name, City, and State fields in Shipping Information accept numeric values & special characters
+High
+Major
+Open
+https://go.screenpal.com/watch/cTe2hLn1PSU
+29
+Changing Address on Payment Page Clears Shipping Information Data
+High
+Major
+Open
+https://somup.com/cTe21X7kvo
+30
+Clicking on Payment navigates to Contact Details, and the UPI price is incorrect compared to the product price summary
+High
+Major
+Open
+https://somup.com/cTe21A7kw5
+31
+“Chill Guys” image is not proper, incorrect size, and not clickable
+Medium
+Major
+Open
+https://somup.com/cTe21E7kxQ
+32
+“Chill Guys” section ‘See All’ link redirects to 404 Error page
+High
+Major
+Open
+https://somup.com/cTe21J7kxT
+2025-03-17 00:00:00 1
+Product Quantity Mismatch Across Product Page, Cart Page, and Cart Icon
+High
+Major
+Open
+(No link provided)
+2025-03-17 00:00:00 2
+In home page, Add to Cart Limitation Message After 10 quantity
+Medium
+Moderate
+Open
+(No link provided)
+2025-03-17 00:00:00 3
+Cart Page Quantity Control Not Working Properly & Incorrect items Shown in Cart Icon
+High
+Critical
+Open
+(No link provided)
+2025-03-17 00:00:00 4
+Add to Cart shows ‘No size available’ from Home Page but Size selectable on Product Page (not clickable on M size)
+High
+Major
+Open
+https://somup.com/cTeb6q7EyB
+2025-03-17 00:00:00 5
+Inconsistent Quantity Limit Between Home Page & Product Page
+High
+Major
+Open
+https://somup.com/cTeb6B7Ezu
+2025-03-17 00:00:00 6
+Jelante Brand Image & Description Not Displaying in All Brands Section
+High
+Major
+Open
+https://somup.com/cTeb6J7EBe
+2025-03-17 00:00:00 7
+All Brands Section Displays 0 Products, But More Products on Clicking Brand
+High
+Major
+Open
+https://somup.com/cTeb6s7EBw
+2025-03-17 00:00:00 8
+TED Dot brand on Home Page not showing any products on click
+High
+Major
+Open
+https://somup.com/cTeb687Ege
+2025-03-17 00:00:00 9
+Clicking ‘View Collection’ under Brand Collaboration shows 404 Error
+High
+Major
+Open
+https://somup.com/cTeb6R7Eg0
+2025-03-17 00:00:00 10
+Store page filter textfield and brand textfield accepting only one letter at a time, requiring cursor click to add more
+High
+Major
+Open
+https://somup.com/cTebXn7Eg9
+2025-03-17 00:00:00 11
+Product Title is Missing above the textfield in Store Page
+High
+Major
+Open
+https://somup.com/cTebXD7EpN
+2025-03-17 00:00:00 12
+Ratings filter allows selecting multiple ratings at once; should allow only one checkbox selection
+Medium
+Moderate
+Open
+https://somup.com/cTebXq7ECw
+2025-03-17 00:00:00 13
+Footer bar is inconsistently fixed during scrolling on Store Page
+Medium
+Minor
+Open
+https://somup.com/cTebX07E5c
+2025-03-17 00:00:00 14
+Contact Page: Name field accepting only spaces, numbers, and special characters without validation error
+High
+Major
+Open
+https://somup.com/cTebXx7EEF
+2025-03-17 00:00:00 15
+Contact Us Page: Email field accepting invalid formats like uppercase, starting with numbers, and leading spaces without error
+High
+Major
+Open
+https://somup.com/cTebXx7EEF
+2025-03-17 00:00:00 16
+Contact Page: Send Message button not clickable even after filling all required fields
+High
+Critical
+Open
+https://somup.com/cTebXy7EEy
+2025-03-17 00:00:00 17
+Contact Page: ‘Our Location’, ‘Call Us’, and ‘Email’ links are not clickable
+Medium
+Major
+Open
+https://somup.com/cTebXa7EEN
+Mobile Bugs
+Sl No
+Bug Summary
+Priority
+Severity
+Status
+Link
+1
+Overlapping Menu on Home Page
+High
+Major
+Open
+Pending evidence link if needed
+2
+My Orders page shows item count as 0 but still displays a price
+Medium
+Minor
+Open
+(No link provided)
+3
+Clicking on View Details in My Orders navigates to Order Tracking, but the status alignment is incorrect
+Medium
+Minor
+Open
+(No link provided)
+4
+Clicking Back to Order in Order Tracking Status navigates incorrectly to the same page instead of the My Orders page
+Medium
+Major
+Open
+(No link provided)
+5
+Two unnecessary menus appear on the home page, and clicking both at the same time may cause issues
+Medium
+Minor
+Open
+(No link provided)
+6
+Inconsistent Branding Name (Club/ClubUnplugged) and Logo Misalignment
+Medium
+Moderate
+Open
+Pending screenshot or video evidence link if needed
+7
+Order tracking status displays a product even when no product is added, showing quantity as 1 and price as ₹9.99
+High
+Major
+Open
+(No link provided)
+8
+Images Not Displaying in Most Popular & New Arrival Sections
+High
+Major
+Open
+Pending screenshot or video evidence link if needed
+Notes:
+	•	The document indicates that “Remaining same bugs mobile and web” are applicable to both platforms, but only the listed Mobile bugs (Sl No 1-8) are explicitly detailed under the Mobile section. It is assumed that the remaining bugs (Web bugs Sl No 9-17 and others) may also apply to Mobile unless otherwise specified.
+	•	Some bugs have pending evidence links, and users are encouraged to provide them if needed.
+	•	The “Status (Developer)” column is consistently “Not Fixed” or “Pending” for all bugs, indicating ongoing issues.
+This list encompasses all 45 unique bugs (32 Web + 8 Mobile + 5 additional Web bugs dated 2025-03-17) identified in the document. Let me know if you need further analysis or assistance!
