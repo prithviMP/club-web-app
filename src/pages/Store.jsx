@@ -37,6 +37,7 @@ const Store = () => {
   const [loading, setLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRatings, setSelectedRatings] = useState([]); // Added state for selected ratings
   const itemsPerPage = 12; // Adjust this number as needed
 
   useEffect(() => {
@@ -80,14 +81,15 @@ const Store = () => {
     }
 
     // Apply rating filters
-    if (filters.ratings.length > 0) {
+    if (selectedRatings.length > 0) { // Use selectedRatings instead of filters.ratings
       filtered = filtered.filter(product =>
-        filters.ratings.includes(Math.floor(product.rating || 0))
+        selectedRatings.includes(Math.floor(product.rating || 0))
       );
     }
 
     setFilteredProducts(filtered);
-  }, [products, filters, searchTerm]);
+  }, [products, filters, searchTerm, selectedRatings]); // Add selectedRatings to dependencies
+
 
   const toggleBrandFilter = (brandId) => {
     setFilters(prev => ({
@@ -98,25 +100,22 @@ const Store = () => {
     }));
   };
 
-  const toggleRatingFilter = (rating) => {
-    setFilters(prev => ({
-      ...prev,
-      ratings: prev.ratings.includes(rating)
-        ? prev.ratings.filter(r => r !== rating)
-        : [...prev.ratings, rating]
-    }));
+  const handleRatingChange = (rating) => { // Added function to handle rating changes
+    setSelectedRatings([rating]);
   };
 
   const clearFilters = () => {
     setFilters({ brands: [], ratings: [] });
     setSearchTerm('');
     setBrandSearch('');
+    setSelectedRatings([]); // Clear selected ratings
   };
 
   const clearAllFilters = () => {
     setFilters({ brands: [], ratings: [] });
     setSearchTerm('');
     setBrandSearch('');
+    setSelectedRatings([]); // Clear selected ratings
   };
 
   const FilterSidebar = ({ isMobile = false }) => (
@@ -175,13 +174,15 @@ const Store = () => {
       <div className="mb-6">
         <h4 className="text-sm font-medium mb-2">Rating</h4>
         <div className="space-y-2">
-          {[5, 4, 3, 2, 1].map(rating => (
+          {[5, 4, 3, 2, 1].map((rating) => (
             <label key={rating} className="flex items-center space-x-2">
               <input
-                type="checkbox"
-                checked={filters.ratings.includes(rating)}
-                onChange={() => toggleRatingFilter(rating)}
-                className="form-checkbox text-primary"
+                type="radio"
+                name="rating"
+                value={rating}
+                checked={selectedRatings.includes(rating)}
+                onChange={() => handleRatingChange(rating)}
+                className="form-radio text-primary"
               />
               <span className="flex items-center">
                 {[...Array(rating)].map((_, i) => (
@@ -207,7 +208,7 @@ const Store = () => {
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
         {/* Active Filters */}
-        {(filters.brands.length > 0 || filters.ratings.length > 0 || searchTerm) && (
+        {(filters.brands.length > 0 || selectedRatings.length > 0 || searchTerm) && ( // Use selectedRatings here
           <div className="flex flex-wrap gap-2 mb-4">
             {searchTerm && (
               <span className="bg-gray-800 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
@@ -228,10 +229,10 @@ const Store = () => {
                 </span>
               ) : null;
             })}
-            {filters.ratings.map(rating => (
+            {selectedRatings.map(rating => ( // Use selectedRatings here
               <span key={rating} className="bg-gray-800 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
                 {rating} Stars
-                <button onClick={() => toggleRatingFilter(rating)} className="hover:text-primary">
+                <button onClick={() => setSelectedRatings([])} className="hover:text-primary"> {/* Clear single rating */}
                   <XMarkIcon className="h-4 w-4" />
                 </button>
               </span>
