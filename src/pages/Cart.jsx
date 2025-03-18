@@ -11,7 +11,7 @@ import PaymentPage from "../components/checkout/PaymentPage";
 import OrderConfirmation from "../components/checkout/OrderConfirmation";
 import { loadRazorpayScript } from "../utils/razorpayUtils";
 import * as checkoutService from "../services/checkout/checkoutService";
-import { apiClient } from "../utils/api/client";
+import { apiClient } from "../utils/api/config";
 import Spinner from "../components/ui/Spinner";
 import { MEDIA_URL } from "../utils/api/config";
 
@@ -489,6 +489,13 @@ const Cart = () => {
                 className="w-full bg-primary text-black py-4 rounded-lg font-medium text-base sm:text-lg mt-6 hover:bg-opacity-90 transition-colors"
               >
                 Proceed to Checkout
+              </button>
+              {/* Added clear cart button here */}
+              <button
+                onClick={clearCart}
+                className="w-full bg-red-500 text-white py-4 rounded-lg font-medium text-base sm:text-lg mt-2 hover:bg-opacity-90 transition-colors"
+              >
+                Clear Cart
               </button>
             </div>
           </div>
