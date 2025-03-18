@@ -2,7 +2,14 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+const PASSWORD_REQUIREMENTS = [
+  { regex: /[A-Z]/, message: 'one uppercase letter' },
+  { regex: /[a-z]/, message: 'one lowercase letter' },
+  { regex: /[0-9]/, message: 'one number' },
+  { regex: /[@$!%*?&#]/, message: 'one special character' },
+  { regex: /.{8,}/, message: 'minimum 8 characters' }
+];
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -53,9 +60,10 @@ const Signup = () => {
       return;
     }
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    
     if (!passwordRegex.test(password)) {
-      setErrors({...errors, password: 'Password must be at least 8 characters long and include uppercase, lowercase, number and special character'});
+      let missingRequirements = PASSWORD_REQUIREMENTS.filter(req => !req.regex.test(password)).map(req => req.message);
+      setErrors({...errors, password: `Password must include: ${missingRequirements.join(', ')}`});
       return;
     }
 
@@ -155,7 +163,8 @@ const Signup = () => {
                   onChange={(e) => {
                     setPassword(e.target.value);
                     if (!passwordRegex.test(e.target.value)) {
-                      setErrors({...errors, password: 'Password must be at least 8 characters long and include uppercase, lowercase, number and special character'});
+                      let missingRequirements = PASSWORD_REQUIREMENTS.filter(req => !req.regex.test(e.target.value)).map(req => req.message);
+                      setErrors({...errors, password: `Password must include: ${missingRequirements.join(', ')}`});
                     } else {
                       setErrors({...errors, password: undefined});
                     }
