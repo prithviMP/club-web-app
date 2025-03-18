@@ -10,16 +10,20 @@ const useCartStore = create(
       // Add item to cart
       addItem: (item) => {
         if (!item || !item.id) {
-          console.error("Invalid item being added to cart:", item);
+          console.error('Invalid item being added to cart:', item);
           return;
         }
 
-        console.log("Adding item to cart:", {
-          itemId: item.id,
-          itemName: item.name,
-          itemSize: item.size,
-          itemPrice: item.price,
-        });
+        const cartItem = {
+          id: item.id,
+          name: item.name || '',
+          price: item.price || 0,
+          size: item.size || null,
+          image: item.image || null,
+          quantity: 1
+        };
+
+        console.log('Adding item to cart:', cartItem);
 
         set((state) => {
           // Check if item already exists in cart
@@ -38,12 +42,12 @@ const useCartStore = create(
             updatedItems[existingItemIndex] = {
               ...updatedItems[existingItemIndex],
               quantity:
-                updatedItems[existingItemIndex].quantity + item.quantity,
+                updatedItems[existingItemIndex].quantity + cartItem.quantity,
             };
             return { items: updatedItems };
           } else {
             // Add new item
-            return { items: [...state.items, item] };
+            return { items: [...state.items, cartItem] };
           }
         });
       },

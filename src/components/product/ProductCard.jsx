@@ -24,13 +24,15 @@ const ProductCard = ({ product }) => {
   const imageUrl = getImageSource(product.product_image[0], "list");
 
   const handleAddToCart = () => {
-    console.log("Product being added to cart:", {
-      product,
-      inStock: product?.in_stock,
-      currentQuantity: currentCartQuantity,
-      maxStock,
-      sizes: product?.sizes,
-    });
+    if (!product) return;
+
+    const productData = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      size: selectedSize || null,
+      image: product.product_image?.[0] || null
+    };
 
     if (!product?.in_stock) {
       setPopupMessage("Product is out of stock");
