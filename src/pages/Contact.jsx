@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone, faLocationDot } from '@fortawesome/free-solid-svg-icons';
@@ -137,35 +138,36 @@ const Contact = () => {
           </form>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
-
-          <div className="space-y-8">
-            <a href="mailto:support@clubunplugged.com" className="flex items-start gap-4 hover:text-primary">
-              <FontAwesomeIcon icon={faEnvelope} className="text-primary text-xl mt-1" />
-              <div>
-                <h3 className="font-medium mb-2">Email Us</h3>
-                <p className="text-gray-400">support@clubunplugged.com</p>
-              </div>
-            </a>
-            <a href="tel:+919611717711" className="flex items-start gap-4 hover:text-primary">
-              <FontAwesomeIcon icon={faPhone} className="text-primary text-xl mt-1" />
-              <div>
-                <h3 className="font-medium mb-2">Call Us</h3>
-                <p className="text-gray-400">+91 96117 17711</p>
-              </div>
-            </a>
-            <a href="https://maps.google.com/?q=123+Fashion+Street,+Design+District,+Bangalore,+560001" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 hover:text-primary">
-              <FontAwesomeIcon icon={faLocationDot} className="text-primary text-xl mt-1" />
-              <div>
-                <h3 className="font-medium mb-2">Our Location</h3>
-                <p className="text-gray-400">123 Fashion Street, Design District, Bangalore, 560001</p>
-              </div>
-            </a>
+            <div className="space-y-8">
+              <a href="mailto:support@clubunplugged.com" className="flex items-start gap-4 hover:text-primary">
+                <FontAwesomeIcon icon={faEnvelope} className="text-primary text-xl mt-1" />
+                <div>
+                  <h3 className="font-medium mb-2">Email Us</h3>
+                  <p className="text-gray-400">support@clubunplugged.com</p>
+                </div>
+              </a>
+              <a href="tel:+919611717711" className="flex items-start gap-4 hover:text-primary">
+                <FontAwesomeIcon icon={faPhone} className="text-primary text-xl mt-1" />
+                <div>
+                  <h3 className="font-medium mb-2">Call Us</h3>
+                  <p className="text-gray-400">+91 96117 17711</p>
+                </div>
+              </a>
+              <a href="https://maps.google.com/?q=123+Fashion+Street,+Design+District,+Bangalore,+560001" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 hover:text-primary">
+                <FontAwesomeIcon icon={faLocationDot} className="text-primary text-xl mt-1" />
+                <div>
+                  <h3 className="font-medium mb-2">Our Location</h3>
+                  <p className="text-gray-400">123 Fashion Street, Design District, Bangalore, 560001</p>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
+};
 
 export default Contact;
