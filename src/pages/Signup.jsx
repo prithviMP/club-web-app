@@ -23,13 +23,18 @@ const Signup = () => {
       return;
     }
     
+    if (!/^[a-z0-9_-]+$/.test(username)) {
+      setFormError('Username can only contain lowercase letters, numbers, underscores and hyphens');
+      return;
+    }
+    
     if (!email.trim()) {
       setFormError('Email is required');
       return;
     }
     
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setFormError('Email is invalid');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setFormError('Please enter a valid email address');
       return;
     }
     
@@ -38,8 +43,9 @@ const Signup = () => {
       return;
     }
     
-    if (password.length < 6) {
-      setFormError('Password must be at least 6 characters');
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setFormError('Password must be at least 8 characters long and include uppercase, lowercase, number and special character');
       return;
     }
     
@@ -150,7 +156,7 @@ const Signup = () => {
               </label>
               <input
                 id="confirmPassword"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="bg-gray-800 text-white rounded-md w-full p-2.5 border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary"
