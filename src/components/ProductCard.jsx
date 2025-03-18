@@ -7,3 +7,6 @@
     e.target.onerror = null;
   }}
 />
+<div className="text-lg font-semibold">
+    ₹{price.toLocaleString('en-IN')}
+  </div>

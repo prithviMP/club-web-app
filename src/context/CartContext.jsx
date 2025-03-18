@@ -65,7 +65,7 @@ export const CartProvider = ({ children }) => {
         (typeof item.size === 'object' && typeof size === 'object' 
           ? item.size.id === size.id 
           : item.size === size)
-          ? { ...item, quantity } 
+          ? { ...item, quantity: Math.max(1, Math.min(quantity, 10)) } 
           : item
       )
     );
