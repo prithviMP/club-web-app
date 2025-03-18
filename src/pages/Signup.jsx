@@ -48,6 +48,16 @@ const Signup = () => {
       setFormError('Password must be at least 8 characters long and include uppercase, lowercase, number and special character');
       return;
     }
+
+    if (!confirmPassword) {
+      setFormError('Please confirm your password');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setFormError('Passwords do not match');
+      return;
+    }
     
     if (password !== confirmPassword) {
       setFormError('Passwords do not match');
@@ -118,7 +128,7 @@ const Signup = () => {
               />
             </div>
             
-            <div>
+            <div className="relative">
               <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
                 Password
               </label>
@@ -150,7 +160,7 @@ const Signup = () => {
               </button>
             </div>
             
-            <div>
+            <div className="relative">
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-1">
                 Confirm Password
               </label>
