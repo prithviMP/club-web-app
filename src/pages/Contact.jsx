@@ -9,6 +9,7 @@ const Contact = () => {
     message: ''
   });
   const [errors, setErrors] = useState({});
+  const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateName = (name) => {
