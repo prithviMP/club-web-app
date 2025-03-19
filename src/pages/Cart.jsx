@@ -5,7 +5,7 @@ import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-hot-toast";
 import useCartStore from "../store/cartStore";
 import { AuthContext } from "../context/AuthContext";
-import { formatPrice } from "../utils/imageUtils";
+import { formatPrice, getImageSource } from "../utils/imageUtils";
 import ShippingForm from "../components/checkout/ShippingForm";
 import PaymentPage from "../components/checkout/PaymentPage";
 import OrderConfirmation from "../components/checkout/OrderConfirmation";
