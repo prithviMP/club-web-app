@@ -1,0 +1,50 @@
+getImageSource is not defined
+at https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/pages/Cart.jsx:425:26
+at Array.map (<anonymous>)
+at renderCartItems (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/pages/Cart.jsx:416:94)
+at renderCheckoutStep (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/pages/Cart.jsx:798:16)
+at Cart (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/pages/Cart.jsx:853:5)
+at renderWithHooks (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:11596:26)
+at mountIndeterminateComponent (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:14974:21)
+at beginWork (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:15962:22)
+at HTMLUnknownElement.callCallback2 (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:3680:22)
+at Object.invokeGuardedCallbackDev (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/chunk-YQ5BCTVV.js?v=2dc5d0f7:3705:24)
+getImageSource is not defined
+The above error occurred in the <Cart> component:
+
+    at Cart (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/pages/Cart.jsx:50:75)
+    at RenderedRoute (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4089:5)
+    at Routes (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4559:5)
+    at main
+    at div
+    at WishlistProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/WishlistContext.jsx:20:36)
+    at CartProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/CartContext.jsx:20:32)
+    at ProductProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/ProductContext.jsx:21:35)
+    at AuthProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/AuthContext.jsx:23:32)
+    at Router (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4502:15)
+    at BrowserRouter (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:5248:5)
+    at App (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/App.jsx:51:37)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+at Cart (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/pages/Cart.jsx:50:75)
+at RenderedRoute (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4089:5)
+at Routes (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4559:5)
+at main
+at div
+at WishlistProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/WishlistContext.jsx:20:36)
+at CartProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/CartContext.jsx:20:32)
+at ProductProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/ProductContext.jsx:21:35)
+at AuthProvider (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/context/AuthContext.jsx:23:32)
+at Router (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:4502:15)
+at BrowserRouter (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/node_modules/.vite/deps/react-router-dom.js?v=2dc5d0f7:5248:5)
+at App (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/src/App.jsx:51:37)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+at t.value (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://ab4d332d-5126-4bca-bc57-ce31255e022c-00-3iirpktxwhds2.sisko.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+getImageSource is not defined
