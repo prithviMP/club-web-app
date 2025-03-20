@@ -28,7 +28,7 @@ const BrandProducts = () => {
     ? 'New Arrivals' 
     : isMostSelling 
       ? 'Most Selling' 
-      : 'All Products';
+      : `All ${brandName} Products`;
 
   useEffect(() => {
     const fetchProducts = async () => {
