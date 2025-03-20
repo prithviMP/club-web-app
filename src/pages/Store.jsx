@@ -67,23 +67,40 @@ const Store = () => {
   useEffect(() => {
     let filtered = [...products];
 
+    console.log('Current filter state:', {
+      searchTerm,
+      brandFilters: filters.brands,
+      ratingFilters: selectedRatings,
+      totalProducts: products.length
+    });
+
     if (searchTerm) {
       const query = searchTerm.toLowerCase();
       filtered = filtered.filter(product => {
         const searchStr = `${product.name} ${product.description} ${product.brand?.brand_name || ''}`.toLowerCase();
         return searchStr.includes(query);
       });
+      console.log('After search filter:', { matchingProducts: filtered.length });
     }
 
     if (filters.brands.length > 0) {
       filtered = filtered.filter(product => filters.brands.includes(product.brand?.id));
+      console.log('After brand filter:', { 
+        appliedBrands: filters.brands,
+        matchingProducts: filtered.length 
+      });
     }
 
     if (selectedRatings.length > 0) {
       filtered = filtered.filter(product => selectedRatings.includes(Math.floor(product.rating || 0)));
+      console.log('After rating filter:', { 
+        appliedRatings: selectedRatings,
+        matchingProducts: filtered.length 
+      });
     }
 
     setFilteredProducts(filtered);
+    console.log('Final filtered products:', filtered.length);
   }, [products, filters, searchTerm, selectedRatings]);
 
 
