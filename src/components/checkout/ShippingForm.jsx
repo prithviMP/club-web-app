@@ -1,10 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+
+const shippingService = { // Placeholder for actual shipping service
+  saveAddress: async (addressData) => {
+    console.log('Saving address:', addressData); 
+    // Replace with actual API call to Strapi
+    return Promise.resolve({ id: 1, ...addressData }); // Simulate successful save
+  },
+  getSavedAddresses: async (userId) => {
+    console.log('Fetching saved addresses for user:', userId);
+    // Replace with actual API call to Strapi
+    return Promise.resolve([
+      {id:1, Fullname: 'John Doe', Address: '123 Main St', state: 'CA', pincode: 90210, phone_no: '1234567890'},
+      {id:2, Fullname: 'Jane Doe', Address: '456 Oak Ave', state: 'NY', pincode: 10001, phone_no: '9876543210'}
+    ]); // Simulate fetching saved addresses
+  }
+};
+
 
 const ShippingForm = ({ onSubmit, initialData = {} }) => {
   const { user } = useContext(AuthContext);
-  
   const [formData, setFormData] = useState({
     fullName: initialData.fullName || '',
     email: initialData.email || '',
@@ -15,8 +30,11 @@ const ShippingForm = ({ onSubmit, initialData = {} }) => {
     postalCode: initialData.postalCode || '',
     country: initialData.country || 'India',
   });
-
   const [errors, setErrors] = useState({});
+  const [saveAddress, setSaveAddress] = useState(false); // added saveAddress state
+  const [savedAddresses, setSavedAddresses] = useState([]); // added savedAddresses state
+  const [selectedAddress, setSelectedAddress] = useState(null); // added selectedAddress state
+
 
   useEffect(() => {
     if (user) {
@@ -25,57 +43,91 @@ const ShippingForm = ({ onSubmit, initialData = {} }) => {
         fullName: prev.fullName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.name || '',
         email: prev.email || user.email || '',
       }));
+      shippingService.getSavedAddresses(user.id).then(addresses => setSavedAddresses(addresses));
     }
   }, [user]);
 
   const validate = () => {
     const newErrors = {};
-    
     if (!formData.fullName?.trim()) newErrors.fullName = 'Full name is required';
     if (!formData.email?.trim()) newErrors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
-    
     if (!formData.phone?.trim()) newErrors.phone = 'Phone number is required';
     else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) 
       newErrors.phone = 'Phone number should be 10 digits';
-    
     if (!formData.address?.trim()) newErrors.address = 'Address is required';
     if (!formData.city?.trim()) newErrors.city = 'City is required';
     if (!formData.state?.trim()) newErrors.state = 'State is required';
     if (!formData.postalCode?.trim()) newErrors.postalCode = 'Postal code is required';
     else if (!/^\d{6}$/.test(formData.postalCode.replace(/\D/g, ''))) 
       newErrors.postalCode = 'Postal code should be 6 digits';
-    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    
-    // Clear error when field is edited
+    setFormData({ ...formData, [name]: value });
     if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: null,
-      });
+      setErrors({ ...errors, [name]: null });
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleAddressSelect = (address) => {
+    setSelectedAddress(address);
+    setFormData({
+      fullName: address.Fullname,
+      address: address.Address,
+      state: address.state,
+      postalCode: address.pincode,
+      phone: address.phone_no,
+      city: '', //City is not available in saved addresses
+    })
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
     if (validate()) {
+      if (saveAddress && user?.id) {
+        try {
+          await shippingService.saveAddress({
+            Fullname: formData.fullName,
+            Address: formData.address,
+            state: formData.state,
+            pincode: parseInt(formData.postalCode),
+            phone_no: formData.phone,
+            user: user.id
+          });
+        } catch (error) {
+          console.error('Error saving address:', error);
+        }
+      }
       onSubmit(formData);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {savedAddresses.length > 0 && (
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-white mb-2">Saved Addresses</label>
+          <div className="space-y-2">
+            {savedAddresses.map((address) => (
+              <div
+                key={address.id}
+                onClick={() => handleAddressSelect(address)}
+                className={`p-3 rounded-lg cursor-pointer border ${
+                  selectedAddress?.id === address.id ? 'border-primary bg-gray-800' : 'border-gray-700'
+                }`}
+              >
+                <p className="font-medium">{address.Fullname}</p>
+                <p className="text-sm text-gray-400">{address.Address}</p>
+                <p className="text-sm text-gray-400">{address.state} - {address.pincode}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="fullName" className="block text-sm font-medium text-gray-300 mb-1">
@@ -95,7 +147,7 @@ const ShippingForm = ({ onSubmit, initialData = {} }) => {
             <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>
           )}
         </div>
-        
+
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
             Email
@@ -127,7 +179,7 @@ const ShippingForm = ({ onSubmit, initialData = {} }) => {
           value={formData.phone}
           onChange={handleChange}
           className={`bg-gray-800 text-white rounded-md w-full p-2.5 ${
-            errors.phone ? 'border border-red-500' : 'border border-gray-700'
+            errors.phone ? 'border border-red-500' : 'border-gray-700'
           }`}
         />
         {errors.phone && (
@@ -146,7 +198,7 @@ const ShippingForm = ({ onSubmit, initialData = {} }) => {
           onChange={handleChange}
           rows="3"
           className={`bg-gray-800 text-white rounded-md w-full p-2.5 ${
-            errors.address ? 'border border-red-500' : 'border border-gray-700'
+            errors.address ? 'border border-red-500' : 'border-border-gray-700'
           }`}
         />
         {errors.address && (
@@ -173,7 +225,7 @@ const ShippingForm = ({ onSubmit, initialData = {} }) => {
             <p className="text-red-500 text-xs mt-1">{errors.city}</p>
           )}
         </div>
-        
+
         <div>
           <label htmlFor="state" className="block text-sm font-medium text-gray-300 mb-1">
             State
@@ -213,7 +265,7 @@ const ShippingForm = ({ onSubmit, initialData = {} }) => {
             <p className="text-red-500 text-xs mt-1">{errors.postalCode}</p>
           )}
         </div>
-        
+
         <div>
           <label htmlFor="country" className="block text-sm font-medium text-gray-300 mb-1">
             Country
@@ -230,6 +282,20 @@ const ShippingForm = ({ onSubmit, initialData = {} }) => {
         </div>
       </div>
 
+      {user && (
+        <div className="flex items-center mb-4">
+          <input
+            type="checkbox"
+            id="saveAddress"
+            checked={saveAddress}
+            onChange={(e) => setSaveAddress(e.target.checked)}
+            className="h-4 w-4 text-primary rounded border-gray-700 focus:ring-primary bg-gray-800"
+          />
+          <label htmlFor="saveAddress" className="ml-2 text-sm text-gray-300">
+            Save this address for future use
+          </label>
+        </div>
+      )}
       <div className="mt-6">
         <button
           type="submit"
@@ -242,4 +308,4 @@ const ShippingForm = ({ onSubmit, initialData = {} }) => {
   );
 };
 
-export default ShippingForm; 
+export default ShippingForm;
