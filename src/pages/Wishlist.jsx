@@ -85,8 +85,8 @@ const Wishlist = () => {
             Clear Wishlist
           </button>
         </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {wishlist.map((item) => (
             <div key={item.id} className="bg-secondary rounded-lg overflow-hidden">
               {/* Product Image */}
@@ -103,7 +103,7 @@ const Wishlist = () => {
                   />
                 </div>
               </Link>
-              
+
               {/* Product Info */}
               <div className="p-4">
                 <Link to={`/product/${item.id}`} className="block">
@@ -111,11 +111,11 @@ const Wishlist = () => {
                     {item.name}
                   </h3>
                 </Link>
-                
+
                 <p className="text-primary font-bold mb-4">
                   {formatPrice(item.price)}
                 </p>
-                
+
                 <div className="flex space-x-2">
                   <button 
                     className="flex-1 bg-primary text-black px-4 py-2 rounded-md font-medium hover:bg-opacity-90 transition-colors"
@@ -124,7 +124,7 @@ const Wishlist = () => {
                   >
                     {item.in_stock ? 'Add to Cart' : 'Out of Stock'}
                   </button>
-                  
+
                   <button 
                     className="w-10 h-10 flex items-center justify-center bg-gray-700 text-red-500 rounded-md hover:bg-gray-600 transition-colors"
                     onClick={() => removeFromWishlist(item.id)}
@@ -149,7 +149,7 @@ const Wishlist = () => {
             </div>
           ))}
         </div>
-        
+
         <div className="mt-8 text-center">
           <Link 
             to="/" 
@@ -163,4 +163,4 @@ const Wishlist = () => {
   );
 };
 
-export default Wishlist; 
+export default Wishlist;
