@@ -6,7 +6,7 @@ import { formatPrice } from '../utils/imageUtils';
 
 const Wishlist = () => {
   const { wishlist, removeFromWishlist, clearWishlist } = useContext(WishlistContext);
-  const { addItem } = useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
 
   const handleAddToCart = (item) => {
     // Create a cart item from the wishlist item
@@ -20,7 +20,7 @@ const Wishlist = () => {
       image: item.image,
     };
 
-    addItem(cartItem);
+    addToCart(cartItem);
   };
 
   if (wishlist.length === 0) {
@@ -128,7 +128,7 @@ const Wishlist = () => {
                         image: item.image,
                         quantity: 1
                       };
-                      addItem(cartItem);
+                      addToCart(cartItem);
                     }}
                     disabled={!item.in_stock}
                   >
