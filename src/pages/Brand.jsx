@@ -367,6 +367,23 @@ const Brand = () => {
             </div>
           </section>
         )}
+
+        {/* All Products */}
+        {products.length > 0 && (
+          <section className="mb-8 md:mb-12">
+            <div className="flex justify-between items-center mb-4 md:mb-6">
+              <h2 className="text-lg md:text-2xl font-semibold">All Products</h2>
+              <Link to={`/brand/${brandId}/products`} className="text-sm md:text-base text-gray-400 hover:text-primary transition-colors">
+                See all
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {products.slice(0, 4).map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
