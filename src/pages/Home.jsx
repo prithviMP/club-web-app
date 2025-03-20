@@ -228,7 +228,7 @@ const Home = () => {
               Unable to connect to server. Please check your connection and try again.
             </div>
           ) : renderLoadingOrError('brands', (
-            <div className="grid grid-cols-6 sm:flex sm:justify-between items-center gap-2 sm:gap-4">
+            <div className="grid grid-cols-3 gap-4 sm:flex sm:justify-between items-center sm:gap-4">
               {brands.slice(0, 6).map((brand) => (
                 <Link 
                   key={brand.id} 
