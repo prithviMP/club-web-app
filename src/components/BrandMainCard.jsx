@@ -24,7 +24,7 @@ const BrandMainCard = ({ brand }) => {
 
   return (
     <Link 
-      to={`/store?brand=${brand.documentId}`}
+      to={`/brand/${brand.documentId}`}
       className="flex flex-col bg-black rounded-xl overflow-hidden transition-transform hover:scale-[1.02] h-full"
     >
       <div className="p-6 flex items-center justify-between">

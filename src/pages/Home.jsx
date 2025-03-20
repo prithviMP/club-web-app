@@ -232,7 +232,7 @@ const Home = () => {
               {brands.slice(0, 6).map((brand) => (
                 <Link 
                   key={brand.id} 
-                  to={`/store?brand=${brand.documentId}`} 
+                  to={`/brand/${brand.documentId}`} 
                   className="group transition-transform hover:scale-105 flex flex-col items-center"
                 >
                   <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-full bg-gray-800 flex items-center justify-center group-hover:bg-gray-700 transition-colors p-2 sm:p-3">
