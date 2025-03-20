@@ -235,11 +235,11 @@ const Home = () => {
                   to={`/brand/${brand.documentId}`} 
                   className="group transition-transform hover:scale-105 flex flex-col items-center"
                 >
-                  <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-full bg-gray-800 flex items-center justify-center group-hover:bg-gray-700 transition-colors p-2 sm:p-3">
+                  <div className="w-14 h-14 sm:w-24 sm:h-24 rounded-full bg-gray-800 flex items-center justify-center group-hover:bg-gray-700 transition-colors overflow-hidden">
                     <img 
                       src={getImageUrl(brand.brand_logo, 'thumbnail')}
                       alt={brand.brand_name} 
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   <p className="text-center text-[10px] sm:text-sm mt-1 sm:mt-2 group-hover:text-primary transition-colors">
