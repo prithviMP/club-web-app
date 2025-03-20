@@ -94,9 +94,10 @@ function App() {
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
-                    <Route path="/brand/:brandId" element={<Brand />} />
-                    <Route path="/brand/:brandId/new-arrivals" element={<BrandProducts />} />
-                    <Route path="/brand/:brandId/most-selling" element={<BrandProducts />} />
+                    <Route path="/brands/:brandId" element={<Brand />} />
+                    <Route path="/brands/:brandId/products" element={<BrandProducts />} />
+                    {/*<Route path="/brand/:brandId/new-arrivals" element={<BrandProducts />} />
+                    <Route path="/brand/:brandId/most-selling" element={<BrandProducts />} />*/}
 
                     {/* Protected Routes */}
                     <Route 
