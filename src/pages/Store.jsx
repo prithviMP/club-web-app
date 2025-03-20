@@ -25,10 +25,11 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
 
 const Store = () => {
+  const [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState('');
   const [brandSearch, setBrandSearch] = useState('');
   const [filters, setFilters] = useState({
-    brands: [],
+    brands: [searchParams.get('brand')].filter(Boolean),
     ratings: []
   });
   const [products, setProducts] = useState([]);
