@@ -23,9 +23,12 @@ const [isAdding, setIsAdding] = useState(false);
     });
     
     const cartItem = {
-      ...product,
+      id: product.id,
+      name: product.name,
+      price: product.price,
       size: selectedSize,
-      image: productImage
+      image: product.product_image?.[0] || null,
+      quantity: 1
     };
     
     addToCart(cartItem, selectedSize);
