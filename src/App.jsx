@@ -18,6 +18,7 @@ import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import Brand from './pages/Brand';
 import BrandProducts from './pages/BrandProducts';
+import BrandAllProducts from './pages/BrandAllProducts';
 import OrderTracking from './pages/OrderTracking';
 import Orders from './pages/Orders';
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -95,8 +96,7 @@ function App() {
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/brand/:brandId" element={<Brand />} />
-                    <Route path="/brand/:brandId/new-arrivals" element={<BrandProducts />} />
-                    <Route path="/brand/:brandId/most-selling" element={<BrandProducts />} />
+                    <Route path="/brand/:brandId/products" element={<BrandAllProducts />} />
 
                     {/* Protected Routes */}
                     <Route 
