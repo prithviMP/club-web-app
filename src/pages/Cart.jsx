@@ -357,6 +357,9 @@ const Cart = () => {
   };
 
   const renderCartItems = () => {
+    // Log cart items for debugging
+    console.log("Current cart items:", items);
+    
     if (items.length === 0) {
       return (
         <div className="text-center py-12 px-4">
