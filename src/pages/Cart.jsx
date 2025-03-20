@@ -434,7 +434,11 @@ const Cart = () => {
                           {item.product_name}
                         </h3>
                         <p className="text-sm sm:text-base text-gray-400 mb-2">
-                          Size: {typeof item.size === "object" ? (item.size.size || "") : item.size}
+                          Size: {item.size ? (
+                            typeof item.size === "object" 
+                              ? item.size.size || 'N/A'
+                              : item.size
+                          ) : 'One Size'}
                         </p>
                       </div>
                       <span className="font-medium text-base sm:text-lg">
