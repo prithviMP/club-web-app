@@ -118,11 +118,11 @@ const Wishlist = () => {
 
                 <div className="flex space-x-2">
                   <button 
-                    className="flex-1 bg-primary text-black px-4 py-2 rounded-md font-medium hover:bg-opacity-90 transition-colors"
+                    className="w-10 h-10 bg-primary text-black rounded-md flex items-center justify-center hover:bg-opacity-90 transition-colors"
                     onClick={() => handleAddToCart(item)}
                     disabled={!item.in_stock}
                   >
-                    {item.in_stock ? 'Add to Cart' : 'Out of Stock'}
+                    {item.in_stock ? '+' : '×'}
                   </button>
 
                   <button 
