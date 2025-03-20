@@ -61,6 +61,7 @@ export const displayRazorpay = (paymentData, onSuccess, onError) => {
         razorpayOrderId: response.razorpay_order_id,
         razorpaySignature: response.razorpay_signature,
         orderId: paymentData.orderId,
+        amount: paymentData.amount,
       });
     },
   };

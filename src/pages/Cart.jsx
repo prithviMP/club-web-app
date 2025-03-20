@@ -286,27 +286,7 @@ const Cart = () => {
   const handlePaymentSuccess = async (response) => {
     try {
       setIsLoading(true);
-
-      const updatePayload = {
-        razorpayOrderId: response.razorpayOrderId,
-        razorpayPaymentId: response.razorpayPaymentId,
-        razorpaySignature: response.razorpaySignature,
-        level: "paid",
-      };
-
-      try {
-        const orderDetail =
-          orderData || (await checkoutService.getOrderById(response.orderId));
-        const updateId = orderDetail.documentId || response.orderId;
-        await apiClient.put(`/order-details/${updateId}`, {
-          data: updatePayload,
-        });
-      } catch (updateError) {
-        console.error(
-          "Error updating order with payment details:",
-          updateError,
-        );
-      }
+      console.log("Payment successful:", response);
 
       const paymentDetailData = {
         orderId: response.orderId,
@@ -325,15 +305,24 @@ const Cart = () => {
         const updatedOrder = updatedOrderResponse.data
           ? updatedOrderResponse.data
           : updatedOrderResponse;
-        setOrderData(updatedOrder);
+
+        clearCart();
+        navigate('/order-success', { 
+          state: { 
+            order: updatedOrder, 
+            paymentDetails: response 
+          }
+        });
       } catch (fetchError) {
         console.error("Error fetching updated order details:", fetchError);
+        navigate('/payment-failed', { 
+          state: { 
+            error: { 
+              description: 'Failed to process order details. Please contact support.' 
+            } 
+          }
+        });
       }
-
-      setPaymentDetails(response);
-      setIsLoading(false);
-      setCurrentStep(CHECKOUT_STEPS.CONFIRMATION);
-      clearCart();
     } catch (error) {
       console.error("Error processing payment:", error);
       setError(
