@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useParams, useLocation, Link, useNavigate } from 'react-router-dom';
 import { brandService } from '../services/brandService';
 import ProductCard from '../components/product/ProductCard';
 import Spinner from '../components/ui/Spinner';
@@ -8,6 +8,13 @@ import { getImageSource } from '../utils/imageUtils';
 const BrandProducts = () => {
   const { brandId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (isAllProducts) {
+      navigate(`/store?brand=${brandId}`);
+    }
+  }, [isAllProducts, brandId, navigate]);
   const [brand, setBrand] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
