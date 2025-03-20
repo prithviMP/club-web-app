@@ -22,37 +22,37 @@ const Brand = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Fetch brand details with all related data including products
         try {
           console.log('Fetching brand with ID:', brandId);
           const brandResponse = await brandService.getBrandById(brandId);
-          
+
           console.log('Brand response:', brandResponse);
-          
+
           if (brandResponse && brandResponse.data) {
             setBrand(brandResponse.data);
-            
+
             // Extract products from the brand response if available
             const brandProducts = brandResponse.data.products || [];
             console.log('Extracted products from brand:', brandProducts);
-            
+
             if (brandProducts.length > 0) {
               // Format products for display
               const formattedProducts = formatProducts(brandProducts);
-              
+
               // Sort products for new arrivals (newest first based on createdAt)
               const sortedByDate = [...formattedProducts].sort((a, b) => 
                 new Date(b.createdAt) - new Date(a.createdAt)
               ).slice(0, 4);
               setNewArrivals(sortedByDate);
-              
+
               // Sort products for most selling (highest rating first)
               const sortedByRating = [...formattedProducts].sort((a, b) => 
                 (b.rating || 0) - (a.rating || 0)
               ).slice(0, 4);
               setMostSelling(sortedByRating);
-              
+
               // Extract unique categories from products
               const uniqueCategories = [];
               brandProducts.forEach(product => {
@@ -64,7 +64,7 @@ const Brand = () => {
                   });
                 }
               });
-              
+
               // Use unique categories if found, otherwise use default categories
               setCategories(uniqueCategories.length > 0 ? uniqueCategories : getDefaultCategories());
             } else {
@@ -75,7 +75,7 @@ const Brand = () => {
             }
           } else {
             console.error('Invalid brand response:', brandResponse);
-            
+
             // Handle both null data and error responses
             if (brandResponse && brandResponse.error) {
               console.error('API error details:', brandResponse.error);
@@ -86,20 +86,20 @@ const Brand = () => {
           }
         } catch (brandError) {
           console.error('Error fetching brand:', brandError);
-          
+
           // Extract and display more specific error details if available
           const errorMessage = brandError?.response?.data?.error?.message || 
                               brandError?.message || 
                               'Failed to load brand data. Please try again later.';
-          
+
           console.error('Error details:', {
             message: errorMessage,
             details: brandError?.response?.data?.error?.details || {}
           });
-          
+
           setError(errorMessage);
         }
-        
+
         setLoading(false);
       } catch (err) {
         console.error('Error in fetchBrandData:', err);
@@ -107,7 +107,7 @@ const Brand = () => {
         setLoading(false);
       }
     };
-    
+
     // Helper function to get default categories
     const getDefaultCategories = () => {
       return [
@@ -117,12 +117,12 @@ const Brand = () => {
         { id: 4, name: 'Product Category', image: '/products/category4.jpg' },
       ];
     };
-    
+
     if (brandId) {
       fetchBrandData();
     }
   }, [brandId]);
-  
+
   // Helper function to format product data for ProductCard component
   const formatProducts = (products) => {
     return products.map(product => {
@@ -144,14 +144,14 @@ const Brand = () => {
       };
     });
   };
-  
+
   // Helper function to get product image URL
   const getProductImage = (product) => {
     if (!product) return '';
-    
+
     // More robust check for product media in Strapi format
     // Check for images in multiple possible locations in the response structure
-    
+
     // Option 1: Check for product.images (standard Strapi array format)
     if (product.images && Array.isArray(product.images.data) && product.images.data.length > 0) {
       const media = product.images.data[0];
@@ -160,7 +160,7 @@ const Brand = () => {
         return imageUrl.startsWith('/') ? `${MEDIA_URL}${imageUrl}` : imageUrl;
       }
     }
-    
+
     // Option 2: Check for product.thumbnail (standard Strapi single media format)
     if (product.thumbnail && product.thumbnail.data) {
       const thumb = product.thumbnail.data;
@@ -169,7 +169,7 @@ const Brand = () => {
         return imageUrl.startsWith('/') ? `${MEDIA_URL}${imageUrl}` : imageUrl;
       }
     }
-    
+
     // Option 3: Check for product.image (alternate field name)
     if (product.image && product.image.data) {
       const img = product.image.data;
@@ -178,7 +178,7 @@ const Brand = () => {
         return imageUrl.startsWith('/') ? `${MEDIA_URL}${imageUrl}` : imageUrl;
       }
     }
-    
+
     // Option 4: Check for legacy formats (for backward compatibility)
     if (product.product_image && product.product_image.length > 0) {
       const img = product.product_image[0];
@@ -187,33 +187,33 @@ const Brand = () => {
         return imageUrl.startsWith('/') ? `${MEDIA_URL}${imageUrl}` : imageUrl;
       }
     }
-    
+
     // Option 5: Check for flat structure (simple URL field)
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
       if (typeof product.images[0] === 'string') {
         return product.images[0].startsWith('/') ? `${MEDIA_URL}${product.images[0]}` : product.images[0];
       }
-      
+
       const img = product.images[0];
       const imageUrl = img.url || (img.formats && (img.formats.medium?.url || img.formats.small?.url));
       if (imageUrl) {
         return imageUrl.startsWith('/') ? `${MEDIA_URL}${imageUrl}` : imageUrl;
       }
     }
-    
+
     // Default image if no product images found
     return '/img/product-placeholder.png';
   };
-  
+
   // Helper function to get brand logo URL
   const getBrandLogo = () => {
     console.log('Getting brand logo from:', brand?.brand_logo);
     if (!brand || !brand.brand_logo) return '/brands/goat-logo.png';
-    
+
     // Get the appropriate logo URL from formats or fall back to main URL
     const logo = brand.brand_logo;
     const logoUrl = logo.formats?.thumbnail?.url || logo.formats?.small?.url || logo.url;
-    
+
     // Handle relative URLs by prepending the MEDIA_URL
     if (logoUrl && logoUrl.startsWith('/')) {
       console.log('Brand logo is a relative URL, prepending media URL');
@@ -221,23 +221,23 @@ const Brand = () => {
     } else if (logoUrl) {
       return logoUrl;
     }
-    
+
     return '/brands/goat-logo.png'; // Fallback logo
   };
-  
+
   // Helper function to get brand poster URL
   const getBrandPoster = () => {
     console.log('Getting brand poster from:', brand?.brand_poster);
     if (!brand || !brand.brand_poster || !brand.brand_poster.length) {
       return '/brands/goat.jpg';
     }
-    
+
     // Get the first poster from the array
     const poster = brand.brand_poster[0];
-    
+
     // Get the appropriate poster URL from formats or fall back to main URL
     const posterUrl = poster.formats?.large?.url || poster.formats?.medium?.url || poster.url;
-    
+
     // Handle relative URLs by prepending the MEDIA_URL
     if (posterUrl && posterUrl.startsWith('/')) {
       console.log('Brand poster is a relative URL, prepending media URL');
@@ -245,10 +245,10 @@ const Brand = () => {
     } else if (posterUrl) {
       return posterUrl;
     }
-    
+
     return '/brands/goat.jpg'; // Fallback poster
   };
-  
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black text-white pt-20 flex items-center justify-center">
@@ -259,7 +259,7 @@ const Brand = () => {
       </div>
     );
   }
-  
+
   if (error || !brand) {
     return (
       <div className="min-h-screen bg-black text-white pt-20 p-4">
@@ -276,7 +276,7 @@ const Brand = () => {
       </div>
     );
   }
-  
+
   const brandName = brand?.brand_name || 'Brand Name';
   const brandDescription = brand?.description || 'No description available';
 
@@ -372,4 +372,4 @@ const Brand = () => {
   );
 };
 
-export default Brand; 
+export default Brand;
