@@ -16,6 +16,7 @@ const Brand = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchBrandData = async () => {
@@ -33,8 +34,9 @@ const Brand = () => {
           if (brandResponse && brandResponse.data) {
             setBrand(brandResponse.data);
 
-            // Extract products from the brand response if available
+            // Set all products and filtered lists
             const brandProducts = brandResponse.data.products || [];
+            setProducts(brandProducts);
             console.log('Extracted products from brand:', brandProducts);
 
             if (brandProducts.length > 0) {
