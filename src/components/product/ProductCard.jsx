@@ -24,14 +24,6 @@ const ProductCard = ({ product }) => {
   const imageUrl = getImageSource(product.product_image[0], "list");
 
   const handleAddToCart = () => {
-    console.log("Product being added to cart:", {
-      product,
-      inStock: product?.in_stock,
-      currentQuantity: currentCartQuantity,
-      maxStock,
-      sizes: product?.sizes,
-    });
-
     // If product is out of stock
     if (!product?.in_stock) {
       setPopupMessage("Product is out of stock");
@@ -49,7 +41,6 @@ const ProductCard = ({ product }) => {
       return;
     }
 
-
     if (!size && product.sizes?.length > 0) {
       setPopupMessage("No sizes available");
       setShowPopup(true);
@@ -59,13 +50,24 @@ const ProductCard = ({ product }) => {
 
     setCartQuantity((prev) => prev + 1);
 
-    const item = {
-      ...product, // Add the entire product object
-      size: size || null,
+    // Create a complete cart item with all necessary product information
+    const cartItem = {
+      id: product.id,
+      documentId: product.documentId,
+      name: product.name,
+      price: product.price,
+      brand: product.brand,
+      product_image: product.product_image,
+      in_stock: product.in_stock,
+      stock: product.stock,
+      sizes: product.sizes,
+      size: size,
       quantity: 1,
+      rating: product.rating
     };
 
-    addItem(item);
+    console.log("Adding product to cart:", cartItem);
+    addItem(cartItem);
     setPopupMessage("Added to cart!");
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 2000);
