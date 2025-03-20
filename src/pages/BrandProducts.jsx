@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { brandService } from '../services/brandService';
 import ProductCard from '../components/product/ProductCard';
-import Spinner from '../components/common/Spinner';
+import Spinner from '../components/ui/Spinner';
 import { getImageSource } from '../utils/imageUtils';
 
 const BrandProducts = () => {
