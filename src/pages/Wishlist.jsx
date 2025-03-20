@@ -118,8 +118,18 @@ const Wishlist = () => {
 
                 <div className="flex space-x-2">
                   <button 
-                    className="w-10 h-10 bg-primary text-black rounded-md flex items-center justify-center hover:bg-opacity-90 transition-colors"
-                    onClick={() => handleAddToCart(item)}
+                    className="w-10 h-10 bg-primary text-black rounded-md flex items-center justify-center hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      const cartItem = {
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        size: 'M', // Default size
+                        image: item.image,
+                        quantity: 1
+                      };
+                      addItem(cartItem);
+                    }}
                     disabled={!item.in_stock}
                   >
                     {item.in_stock ? '+' : '×'}
