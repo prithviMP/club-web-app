@@ -22,12 +22,41 @@ const BrandProducts = () => {
   // Determine the type of products to display based on the URL
   const isNewArrivals = location.pathname.includes('new-arrivals');
   const isMostSelling = location.pathname.includes('most-selling');
+  const isAllProducts = !isNewArrivals && !isMostSelling;
   
   const pageTitle = isNewArrivals 
     ? 'New Arrivals' 
     : isMostSelling 
       ? 'Most Selling' 
       : 'All Products';
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await brandService.getBrandProducts(brandId);
+        const allProducts = response.data || [];
+        
+        let filteredProducts;
+        if (isNewArrivals) {
+          filteredProducts = allProducts.filter(p => p.isNewArrival);
+        } else if (isMostSelling) {
+          filteredProducts = allProducts.filter(p => p.isBestSeller);
+        } else {
+          filteredProducts = allProducts;
+        }
+        
+        setProducts(filteredProducts);
+        setTotalPages(Math.ceil(filteredProducts.length / pageSize));
+      } catch (err) {
+        setError('Failed to load products');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [brandId, isNewArrivals, isMostSelling, pageSize]);
 
   useEffect(() => {
     const fetchBrandData = async () => {
