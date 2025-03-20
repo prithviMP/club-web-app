@@ -29,7 +29,7 @@ const Store = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [brandSearch, setBrandSearch] = useState('');
   const [filters, setFilters] = useState({
-    brands: [searchParams.get('brand')].filter(Boolean),
+    brands: [Number(searchParams.get('brand'))].filter(Boolean),
     ratings: []
   });
   const [products, setProducts] = useState([]);
