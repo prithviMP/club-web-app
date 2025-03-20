@@ -58,13 +58,13 @@ const ProductCard = ({ product }) => {
       price: product.price,
       brand: product.brand,
       product_image: product.product_image || [],
-      image: getImageSource(product.product_image?.[0], 'thumbnail'),
+      image: getImageSource(product.product_image?.[0], "thumbnail"),
       in_stock: product.in_stock,
       stock: product.stock,
       sizes: product.sizes,
       size: size,
       quantity: 1,
-      rating: product.rating
+      rating: product.rating,
     };
 
     console.log("Adding product to cart:", cartItem);
@@ -187,7 +187,7 @@ const ProductCard = ({ product }) => {
               <div className="flex items-center justify-center gap-1">
                 Add to Cart
                 {cartQuantity > 0 && (
-                  <span className="ml-1">++{cartQuantity}</span>
+                  <span className="ml-1">+{cartQuantity}</span>
                 )}
               </div>
             ) : (

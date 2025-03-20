@@ -24,6 +24,7 @@ const CHECKOUT_STEPS = {
 
 // Helper function to get the image URL
 const getImageUrl = (image) => {
+  console.log("image------------>", image);
   if (!image) return "/assets/placeholder.png";
   if (image.url?.startsWith("http")) return image.url;
   if (image.formats && image.formats.thumbnail) {
@@ -359,7 +360,7 @@ const Cart = () => {
   const renderCartItems = () => {
     // Log cart items for debugging
     console.log("Current cart items:", items);
-    
+
     if (items.length === 0) {
       return (
         <div className="text-center py-12 px-4">
@@ -418,16 +419,9 @@ const Cart = () => {
                 >
                   <div className="w-24 h-24 flex-shrink-0">
                     <img
-                      src={getImageSource(item.product_image?.[0], 'thumbnail')}
+                      src={getImageSource(item.image, "thumbnail")}
                       alt={item.name}
                       className="w-full h-full object-cover rounded-md"
-                    />
-                  </div>
-                  <div className="w-20 h-20 sm:w-32 sm:h-32 bg-gray-800 rounded-lg overflow-hidden flex-shrink-0">
-                    <img
-                      src={getImageUrl(item.product_image?.[0])}
-                      alt={item.product_name}
-                      className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="ml-4 sm:ml-6 flex-grow">
@@ -437,11 +431,12 @@ const Cart = () => {
                           {item.product_name}
                         </h3>
                         <p className="text-sm sm:text-base text-gray-400 mb-2">
-                          Size: {item.size ? (
-                            typeof item.size === "object" 
-                              ? item.size.size || 'N/A'
+                          Size:{" "}
+                          {item.size
+                            ? typeof item.size === "object"
+                              ? item.size.size || "N/A"
                               : item.size
-                          ) : 'One Size'}
+                            : "One Size"}
                         </p>
                       </div>
                       <span className="font-medium text-base sm:text-lg">
