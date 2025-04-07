@@ -10,6 +10,7 @@ const Profile = () => {
   const userData = useUserDataStore(state => state.userData || state.user);
   const getUserData = useUserDataStore(state => state.getUserData);
   const [activeTab, setActiveTab] = useState('profile');
+const SavedAddresses = React.lazy(() => import('../components/profile/SavedAddresses'));
   const [orderHistory, setOrderHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -111,6 +112,16 @@ const Profile = () => {
               onClick={() => setActiveTab('orders')}
             >
               Order History
+            </button>
+            <button
+              className={`px-6 py-3 font-medium text-sm ${
+                activeTab === 'addresses'
+                  ? 'border-b-2 border-primary text-primary'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+              onClick={() => setActiveTab('addresses')}
+            >
+              Addresses
             </button>
             <button
               className={`px-6 py-3 font-medium text-sm ${
@@ -222,6 +233,12 @@ const Profile = () => {
                 </div>
               )}
             </div>
+          )}
+
+          {activeTab === 'addresses' && (
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <SavedAddresses userId={userData?.id} />
+            </React.Suspense>
           )}
 
           {activeTab === 'settings' && (
