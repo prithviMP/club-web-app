@@ -95,12 +95,13 @@ export const createShippingInfo = async (shippingData) => {
     // Map frontend field names to backend field names
     const mappedData = {
       Fullname: shippingData.fullName,
-      Address: shippingData.address,
+      Address: shippingData.address, 
       state: shippingData.state,
       pincode: parseInt(shippingData.postalCode),
       phone_no: shippingData.phone,
       user: shippingData.user,
       locale: shippingData.locale || 'en'
+      // City is not accepted by the API
     };
 
     const response = await apiClient.post('/shipping-infos', { data: mappedData });

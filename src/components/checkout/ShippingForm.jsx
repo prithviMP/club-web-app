@@ -83,6 +83,7 @@ const ShippingForm = ({ onSubmit, initialData = {} }) => {
             pincode: parseInt(formData.postalCode),
             phone_no: formData.phone,
             user: user.id
+            // City is not accepted by the API
           });
         } catch (error) {
           console.error('Error saving address:', error);

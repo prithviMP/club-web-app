@@ -53,7 +53,6 @@ const SavedAddresses = ({ userId }) => {
         state: formData.state,
         pincode: parseInt(formData.postalCode),
         phone_no: formData.phone,
-        city: formData.city,
         user: userId
       };
 
