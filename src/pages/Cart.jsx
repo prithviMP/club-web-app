@@ -231,13 +231,6 @@ const Cart = () => {
         theme: {
           color: "#6366F1",
         },
-        ...(isTestMode
-          ? {
-              callback_url: window.location.href,
-              redirect: true,
-              receipt: `receipt_${orderDetail.id}`,
-            }
-          : {}),
         handler: function (response) {
           handlePaymentSuccess({
             razorpayPaymentId:
@@ -257,6 +250,13 @@ const Cart = () => {
             });
           },
         },
+        ...(isTestMode
+          ? {
+              callback_url: window.location.href,
+              redirect: true,
+              receipt: `receipt_${orderDetail.id}`,
+            }
+          : {}),
       };
 
       const paymentObject = new window.Razorpay(options);
@@ -307,7 +307,7 @@ const Cart = () => {
           : updatedOrderResponse;
 
         clearCart();
-        navigate('/order-success', { 
+        navigate('/order-placed', { 
           state: { 
             order: updatedOrder, 
             paymentDetails: response 
@@ -332,10 +332,17 @@ const Cart = () => {
     }
   };
 
-  const handlePaymentError = async (errorData) => {
-    console.error("Payment failed:", errorData);
-    setError(errorData.description || "Payment failed");
-    navigate("/payment-failed", { state: { errorData } });
+  const handlePaymentError = async (error) => {
+    console.error("Payment failed:", error);
+    setError(`Payment failed: ${error.description || "Unknown error"}`);
+    setIsLoading(false);
+
+    // Redirect to payment failed page with error details
+    navigate('/payment-failed', { 
+      state: { 
+        error: error 
+      } 
+    });
   };
 
   const handleCheckout = () => {
