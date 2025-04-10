@@ -8,6 +8,7 @@ import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart'
 import OrderSuccess from './pages/OrderSuccess';
 import PaymentFailed from './pages/PaymentFailed';
+import OrderConfirmation from './components/checkout/OrderConfirmation';
 import Wishlist from './pages/Wishlist';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
