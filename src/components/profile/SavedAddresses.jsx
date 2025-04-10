@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { shippingService } from '../../services/shipping/shippingService';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 const SavedAddresses = ({ userId }) => {
   const [addresses, setAddresses] = useState([]);
