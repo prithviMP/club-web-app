@@ -212,6 +212,10 @@ const Cart = () => {
         }
       }
 
+      // Create a callback URL that points to our OrderConfirmation page
+      const baseUrl = window.location.origin;
+      const callbackUrl = `${baseUrl}/order/confirmation`;
+      
       const options = {
         key: razorpayKey,
         amount: amount * 100,
@@ -252,7 +256,7 @@ const Cart = () => {
         },
         ...(isTestMode
           ? {
-              callback_url: window.location.href,
+              callback_url: `${callbackUrl}?order_id=${orderDetail.id}&status=:action`,
               redirect: true,
               receipt: `receipt_${orderDetail.id}`,
             }

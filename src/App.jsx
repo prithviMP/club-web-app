@@ -89,6 +89,7 @@ function App() {
                     <Route path="/product/:id" element={<ProductDetails />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/order/confirmation" element={<OrderConfirmation />} />
                     <Route path="/payment-failed" element={<PaymentFailed />} />
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/login" element={<Login />} />
