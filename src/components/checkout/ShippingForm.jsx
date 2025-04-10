@@ -1,21 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
-const shippingService = { // Placeholder for actual shipping service
-  saveAddress: async (addressData) => {
-    console.log('Saving address:', addressData); 
-    // Replace with actual API call to Strapi
-    return Promise.resolve({ id: 1, ...addressData }); // Simulate successful save
-  },
-  getSavedAddresses: async (userId) => {
-    console.log('Fetching saved addresses for user:', userId);
-    // Replace with actual API call to Strapi
-    return Promise.resolve([
-      {id:1, Fullname: 'John Doe', Address: '123 Main St', state: 'CA', pincode: 90210, phone_no: '1234567890'},
-      {id:2, Fullname: 'Jane Doe', Address: '456 Oak Ave', state: 'NY', pincode: 10001, phone_no: '9876543210'}
-    ]); // Simulate fetching saved addresses
-  }
-};
+import { shippingService } from '../../services/shipping/shippingService';
 
 
 const ShippingForm = ({ onSubmit, initialData = {} }) => {

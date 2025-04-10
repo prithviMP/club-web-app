@@ -4,7 +4,7 @@ import { apiClient } from '../../utils/api/client';
 export const shippingService = {
   saveAddress: async (addressData) => {
     try {
-      const response = await apiClient.post('/shipping-addresses', {
+      const response = await apiClient.post('/shipping-infos', {
         data: addressData
       });
       return response.data;
@@ -16,7 +16,7 @@ export const shippingService = {
 
   updateAddress: async (addressId, addressData) => {
     try {
-      const response = await apiClient.put(`/shipping-addresses/${addressId}`, {
+      const response = await apiClient.put(`/shipping-infos/${addressId}`, {
         data: addressData
       });
       return response.data;
@@ -28,7 +28,7 @@ export const shippingService = {
 
   deleteAddress: async (addressId) => {
     try {
-      await apiClient.delete(`/shipping-addresses/${addressId}`);
+      await apiClient.delete(`/shipping-infos/${addressId}`);
     } catch (error) {
       console.error('Error deleting address:', error);
       throw error;
@@ -37,7 +37,7 @@ export const shippingService = {
 
   getSavedAddresses: async (userId) => {
     try {
-      const response = await apiClient.get(`/shipping-addresses?filters[user][id][$eq]=${userId}&populate=*`);
+      const response = await apiClient.get(`/shipping-infos?populate=*&filters[user]=${userId}`);
       return response.data.data || [];
     } catch (error) {
       console.error('Error fetching addresses:', error);

@@ -111,6 +111,28 @@ export const createShippingInfo = async (shippingData) => {
   }
 };
 
+// Get shipping info by ID
+export const getShippingInfoById = async (shippingInfoId) => {
+  try {
+    const response = await apiClient.get(`/shipping-infos/${shippingInfoId}?populate=*`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching shipping info:', error);
+    throw error;
+  }
+};
+
+// Get shipping info by user ID
+export const getShippingInfoByUserId = async (userId) => {
+  try {
+    const response = await apiClient.get(`/shipping-infos?populate=*&filters[user]=${userId}`);
+    return response.data.data || [];
+  } catch (error) {
+    console.error('Error fetching user shipping info:', error);
+    return [];
+  }
+};
+
 // Initialize Razorpay payment
 export const initializePayment = async (amount, orderId, currency = 'INR') => {
   try {
