@@ -77,6 +77,12 @@ const ProductDetails = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loadingBrandProducts, setLoadingBrandProducts] = useState(false);
   const [loadingRelatedProducts, setLoadingRelatedProducts] = useState(false);
+  
+  // Review form state
+  const [reviewName, setReviewName] = useState("");
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewComment, setReviewComment] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   // Slider settings
   const sliderSettings = {
@@ -206,6 +212,53 @@ const ProductDetails = () => {
     setTimeout(() => {
       setShowPopup(false);
     }, 3000);
+  };
+  
+  const handleRatingClick = (rating) => {
+    setReviewRating(rating);
+  };
+  
+  const handleReviewSubmit = async () => {
+    // Validate form
+    if (!reviewName.trim()) {
+      toast.error('Please enter your name');
+      return;
+    }
+    
+    if (reviewRating === 0) {
+      toast.error('Please select a rating');
+      return;
+    }
+    
+    if (!reviewComment.trim()) {
+      toast.error('Please enter your review');
+      return;
+    }
+    
+    setIsSubmittingReview(true);
+    
+    try {
+      // Here you would normally call an API to submit the review
+      // For now, we'll just simulate the API call with a timeout
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Reset form
+      setReviewName("");
+      setReviewRating(0);
+      setReviewComment("");
+      
+      // Show success message
+      toast.success('Review submitted successfully!');
+      
+      // You could also update the reviews list here
+      // For example, by adding the new review to the local state
+      // and/or refreshing the product data
+    } catch (error) {
+      toast.error('Failed to submit review. Please try again.');
+      console.error('Error submitting review:', error);
+    } finally {
+      setIsSubmittingReview(false);
+    }
   };
 
   const moreFromBrand = [
@@ -486,37 +539,99 @@ const ProductDetails = () => {
           <div className="mb-12">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg sm:text-xl font-semibold">Reviews</h3>
-              <button className="text-sm sm:text-base text-primary">
-                See all reviews
-              </button>
+              {reviews.length > 0 && (
+                <button className="text-sm sm:text-base text-primary">
+                  See all reviews
+                </button>
+              )}
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {reviews.map((review) => (
-                <div key={review.id} className="bg-secondary rounded-xl p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <img
-                      src={review.avatar}
-                      alt={review.name}
-                      className="w-10 h-10 rounded-full"
-                    />
-                    <div>
-                      <p className="font-medium">{review.name}</p>
-                      <div className="flex items-center">
-                        <span className="text-primary font-semibold mr-2">
-                          {review.rating}
-                        </span>
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          className="text-yellow-400 w-4 h-4"
-                        />
+              {reviews.length > 0 ? (
+                reviews.map((review) => (
+                  <div key={review.id} className="bg-secondary rounded-xl p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <img
+                        src={review.avatar}
+                        alt={review.name}
+                        className="w-10 h-10 rounded-full"
+                      />
+                      <div>
+                        <p className="font-medium">{review.name}</p>
+                        <div className="flex items-center">
+                          <span className="text-primary font-semibold mr-2">
+                            {review.rating}
+                          </span>
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            className="text-yellow-400 w-4 h-4"
+                          />
+                        </div>
                       </div>
                     </div>
+                    <p className="text-gray-400 text-sm sm:text-base">
+                      {review.comment}
+                    </p>
                   </div>
-                  <p className="text-gray-400 text-sm sm:text-base">
-                    {review.comment}
-                  </p>
+                ))
+              ) : (
+                <div className="col-span-full bg-secondary rounded-xl p-6">
+                  <div className="text-center mb-6">
+                    <h4 className="text-lg font-medium mb-2">No reviews yet</h4>
+                    <p className="text-gray-400">Be the first one to review this product!</p>
+                  </div>
+                  
+                  <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                    <div>
+                      <label htmlFor="reviewName" className="block text-sm font-medium text-gray-300 mb-1">Your Name</label>
+                      <input 
+                        type="text"
+                        id="reviewName"
+                        value={reviewName}
+                        onChange={(e) => setReviewName(e.target.value)}
+                        className="w-full bg-gray-700 border border-gray-600 rounded-md px-4 py-2 text-white focus:ring-1 focus:ring-primary focus:border-primary"
+                        placeholder="Enter your name"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-1">Rating</label>
+                      <div className="flex items-center gap-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button 
+                            key={star}
+                            type="button"
+                            onClick={() => handleRatingClick(star)}
+                            className={`text-2xl ${reviewRating >= star ? 'text-yellow-400' : 'text-gray-400'} hover:text-yellow-400 focus:outline-none transition-colors`}
+                          >
+                            <FontAwesomeIcon icon={faStar} />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="reviewComment" className="block text-sm font-medium text-gray-300 mb-1">Your Review</label>
+                      <textarea
+                        id="reviewComment"
+                        rows="4"
+                        value={reviewComment}
+                        onChange={(e) => setReviewComment(e.target.value)}
+                        className="w-full bg-gray-700 border border-gray-600 rounded-md px-4 py-2 text-white focus:ring-1 focus:ring-primary focus:border-primary"
+                        placeholder="Share your thoughts about this product"
+                      ></textarea>
+                    </div>
+                    
+                    <button
+                      type="button"
+                      className="w-full bg-primary text-black font-medium py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors disabled:opacity-70"
+                      onClick={handleReviewSubmit}
+                      disabled={isSubmittingReview}
+                    >
+                      {isSubmittingReview ? 'Submitting...' : 'Submit Review'}
+                    </button>
+                  </form>
                 </div>
-              ))}
+              )}
             </div>
           </div>
 
