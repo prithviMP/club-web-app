@@ -439,8 +439,7 @@ const ProductDetails = () => {
                 Product Details
               </h3>
               <p className="text-gray-400 text-sm sm:text-base">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-                felis justo, lacinia ac accumsan ut, efficitur elit.
+                {product.description || "No product description available."}
               </p>
             </div>
 
