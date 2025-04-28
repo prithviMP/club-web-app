@@ -61,7 +61,17 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       return response;
     } catch (err) {
-      setError(err.response?.data?.error?.message || 'Error creating account');
+      // Handle common error patterns
+      let errorMessage = 'Error creating account';
+      
+      if (err.response?.data?.error?.message) {
+        errorMessage = err.response.data.error.message;
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      // Set the error message for the UI
+      setError(errorMessage);
       setLoading(false);
       throw err;
     }

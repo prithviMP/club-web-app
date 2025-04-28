@@ -38,7 +38,6 @@ const Signup = () => {
       return;
     }
 
-
     if (!email) {
       setErrors({...errors, email: 'Email is required'});
       return;
@@ -59,7 +58,6 @@ const Signup = () => {
       setErrors({...errors, password: 'Password is required'});
       return;
     }
-
     
     if (!passwordRegex.test(password)) {
       let missingRequirements = PASSWORD_REQUIREMENTS.filter(req => !req.regex.test(password)).map(req => req.message);
@@ -85,7 +83,25 @@ const Signup = () => {
       navigate('/');
     } catch (err) {
       console.error('Signup error:', err);
-      setFormError(err.response?.data?.error?.message || 'Error creating account');
+      
+      // Parse and handle specific error messages from backend
+      const errorMessage = err.response?.data?.error?.message || '';
+      
+      if (errorMessage.includes('Email or Username are already taken')) {
+        // Check which one is taken
+        if (errorMessage.toLowerCase().includes('email')) {
+          setErrors({...errors, email: 'This email is already registered'});
+        }
+        if (errorMessage.toLowerCase().includes('username')) {
+          setErrors({...errors, username: 'This username is already taken'});
+        }
+      } else if (errorMessage.includes('already')) {
+        // Generic "already exists" error
+        setFormError('This email or username is already taken. Please try another.');
+      } else {
+        // Generic error
+        setFormError(errorMessage || 'Error creating account. Please try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }

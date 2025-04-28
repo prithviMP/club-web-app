@@ -110,6 +110,39 @@ export const signup = async (username, email, password) => {
     return data;
   } catch (error) {
     console.error("Signup error:", error.response?.data || error.message);
+    
+    // Format error message for better user feedback
+    if (error.response?.data?.error?.message) {
+      const errorMessage = error.response.data.error.message;
+      
+      // Check for common Strapi error formats
+      if (Array.isArray(error.response.data.error.details?.errors)) {
+        const errors = error.response.data.error.details.errors;
+        // Extract specific field errors
+        errors.forEach(err => {
+          if (err.path && err.path.includes('email')) {
+            error.response.data.error.message = `Email error: ${err.message}`;
+          } else if (err.path && err.path.includes('username')) {
+            error.response.data.error.message = `Username error: ${err.message}`;
+          }
+        });
+      }
+      
+      // Update error message for duplicate entries
+      if (errorMessage.includes('already taken') || 
+          errorMessage.includes('must be unique')) {
+        
+        // Try to determine which field caused the error
+        if (errorMessage.toLowerCase().includes('email')) {
+          error.response.data.error.message = 'This email is already registered.';
+        } else if (errorMessage.toLowerCase().includes('username')) {
+          error.response.data.error.message = 'This username is already taken.';
+        } else {
+          error.response.data.error.message = 'Email or Username are already taken.';
+        }
+      }
+    }
+    
     throw error;
   }
 };
