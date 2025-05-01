@@ -50,13 +50,35 @@ const Contact = () => {
     }
 
     setIsSubmitting(true);
+    setError('');
+    
     try {
       // Add API call here
       await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
       toast.success('Message sent successfully!');
       setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
-      toast.error('Failed to send message. Please try again.');
+    } catch (err) {
+      console.error('Form submission error:', err);
+      
+      // Check for API error response structure
+      if (err.response?.data?.error) {
+        const errorData = err.response.data.error;
+        
+        // Handle specific error cases
+        if (errorData.message.includes('already taken')) {
+          if (errorData.message.toLowerCase().includes('email')) {
+            setErrors(prev => ({ ...prev, email: 'This email is already registered' }));
+          } else {
+            setError('This information is already registered in our system');
+          }
+        } else {
+          // Generic API error
+          setError(errorData.message || 'Failed to send message. Please try again.');
+        }
+      } else {
+        // Generic error handling
+        toast.error('Failed to send message. Please try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }
