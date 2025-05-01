@@ -1,17 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHand, faBars, faStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { faInstagram, faFacebookF, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import Slider from 'react-slick';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHand,
+  faBars,
+  faStar,
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faInstagram,
+  faFacebookF,
+  faTwitter,
+  faWhatsapp,
+} from "@fortawesome/free-brands-svg-icons";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/carousel.css";
-import ProductCard from '../components/product/ProductCard';
-import { brandService, productService } from '../services';
-import Spinner from '../components/ui/Spinner';
-import { MEDIA_URL } from '../utils/api/config';
-import BrandMainList from '../components/BrandMainList';
+import ProductCard from "../components/product/ProductCard";
+import { brandService, productService } from "../services";
+import Spinner from "../components/ui/Spinner";
+import { MEDIA_URL } from "../utils/api/config";
+import BrandMainList from "../components/BrandMainList";
 
 // Custom arrow components for the slider
 const NextArrow = ({ onClick }) => (
@@ -32,11 +43,11 @@ const PrevArrow = ({ onClick }) => (
   </button>
 );
 
-const getImageUrl = (image, format = 'thumbnail') => {
-  if (!image) return '/placeholder-image.jpg';
+const getImageUrl = (image, format = "thumbnail") => {
+  if (!image) return "/placeholder-image.jpg";
 
   // If the image is already a full URL, return it
-  if (image.url?.startsWith('http')) return image.url;
+  if (image.url?.startsWith("http")) return image.url;
 
   // If we have formats and the requested format exists, use it
   if (image.formats && image.formats[format]) {
@@ -57,13 +68,13 @@ const Home = () => {
     brands: true,
     collabs: true,
     newArrivals: true,
-    popular: true
+    popular: true,
   });
   const [error, setError] = useState({
     brands: null,
     collabs: null,
     newArrivals: null,
-    popular: null
+    popular: null,
   });
 
   // Slider settings
@@ -80,7 +91,7 @@ const Home = () => {
     customPaging: (i) => (
       <div className="w-2 h-2 mx-1 rounded-full bg-white/50 hover:bg-white transition-colors" />
     ),
-    dotsClass: "slick-dots custom-dots"
+    dotsClass: "slick-dots custom-dots",
   };
 
   useEffect(() => {
@@ -88,64 +99,63 @@ const Home = () => {
       try {
         // Fetch brands
         const brandsResponse = await brandService.getBrands();
-        console.log('Brands response:', brandsResponse); // Debug log
+        console.log("Brands response:", brandsResponse); // Debug log
         setBrands(brandsResponse.data);
-        setLoading(prev => ({ ...prev, brands: false }));
+        setLoading((prev) => ({ ...prev, brands: false }));
       } catch (err) {
-        console.error('Error fetching brands:', err); // Debug log
+        console.error("Error fetching brands:", err); // Debug log
         if (retryCount < 3) {
           setRetryCount(retryCount + 1);
           setTimeout(fetchData, 2000); // Retry after 2 seconds
         } else {
-          setError(prev => ({ ...prev, brands: err.message }));
-          setLoading(prev => ({ ...prev, brands: false }));
+          setError((prev) => ({ ...prev, brands: err.message }));
+          setLoading((prev) => ({ ...prev, brands: false }));
         }
       }
 
       try {
         // Fetch brand collaborations
         const collabsResponse = await brandService.getBrandCollabs();
-        console.log('Collabs response:', collabsResponse); // Debug log
+        console.log("Collabs response:", collabsResponse); // Debug log
         setBrandCollabs(collabsResponse.data);
-        setLoading(prev => ({ ...prev, collabs: false }));
+        setLoading((prev) => ({ ...prev, collabs: false }));
       } catch (err) {
-        console.error('Error fetching collabs:', err); // Debug log
+        console.error("Error fetching collabs:", err); // Debug log
         if (retryCount < 3) {
           setRetryCount(retryCount + 1);
           setTimeout(fetchData, 2000); // Retry after 2 seconds
         } else {
-          setError(prev => ({ ...prev, collabs: err.message }));
-          setLoading(prev => ({ ...prev, collabs: false }));
+          setError((prev) => ({ ...prev, collabs: err.message }));
+          setLoading((prev) => ({ ...prev, collabs: false }));
         }
       }
 
       try {
         // Fetch new arrivals
-        setLoading(prev => ({ ...prev, newArrivals: true }));
+        setLoading((prev) => ({ ...prev, newArrivals: true }));
         const newArrivalsResponse = await productService.getNewArrivals();
         if (newArrivalsResponse?.data) {
           setNewArrivals(formatProducts(newArrivalsResponse.data));
         }
-        setLoading(prev => ({ ...prev, newArrivals: false }));
+        setLoading((prev) => ({ ...prev, newArrivals: false }));
 
         // Fetch popular products
-        setLoading(prev => ({ ...prev, popular: true }));
+        setLoading((prev) => ({ ...prev, popular: true }));
         const popularResponse = await productService.getPopularProducts();
         if (popularResponse?.data) {
           setPopularProducts(formatProducts(popularResponse.data));
         }
-        setLoading(prev => ({ ...prev, popular: false }));
-
+        setLoading((prev) => ({ ...prev, popular: false }));
       } catch (err) {
-        console.error('Error fetching products:', err);
+        console.error("Error fetching products:", err);
         if (retryCount < 3) {
           setRetryCount(retryCount + 1);
           setTimeout(fetchData, 2000); // Retry after 2 seconds
         } else {
-          setError(prev => ({
+          setError((prev) => ({
             ...prev,
-            newArrivals: 'Failed to load new arrivals',
-            popular: 'Failed to load popular products'
+            newArrivals: "Failed to load new arrivals",
+            popular: "Failed to load popular products",
           }));
         }
       }
@@ -156,22 +166,25 @@ const Home = () => {
 
   // Helper function to format product data for ProductCard component
   const formatProducts = (products) => {
-    return products.map(product => {
+    return products.map((product) => {
       return {
         id: product.id,
         documentId: product.documentId,
-        name: product.name || 'Product Name',
+        name: product.name || "Product Name",
         price: product.price || 0,
         rating: product.rating || null,
         createdAt: product.createdAt,
         in_stock: product.in_stock !== false,
         sizes: product.sizes || [],
         stock: product.stock || 10,
-        product_image: product.product_image?.map(img => ({
-          ...img,
-          url: img.url?.startsWith('http') ? img.url : `${MEDIA_URL}${img.url}`
-        })) || [],
-        brand: product.brand
+        product_image:
+          product.product_image?.map((img) => ({
+            ...img,
+            url: img.url?.startsWith("http")
+              ? img.url
+              : `${MEDIA_URL}${img.url}`,
+          })) || [],
+        brand: product.brand,
       };
     });
   };
@@ -187,9 +200,7 @@ const Home = () => {
 
     if (error[section]) {
       return (
-        <div className="text-center py-8 text-red-500">
-          {error[section]}
-        </div>
+        <div className="text-center py-8 text-red-500">{error[section]}</div>
       );
     }
 
@@ -203,52 +214,67 @@ const Home = () => {
         <div className="bg-gradient-to-r from-purple-600 to-blue-500 rounded-xl p-6 mb-8 sm:mb-12">
           <div className="flex justify-between items-center">
             <div className="flex-1">
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-2">Create Your Own</h3>
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-2">
+                Create Your Own Custom Clothing
+              </h3>
               <p className="text-sm sm:text-base mb-2">Brand Exclusive</p>
               <p className="text-sm sm:text-base mb-4">Offer for Influencers</p>
-              <a 
-                href="https://wa.me/919611717711" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://wa.me/919611717711"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mt-2 inline-flex items-center gap-2 bg-white text-black px-6 py-2 rounded-full text-sm sm:text-base hover:bg-opacity-90 transition-colors"
               >
-                <FontAwesomeIcon icon={faWhatsapp} className="text-green-600 text-lg" />
+                <FontAwesomeIcon
+                  icon={faWhatsapp}
+                  className="text-green-600 text-lg"
+                />
                 Contact on WhatsApp
               </a>
             </div>
-            <img src="/tshirt-preview.png" alt="T-shirt" className="h-24 w-24 sm:h-32 sm:w-32 lg:h-40 lg:w-40 object-contain" />
+            {/* <img
+              src="/tshirt-preview.png"
+              alt="T-shirt"
+              className="h-24 w-24 sm:h-32 sm:w-32 lg:h-40 lg:w-40 object-contain"
+            /> */}
           </div>
         </div>
 
         {/* Explore Brands */}
         <section className="mb-8 sm:mb-12">
-          <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6">Explore Brands</h3>
+          <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6">
+            Explore Brands
+          </h3>
           {error.brands ? (
             <div className="bg-red-900/50 text-red-200 p-4 rounded-md mb-6">
-              Unable to connect to server. Please check your connection and try again.
+              Unable to connect to server. Please check your connection and try
+              again.
             </div>
-          ) : renderLoadingOrError('brands', (
-            <div className="grid grid-cols-3 gap-4 sm:flex sm:justify-between items-center sm:gap-4">
-              {brands.slice(0, 6).map((brand) => (
-                <Link 
-                  key={brand.id} 
-                  to={`/brand/${brand.documentId}`} 
-                  className="group transition-transform hover:scale-105 flex flex-col items-center"
-                >
-                  <div className="w-14 h-14 sm:w-24 sm:h-24 rounded-full bg-gray-800 flex items-center justify-center group-hover:bg-gray-700 transition-colors overflow-hidden">
-                    <img 
-                      src={getImageUrl(brand.brand_logo, 'thumbnail')}
-                      alt={brand.brand_name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <p className="text-center text-[10px] sm:text-sm mt-1 sm:mt-2 group-hover:text-primary transition-colors">
-                    {brand.brand_name}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          ))}
+          ) : (
+            renderLoadingOrError(
+              "brands",
+              <div className="grid grid-cols-3 gap-4 sm:flex sm:justify-between items-center sm:gap-4">
+                {brands.slice(0, 6).map((brand) => (
+                  <Link
+                    key={brand.id}
+                    to={`/brand/${brand.documentId}`}
+                    className="group transition-transform hover:scale-105 flex flex-col items-center"
+                  >
+                    <div className="w-14 h-14 sm:w-24 sm:h-24 rounded-full bg-gray-800 flex items-center justify-center group-hover:bg-gray-700 transition-colors overflow-hidden">
+                      <img
+                        src={getImageUrl(brand.brand_logo, "thumbnail")}
+                        alt={brand.brand_name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <p className="text-center text-[10px] sm:text-sm mt-1 sm:mt-2 group-hover:text-primary transition-colors">
+                      {brand.brand_name}
+                    </p>
+                  </Link>
+                ))}
+              </div>,
+            )
+          )}
         </section>
 
         <style>{`
@@ -262,108 +288,138 @@ const Home = () => {
         `}</style>
 
         {/* Brand Collaborations */}
-        <section className="mb-8 sm:mb-12">
-          <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6">Brand Collaborations</h3>
+        {/* <section className="mb-8 sm:mb-12">
+          <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6">
+            Brand Collaborations
+          </h3>
           {error.collabs ? (
             <div className="bg-red-900/50 text-red-200 p-4 rounded-md mb-6">
-              Unable to connect to server. Please check your connection and try again.
+              Unable to connect to server. Please check your connection and try
+              again.
             </div>
-          ) : renderLoadingOrError('collabs', (
-            <div className="relative">
-              <Slider {...{
-                ...sliderSettings,
-                responsive: [
-                  {
-                    breakpoint: 1024,
-                    settings: {
-                      slidesToShow: 1,
-                      slidesToScroll: 1,
-                    }
-                  },
-                  {
-                    breakpoint: 768,
-                    settings: {
-                      slidesToShow: 1,
-                      slidesToScroll: 1,
-                    }
-                  },
-                  {
-                    breakpoint: 480,
-                    settings: {
-                      slidesToShow: 1,
-                      slidesToScroll: 1,
-                      arrows: false,
-                    }
-                  }
-                ]
-              }}>
-                {brandCollabs.map((collab) => (
-                  <div key={collab.id} className="px-1">
-                    <Link 
-                      to={`/collab/${collab.documentId}`}
-                      className="block relative aspect-[16/9] rounded-xl overflow-hidden group"
-                    >
-                      <img 
-                        src={getImageUrl(collab.collab_image?.[0], 'medium')}
-                        alt="Brand Collaboration"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent flex items-end p-4 sm:p-6">
-                        <span className="text-white font-medium text-sm sm:text-base lg:text-lg">View Collection</span>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </Slider>
-            </div>
-          ))}
-        </section>
+          ) : (
+            renderLoadingOrError(
+              "collabs",
+              <div className="relative">
+                <Slider
+                  {...{
+                    ...sliderSettings,
+                    responsive: [
+                      {
+                        breakpoint: 1024,
+                        settings: {
+                          slidesToShow: 1,
+                          slidesToScroll: 1,
+                        },
+                      },
+                      {
+                        breakpoint: 768,
+                        settings: {
+                          slidesToShow: 1,
+                          slidesToScroll: 1,
+                        },
+                      },
+                      {
+                        breakpoint: 480,
+                        settings: {
+                          slidesToShow: 1,
+                          slidesToScroll: 1,
+                          arrows: false,
+                        },
+                      },
+                    ],
+                  }}
+                >
+                  {brandCollabs.map((collab) => (
+                    <div key={collab.id} className="px-1">
+                      <Link
+                        to={`/collab/${collab.documentId}`}
+                        className="block relative aspect-[16/9] rounded-xl overflow-hidden group"
+                      >
+                        <img
+                          src={getImageUrl(collab.collab_image?.[0], "medium")}
+                          alt="Brand Collaboration"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent flex items-end p-4 sm:p-6">
+                          <span className="text-white font-medium text-sm sm:text-base lg:text-lg">
+                            View Collection
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
+                </Slider>
+              </div>,
+            )
+          )}
+        </section> */}
 
         {/* New Arrivals */}
         <section className="mb-8 sm:mb-12">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold">New Arrivals</h3>
-            <Link to="/store?category=new" className="text-primary text-sm sm:text-base hover:underline">
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold">
+              New Arrivals
+            </h3>
+            <Link
+              to="/store?category=new"
+              className="text-primary text-sm sm:text-base hover:underline"
+            >
               View All
             </Link>
           </div>
           {error.newArrivals ? (
             <div className="bg-red-900/50 text-red-200 p-4 rounded-md mb-6">
-              Unable to connect to server. Please check your connection and try again.
+              Unable to connect to server. Please check your connection and try
+              again.
             </div>
-          ) : renderLoadingOrError('newArrivals', (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {newArrivals.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          ))}
+          ) : (
+            renderLoadingOrError(
+              "newArrivals",
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                {newArrivals.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>,
+            )
+          )}
         </section>
 
         {/* Popular Products */}
         <section className="mb-8 sm:mb-12">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold">Popular Products</h3>
-            <Link to="/store?category=popular" className="text-primary text-sm sm:text-base hover:underline">
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold">
+              Popular Products
+            </h3>
+            <Link
+              to="/store?category=popular"
+              className="text-primary text-sm sm:text-base hover:underline"
+            >
               View All
             </Link>
           </div>
           {error.popular ? (
             <div className="bg-red-900/50 text-red-200 p-4 rounded-md mb-6">
-              Unable to connect to server. Please check your connection and try again.
+              Unable to connect to server. Please check your connection and try
+              again.
             </div>
-          ) : renderLoadingOrError('popular', (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {popularProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          ))}
+          ) : (
+            renderLoadingOrError(
+              "popular",
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                {popularProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>,
+            )
+          )}
         </section>
 
         {/* All Brands */}
         <section className="mb-8 sm:mb-12">
-          <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6">All Brands</h3>
+          <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6">
+            All Brands
+          </h3>
           <BrandMainList />
         </section>
       </div>

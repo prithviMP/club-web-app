@@ -1,14 +1,18 @@
-import { createContext, useState, useEffect, useCallback } from 'react';
-import * as authService from '../services/auth';
-import { getToken, getUserId, isAuthenticated as checkIsAuthenticated } from '../utils/storage';
-import { useUserDataStore } from '../store/userData';
+import { createContext, useState, useEffect, useCallback } from "react";
+import * as authService from "../services/auth";
+import {
+  getToken,
+  getUserId,
+  isAuthenticated as checkIsAuthenticated,
+} from "../utils/storage";
+import { useUserDataStore } from "../store/userData";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   // Get user from Zustand store
   const { user, isAuthenticated, addUser, clearUserData } = useUserDataStore();
 
@@ -28,7 +32,7 @@ export const AuthProvider = ({ children }) => {
           }
         }
       } catch (error) {
-        console.error('Error loading user data:', error);
+        console.error("Error loading user data:", error);
       } finally {
         setLoading(false);
       }
@@ -40,13 +44,15 @@ export const AuthProvider = ({ children }) => {
   const login = useCallback(async (email, password) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await authService.login(email, password);
       setLoading(false);
       return response;
     } catch (err) {
-      setError(err.response?.data?.error?.message || 'Invalid email or password');
+      setError(
+        err.response?.data?.error?.message || "Invalid email or password",
+      );
       setLoading(false);
       throw err;
     }
@@ -55,21 +61,20 @@ export const AuthProvider = ({ children }) => {
   const signup = useCallback(async (username, email, password) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await authService.signup(username, email, password);
       setLoading(false);
       return response;
     } catch (err) {
       // Handle common error patterns
-      let errorMessage = 'Error creating account';
-      
-      if (err.response?.data?.error?.message) {
-        errorMessage = err.response.data.error.message;
-      } else if (err.message) {
-        errorMessage = err.message;
+      let errorMessage = "Error creating account";
+      console.log("Erorrr-------->", err.data?.error?.message);
+      if (err.data?.error?.message) {
+        console.log("JIi iiijinjin");
+        errorMessage = err.data?.error?.message;
       }
-      
+
       // Set the error message for the UI
       setError(errorMessage);
       setLoading(false);
@@ -84,13 +89,16 @@ export const AuthProvider = ({ children }) => {
   const forgotPassword = useCallback(async (email) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await authService.forgotPassword(email);
       setLoading(false);
       return response;
     } catch (err) {
-      setError(err.response?.data?.error?.message || 'Error sending password reset email');
+      setError(
+        err.response?.data?.error?.message ||
+          "Error sending password reset email",
+      );
       setLoading(false);
       throw err;
     }
@@ -99,32 +107,43 @@ export const AuthProvider = ({ children }) => {
   const resetPassword = useCallback(async (data) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await authService.resetPassword(data);
       setLoading(false);
       return response;
     } catch (err) {
-      setError(err.response?.data?.error?.message || 'Error resetting password');
+      setError(
+        err.response?.data?.error?.message || "Error resetting password",
+      );
       setLoading(false);
       throw err;
     }
   }, []);
 
-  const changePassword = useCallback(async (currentPassword, password, passwordConfirmation) => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const response = await authService.changePassword(currentPassword, password, passwordConfirmation);
-      setLoading(false);
-      return response;
-    } catch (err) {
-      setError(err.response?.data?.error?.message || 'Error changing password');
-      setLoading(false);
-      throw err;
-    }
-  }, []);
+  const changePassword = useCallback(
+    async (currentPassword, password, passwordConfirmation) => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await authService.changePassword(
+          currentPassword,
+          password,
+          passwordConfirmation,
+        );
+        setLoading(false);
+        return response;
+      } catch (err) {
+        setError(
+          err.response?.data?.error?.message || "Error changing password",
+        );
+        setLoading(false);
+        throw err;
+      }
+    },
+    [],
+  );
 
   const value = {
     user,
@@ -136,10 +155,10 @@ export const AuthProvider = ({ children }) => {
     forgotPassword,
     resetPassword,
     changePassword,
-    isAuthenticated
+    isAuthenticated,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export default AuthProvider; 
+export default AuthProvider;
