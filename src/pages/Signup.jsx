@@ -112,9 +112,14 @@ const Signup = () => {
         // Handle other 400 Bad Request errors
         setFormError(errorMessage || 'Registration failed. Please check your information and try again.');
       } else {
-        // Generic error
+        // Display the exact error message from the API
         console.error('Detailed signup error:', err.response?.data || err);
-        setFormError(errorMessage || 'Error creating account. Please try again later.');
+        
+        // Get the full error message from the API response
+        const apiErrorMessage = err.response?.data?.error?.message || 'Unknown error occurred';
+        
+        // Display the actual API error message rather than a generic one
+        setFormError(`API Error: ${apiErrorMessage}`);
       }
     } finally {
       setIsSubmitting(false);
