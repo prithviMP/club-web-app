@@ -88,19 +88,33 @@ const Signup = () => {
       const errorMessage = err.response?.data?.error?.message || '';
       
       if (errorMessage.includes('Email or Username are already taken')) {
-        // Check which one is taken
-        if (errorMessage.toLowerCase().includes('email')) {
-          setErrors({...errors, email: 'This email is already registered'});
-        }
-        if (errorMessage.toLowerCase().includes('username')) {
-          setErrors({...errors, username: 'This username is already taken'});
+        // Since the API doesn't explicitly tell us which one is taken, 
+        // check both fields against the error message
+        const lowerCaseMessage = errorMessage.toLowerCase();
+        
+        // If message specifically mentions email or username
+        if (lowerCaseMessage.includes('email')) {
+          setErrors(prev => ({ ...prev, email: 'This email is already registered' }));
+        } else if (lowerCaseMessage.includes('username')) {
+          setErrors(prev => ({ ...prev, username: 'This username is already taken' }));
+        } else {
+          // If the message doesn't specify which one, set error on both fields
+          setErrors(prev => ({
+            ...prev,
+            email: 'This email may already be registered',
+            username: 'This username may already be taken'
+          }));
         }
       } else if (errorMessage.includes('already')) {
         // Generic "already exists" error
         setFormError('This email or username is already taken. Please try another.');
+      } else if (err.response?.status === 400) {
+        // Handle other 400 Bad Request errors
+        setFormError(errorMessage || 'Registration failed. Please check your information and try again.');
       } else {
         // Generic error
-        setFormError(errorMessage || 'Error creating account. Please try again.');
+        console.error('Detailed signup error:', err.response?.data || err);
+        setFormError(errorMessage || 'Error creating account. Please try again later.');
       }
     } finally {
       setIsSubmitting(false);
