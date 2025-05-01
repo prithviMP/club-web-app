@@ -85,41 +85,36 @@ const Signup = () => {
       console.error('Signup error:', err);
       
       // Parse and handle specific error messages from backend
-      const errorMessage = err.response?.data?.error?.message || '';
+      // Extract error from response
+      const errorData = err.response?.data?.error || {};
+      const errorMessage = errorData.message || '';
       
-      if (errorMessage.includes('Email or Username are already taken')) {
-        // Since the API doesn't explicitly tell us which one is taken, 
-        // check both fields against the error message
-        const lowerCaseMessage = errorMessage.toLowerCase();
+      // Log the full error for debugging
+      console.error('Signup error details:', {
+        status: err.response?.status,
+        message: errorMessage,
+        data: err.response?.data
+      });
+      
+      if (errorMessage === 'Email or Username are already taken') {
+        // The API doesn't tell us which one is taken, so we'll highlight both fields
+        setErrors(prev => ({
+          ...prev,
+          email: 'This email or username is already registered',
+          username: 'This email or username is already taken'
+        }));
         
-        // If message specifically mentions email or username
-        if (lowerCaseMessage.includes('email')) {
-          setErrors(prev => ({ ...prev, email: 'This email is already registered' }));
-        } else if (lowerCaseMessage.includes('username')) {
-          setErrors(prev => ({ ...prev, username: 'This username is already taken' }));
-        } else {
-          // If the message doesn't specify which one, set error on both fields
-          setErrors(prev => ({
-            ...prev,
-            email: 'This email may already be registered',
-            username: 'This username may already be taken'
-          }));
-        }
+        // Set the form error to show the exact API message
+        setFormError('Email or Username are already taken. Please try different credentials.');
       } else if (errorMessage.includes('already')) {
-        // Generic "already exists" error
-        setFormError('This email or username is already taken. Please try another.');
+        // Other "already exists" errors
+        setFormError(errorMessage);
       } else if (err.response?.status === 400) {
         // Handle other 400 Bad Request errors
         setFormError(errorMessage || 'Registration failed. Please check your information and try again.');
       } else {
-        // Display the exact error message from the API
-        console.error('Detailed signup error:', err.response?.data || err);
-        
-        // Get the full error message from the API response
-        const apiErrorMessage = err.response?.data?.error?.message || 'Unknown error occurred';
-        
-        // Display the actual API error message rather than a generic one
-        setFormError(`API Error: ${apiErrorMessage}`);
+        // For other errors, display the exact API error message
+        setFormError(errorMessage || 'Error creating account. Please try again with different information.');
       }
     } finally {
       setIsSubmitting(false);
