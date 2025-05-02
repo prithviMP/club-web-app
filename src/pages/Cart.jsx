@@ -215,7 +215,7 @@ const Cart = () => {
       // Create a callback URL that points to our OrderConfirmation page
       const baseUrl = window.location.origin;
       const callbackUrl = `${baseUrl}/order/confirmation`;
-      
+
       const options = {
         key: razorpayKey,
         amount: amount * 100,
@@ -256,7 +256,7 @@ const Cart = () => {
         },
         ...(isTestMode
           ? {
-              callback_url: `${callbackUrl}?order_id=${orderDetail.id}&status=:action`,
+              callback_url: `${callbackUrl}?order_id=${orderDetail.id}&status${orderDetail.status}`,
               redirect: true,
               receipt: `receipt_${orderDetail.id}`,
             }
@@ -311,20 +311,21 @@ const Cart = () => {
           : updatedOrderResponse;
 
         clearCart();
-        navigate('/order-placed', { 
-          state: { 
-            order: updatedOrder, 
-            paymentDetails: response 
-          }
+        navigate("/order-placed", {
+          state: {
+            order: updatedOrder,
+            paymentDetails: response,
+          },
         });
       } catch (fetchError) {
         console.error("Error fetching updated order details:", fetchError);
-        navigate('/payment-failed', { 
-          state: { 
-            error: { 
-              description: 'Failed to process order details. Please contact support.' 
-            } 
-          }
+        navigate("/payment-failed", {
+          state: {
+            error: {
+              description:
+                "Failed to process order details. Please contact support.",
+            },
+          },
         });
       }
     } catch (error) {
@@ -342,10 +343,10 @@ const Cart = () => {
     setIsLoading(false);
 
     // Redirect to payment failed page with error details
-    navigate('/payment-failed', { 
-      state: { 
-        error: error 
-      } 
+    navigate("/payment-failed", {
+      state: {
+        error: error,
+      },
     });
   };
 
