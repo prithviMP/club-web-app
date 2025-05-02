@@ -1,6 +1,6 @@
 // Load the Razorpay script dynamically
 export const loadRazorpayScript = () => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     // Check if the script is already loaded
     if (window.Razorpay) {
       console.log('Razorpay script already loaded');
@@ -11,14 +11,29 @@ export const loadRazorpayScript = () => {
     console.log('Loading Razorpay script');
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    
     script.onload = () => {
       console.log('Razorpay script loaded successfully');
       resolve(true);
     };
-    script.onerror = () => {
-      console.error('Failed to load Razorpay script');
-      resolve(false);
+    
+    script.onerror = (error) => {
+      console.error('Failed to load Razorpay script:', error);
+      reject(new Error('Failed to load Razorpay payment script. Please check your internet connection and try again.'));
     };
+    
+    // Set a timeout in case the script takes too long to load
+    const timeoutId = setTimeout(() => {
+      reject(new Error('Razorpay script load timed out. Please try again later.'));
+    }, 10000); // 10 seconds timeout
+    
+    script.onload = () => {
+      clearTimeout(timeoutId);
+      console.log('Razorpay script loaded successfully');
+      resolve(true);
+    };
+    
     document.body.appendChild(script);
   });
 };

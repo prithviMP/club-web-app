@@ -163,6 +163,12 @@ export const initializePayment = async (amount, orderId, currency = 'INR') => {
 export const verifyPayment = async (paymentData) => {
   try {
     console.log('Verifying payment with data:', paymentData);
+    
+    // Ensure all required parameters are present
+    if (!paymentData.razorpayPaymentId || !paymentData.razorpayOrderId || !paymentData.razorpaySignature) {
+      throw new Error('Missing required payment verification parameters');
+    }
+    
     const response = await apiClient.post('/payment-verify', paymentData);
     
     console.log('Payment verification response:', response);
